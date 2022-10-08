@@ -1,0 +1,134 @@
+\documentclass{article}
+\title{OBHPC - maths\\CM2}
+\author{William JALBY \thanks{william.jalby@uvsq.fr}}
+\date{22 septembre 2022}
+\usepackage{xcolor}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{cancel}
+\begin{document}
+    \maketitle
+    \textbf{- Coordonnées polaires}\\
+    \begin{tikzpicture}
+        \begin{axis}[axis lines=middle,axis equal]
+            \addplot coordinates{(0,0) (2,2)} node[anchor=north]{(x,y)};
+            \draw[thick] (30,0) arc (0:45:30) node[midway, anchor = west]{$\Theta$};
+            \end{axis}
+    \end{tikzpicture}\\
+    \framebox[5cm]{
+        $x=R\cos(\Theta)$
+        $y=R\sin(\Theta)$
+    }
+    $\to \frac{y}{x} = tan(\Theta)$\\
+    $R=\sqrt{x^2+y^2}$
+    $\Theta = arctan(\frac{y}{x})$\\\\
+    $F:\mathbb{R}\to\mathbb{R}$
+    \hspace*{1cm}$G:\mathbb{R}\to\mathbb{R}$
+    \hspace*{1cm}\framebox[4.5cm]{$(F \circ G)' = G' * F'\circ G$}\\
+    $u: \mathbb{R}^2 \to \mathbb{R} \hspace*{0.5cm} u(x,y)$\\
+    $\phi :(x,y) \hspace*{0.3cm} \theta (x,y)$\\
+    $\phi = \alpha y + \beta x$ \hspace*{1cm}
+    $\begin{pmatrix}
+        \phi\\\theta
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        \beta & \alpha\\
+        \delta & \gamma
+    \end{pmatrix}
+    \begin{pmatrix}
+        x\\y
+    \end{pmatrix}$\\
+    $\theta = \gamma y + \delta x$ \\\\\\\\\\\\
+    $\frac{\partial u}{\partial x} =
+    \frac{\partial u}{\partial \phi}
+    \underbrace{\frac{\partial \phi}{\partial x}} + \frac{\partial u}{\partial \theta}
+    \underbrace{\frac{\partial \theta}{\partial x}}$\\
+    \hspace*{1.4cm} $\beta \hspace*{1.3cm} \delta$\\
+    $\frac{\partial^2 u}{\partial^2 x} =
+    \frac{\partial}{\partial x} (\frac{\partial u}{\partial \phi})\beta +
+    \frac{\partial}{\partial \theta} (\frac{\partial u}{\partial \theta}) \delta\\\\
+    =\beta \frac{\partial}{\partial \phi}(\frac{\partial u}{\partial x}) +
+    \frac{\partial}{\partial \theta} (\frac{\partial u}{\partial x})\\\\
+    =\beta \frac{\partial}{\partial\phi}(\beta\frac{\partial u}{\partial\phi}
+    +\delta\frac{\partial u}{\partial\theta})+\delta\frac{\partial}{\partial\theta}
+    (\beta\frac{\partial u}{\partial\phi} + \delta \frac{\partial u}{\partial\theta})\\\\
+    =\beta^2(\frac{\partial^2 u}{\partial^2\phi})+\delta^2(\frac{\partial^2 u}{\partial^2\theta})
+    +2\beta\delta(\frac{\partial^2u}{\partial\phi\partial\theta})$\\\\
+    $\frac{\partial u}{\partial y} = \frac{\partial u}{\partial\phi}
+    \underbrace{\frac{\partial\phi}{\partial y}} + 
+    \frac{\partial u}{\partial\theta}\underbrace{\frac{\partial\theta}{\partial y}}$\\
+    \hspace*{1.6cm}$\alpha$\hspace*{1.2cm}$\gamma$\\\\
+    $\frac{\partial^2u}{\partial^2\partial x\partial y}=
+    \alpha \frac{\partial}{\partial x}(\frac{\partial u}{\partial\phi})+
+    \gamma\frac{\partial}{\partial x}(\frac{\partial u}{\partial\theta})\\\\
+    =\alpha\frac{\partial}{\partial\phi}(\frac{\partial u}{\partial x})+
+    \gamma\frac{\partial}{\partial\theta}(\frac{\partial u}{\partial x})\\\\
+    =\alpha\frac{\partial}{\partial\phi}(\beta\frac{\partial u}{\partial\phi})+
+    \delta\frac{\partial}{\partial\theta}(\frac{\partial u}{\partial\theta})+
+    \gamma\frac{\partial}{\partial\theta}(\beta\frac{\partial u}{\partial\phi}+
+    \delta\frac{\partial u}{\partial\theta})\\\\
+    =\alpha\beta\frac{\partial^2u}{\partial^2\phi}+\gamma\delta\frac{\partial^2u}{\partial^2\theta}
+    +(\alpha\delta+\gamma\beta)\frac{\partial u}{\partial\phi\partial\theta}$\\\\
+    \textbf{- Changement variable linéaire}\\\\
+    $u:\mathbb{R}^2\to\mathbb{R}$\\
+    $u(x,y) \hspace*{0.5cm} \phi(x,y) \hspace*{0.5cm} \theta(x,y)$
+    \hspace*{3cm}
+    $\begin{pmatrix}
+        \phi\\\theta
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        \beta & \alpha\\
+        \delta & \gamma
+    \end{pmatrix}
+    \begin{pmatrix}
+        x\\y
+    \end{pmatrix}$\\
+    $\phi = \alpha y + \beta x$ \hspace*{1cm} $\theta = \gamma y + \delta x$
+    \hspace*{2.5cm} $\beta\gamma-\alpha\delta\neq 0$\\\\
+    $A\frac{\partial^2u}{\partial^2x}+B\frac{\partial^2u}{\partial y\partial x}+C\frac{\partial^2u}{\partial^2y}=0$\\\\
+    $\frac{\partial^2}{\partial^2 \phi}\to \underbrace{A\beta^2+B\alpha\beta+C\alpha^2}(=0)\Rightarrow A
+    \begin{pmatrix}
+        \beta\\
+        \alpha
+    \end{pmatrix}^2+B
+    \begin{pmatrix}
+        \beta\\
+        \alpha
+    \end{pmatrix}+C$\\
+    \hspace*{2.4cm}$E$\\\\
+    $\frac{\partial^2u}{\partial^2\theta}\to \underbrace{A\delta^2+B\gamma\delta+C\gamma^2}(=0)\Rightarrow A
+    \begin{pmatrix}
+        \delta\\
+        \gamma
+    \end{pmatrix}^2+B
+    \begin{pmatrix}
+        \delta\\
+        \gamma
+    \end{pmatrix}+C$\\
+    \hspace*{2.4cm}$F$\\\\
+    $\frac{\partial^2u}{\partial\phi\partial\theta}\to \underbrace{A2\beta\delta+B(\alpha\delta+\beta\gamma)+C(2\alpha\gamma)}$\\
+    \hspace*{3.4cm}$G$\\
+    on suppose $A\neq 0$ et $C\neq 0$\\\\
+    $\Delta = B^2-4AC$ \hspace*{0.5cm} $\alpha=\gamma=2A$\\
+    $\beta=-B-\sqrt{\Delta}$ \hspace*{0.5cm} $\delta=-B-\sqrt{\Delta}$\\
+    $\frac{\beta}{\alpha}=\frac{-B+\sqrt{\Delta}}{2A}$\\ 
+    $2(-B+\sqrt{\Delta})A-(2A(-B-\sqrt{\Delta}))$\\
+    \hspace*{2.5cm} $ \Downarrow$\\
+    $\cancel{-2AB}+2A\sqrt{\Delta}+ \cancel{2AB} + 2A\sqrt{\Delta}$\\\\
+    $E\frac{\partial^2 u}{\partial^2\phi}+F\frac{\partial^2 u}{\partial\phi\partial\theta}+G\frac{\partial^2 u}{\partial^2\theta}$\\\\
+    - \framebox[1cm]{$\Delta>0$}\hspace*{1cm}$ \underbrace{\beta=-B-\sqrt{\Delta} | \delta=-B+\sqrt{\Delta} | \alpha=\gamma=2A}$
+    \hspace*{0.5cm}\textbf{ - HYPERBOLIQUE}\\
+    \hspace*{4cm} $E=0$ et $G=0$ \hspace*{0.5cm} $\frac{\partial^2u}{\partial\phi\partial\theta}=0$\\\\
+    - \framebox[1cm]{$\Delta>0$}\hspace*{8.1cm}\textbf{ - ELLIPTIQUE}\\\\
+    - \framebox[1.2cm]{$\Delta=0$}
+    $\Delta=0$ \hspace*{0.2cm} $B^2=4AC$ \hspace*{0.2cm}$\frac{\beta}{\alpha}=\frac{-B+(\sqrt{\Delta})=0}{2A}$\hspace*{0.2cm}$B=-\beta$
+    \hspace*{0.5cm}\textbf{ - PARABOLIQUE}\\
+    \hspace*{1.4cm} $\alpha=2A \hspace*{0.2cm} \gamma =0\hspace*{0.2cm}  \delta=1\hspace*{0.2cm}  E=0\hspace*{0.2cm}  G=0\hspace*{0.2cm}  2A\neq 0\hspace*{0.2cm}  \frac{\partial^2u}{\partial^2\theta}=0$\\\\
+
+
+
+\end{document}
