@@ -1,0 +1,163 @@
+\documentclass{article}
+\title{OBHPC - maths\\CM3}
+\author{William JALBY \thanks{william.jalby@uvsq.fr}}
+\date{xx xxxxx 2022}
+\usepackage{xcolor}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{cancel}
+\usepackage{mathtools}
+
+\begin{document}
+    \maketitle
+    Physique$\to$Maths$\to$Problème Discret$\to$Problème Algèbre Linéaire\\
+    IMAGE IMAGE IMAGE IMAGE IMAGE\\
+    Continu$\to$Discret\\
+    $\to$Resolution de système linéaire\\
+    $\to$Recherche valeurs/vecteurs propres\\\\
+    \textbf{- Espace vectoriel $k^n$}\\
+    $k = \mathbb{R}(90\%) $
+    $k=\subset(10\%)$\\
+    vecteur $\mathbb{R}^n$
+    vecteurs: lettres majuscules\\
+    V=$\vec{V}=
+    \begin{pmatrix}
+        v_1\\
+        \vdots\\
+        v_n
+    \end{pmatrix}$\\
+    \textbf{- Application linéaire}\\
+    $\mathbb{R}^n\to\mathbb{R}^n$\\
+    $A=
+    \begin{pmatrix}
+        a_{11} &...& a_{1n}\\
+        ...&...&...\\
+        a_{n1} &...& a_{nn}
+    \end{pmatrix}=(a_{ij})$
+    $i \leq i \leq n$
+    $j \leq j \leq m$\\
+    $A\to \mathbb{R}^{n\times m}$\\
+    \textbf{- Transposition}\\
+    $U=^tV$
+    $V \in \mathbb{R}^{n \times 1}$
+    $V \in \mathbb{R}^{1 \times m}$\\
+    $V=
+    \begin{pmatrix}
+        v_1\\
+        \vdots\\
+        v_n
+    \end{pmatrix}$
+    $U=(v_1,...,v_n)$\\
+    $A \in \mathbb{R}^{m \times n} \Rightarrow ^tA \in \mathbb{R}^{n \times m}$\\
+    $B=^tA b_{ij}=a_{ji}$\\
+    \textbf{- Addition}\\
+    $W=U+V$ $W,U,V \in \mathbb{R}^n$\\
+    $w_i=u_i+v_i$\\
+    $C=A+B$ $C,A,B \in \mathbb{R}^{n \times m}$\\
+    $C_{ij}=A_{ij}+B_{ij}$\\
+    \textbf{- Produit scalaire}\\
+    $U \in \mathbb{R}^{n \times 1}$
+    $V \in \mathbb{R}^{1 \times n}$\\
+    $(V.U)=\sum_{i=1}^n v_iu_i$
+    \textbf{INNER/DOT PRODUCT}\\
+    \textbf{- Operations}\\
+    $\to$Espace mémoire\\
+    $\to$Nombre opération arithmétique+mémoire\\
+    $\to$Structure de mes objets\\
+    $U \to U(1:N)$\\
+    $V \to V(1:N)$\\
+    $S=0$\\
+    DO I=1,N\\
+    \hspace*{0.6cm}S=S+U(I)*V(I)\\
+    ENDDO\\
+    espace mémoire: 1\\
+    N mul\\
+    N add\\
+    2N read\\\\
+    \textbf{- Produit exterieur}\\
+    $U \in \mathbb{R}^{n \times 1}$
+    $V \in \mathbb{R}^{m \times 1}$\\
+    \hspace*{1.5cm}(\hspace*{1.5cm})$^tV$\\
+    $U
+    \begin{pmatrix}
+        \\&\\&\\
+    \end{pmatrix}
+    \begin{pmatrix}
+        \\
+        c_{ij}=u_iv_j\\
+        \\
+    \end{pmatrix}$
+    $\begin{matrix}
+        \uparrow\\
+        |\\
+        \downarrow
+    \end{matrix}$
+    n |
+    \textbf{OUTER PRODUCT}\\
+    \hspace*{1.7cm}$\leftarrow -- \rightarrow$\\
+    \hspace*{2.2cm}m\\
+    $C=U.^tV$\\
+    Espace mémoire: n $\times$ m\\
+    n$\times$m mul\\
+    n$\times$m read\\
+    n$\times$m write\\
+    DO I=1,N\\
+    \hspace*{0.6cm}DO J=1,M\\
+    \hspace*{1.2cm}C(I,J)=U(I)*V(J)\\
+    \hspace*{0.6cm}ENDDO\\
+    ENDDO\\
+    \textbf{- Combinaison Linéaire AXPY}\\
+    $U \in \mathbb{R}^{n \times 1}$
+    $V \in \mathbb{R}^{n \times 1}$\\
+    $\alpha \in \mathbb{R}^{1\times 1}$\\
+    $W=U+\alpha V$\\
+    $W_i=U_i+\alpha V_i$\\
+    DO I=1,N\\
+    \hspace*{0.6cm}$W(I)=U(I)+\alpha V(I)$\\
+    ENDDO\\
+    \textcolor{red}{Y+AX}\\
+    DAXPY$\to$Double Précision\\
+    SAXPY$\to$Single Précision\\
+    Espace mémoire: N\\
+    2N read\\
+    N write\\
+    N add\\
+    N mul\\
+    \textbf{- Produit matrice vecteur}\\
+    $Y\in \mathbb{R}^{n \times 1}$
+    $A\in \mathbb{R}^{n \times m}$
+    $X\in \mathbb{R}^{m \times 1}$\\
+    DO I=1,N
+    \hspace*{0.6cm}Y(I)=0\\
+    $\begin{rcases}
+        \hspace*{0.6cm}DO J=1,M\\
+        \hspace*{1.2cm}Y(I)=Y(I)+A(I,J)*X(J)\\
+        \hspace*{0.6cm}ENDDO
+    \end{rcases}$
+    Produit scalaire\\
+    ENDDO\\
+    Espace mémoire: n\\
+    read: $\underbrace{n\times m}+\underbrace{n\times m}+n$\\
+    \hspace*{1.2cm}A\hspace*{1.1cm}X\\
+    mul: $n\times m$\\
+    add: $n\times m$\\
+    write: $n$\\
+    DO I=1,N
+    \hspace*{0.6cm}Y(I)=0\\
+    ENDDO\\
+    DO J=1,M\\
+    $\begin{rcases}
+        \hspace*{0.6cm}DO I=1,N\\
+        \hspace*{1.2cm}Y(I)=Y(I)+A(I,J)*X(J)\\
+        \hspace*{0.6cm}ENDDO
+    \end{rcases}$
+    AXPY\\
+    ENDDO\\
+    Espace mémoire: n\\
+    read: $(2n+1)+m$
+    mul: $n\times m$\\
+    add: $n\times m$\\
+    write: $m\times n$\\\\
+    \textbf{- Produit matrice}\\
+
+\end{document}
