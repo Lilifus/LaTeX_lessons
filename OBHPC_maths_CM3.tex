@@ -159,5 +159,48 @@
     add: $n\times m$\\
     write: $m\times n$\\\\
     \textbf{- Produit matrice}\\
-
+    $C \in \mathbb{R}^{m\times l}$
+    $A \in \mathbb{R}^{m\times n}$
+    $B \in \mathbb{R}^{n\times l}$
+    $c_{ij}=\sum_{k=1}^n a_{ik} b_{kj}$\\
+    $
+    DO I=1,M\\
+    \hspace*{0.6cm}DO J=1,L\\
+    \hspace*{1.2cm}C(I,J)=0\\
+    \hspace*{0.6cm}ENDDO\\
+    ENDDO\\
+    DO I=1,M\\
+    \hspace*{0.6cm}DO J=1,L\\
+    \begin{rcases}
+        \hspace*{1.2cm}DO K=1,N\\
+        \hspace*{1.8cm}C(I,J)=C(I,J)+A(I,K)*B(K,J)\\
+        \hspace*{1.2cm}ENDDO\\
+    \end{rcases}
+    $DOT PRODUCT$\\
+    \hspace*{0.6cm}ENDDO\\
+    ENDDO\\
+    $
+    $
+    DO J=1,L\\
+    \hspace*{0.6cm}DO K=1,N\\
+    \begin{rcases}
+        \hspace*{1.2cm}DO I=1,M\\
+        \hspace*{1.8cm}C(I,J)=C(I,J)+A(I,K)*B(K,J)\\
+        $\hspace*{3.2cm} col C \hspace*{1cm}col A$\\
+        \hspace*{1.2cm}ENDDO\\
+    \end{rcases}\\
+    \hspace*{0.6cm}ENDDO\\
+    ENDDO\\
+    DO K=1,N\\
+    \hspace*{0.6cm}DO I=1,M\\
+    \begin{rcases}
+        \hspace*{1.2cm}DO J=1,L\\
+        \hspace*{1.8cm}C(I,J)=C(I,J)+A(I,K)*B(K,J)\\
+        $\hspace*{4.8cm} col A \hspace*{0.8cm}ligne B$\\
+        \hspace*{1.2cm}ENDDO\\
+    \end{rcases}
+    $PRODUIT EXTERIEUR$\\
+    \hspace*{0.6cm}ENDDO\\
+    ENDDO\\
+    $
 \end{document}

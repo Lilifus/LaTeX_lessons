@@ -1,0 +1,26 @@
+\documentclass{article}
+\title{OBHPC - maths\\CM4}
+\author{William JALBY \thanks{william.jalby@uvsq.fr}}
+\date{xx xxxxx 2022}
+\usepackage{xcolor}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{cancel}
+\usepackage{mathtools}
+
+\begin{document}
+    \maketitle
+    $\begin{rcases}
+        $DO $I=1,N_1\\
+        \hspace*{0.6cm}$DO $J=1,N_2\\
+        \hspace*{1.2cm}$DO $K=1,N_3\\
+        \hspace*{1.8cm}C(I,J)=C(I,J)+A(I,K)*B(K,J)\\
+        \hspace*{1.2cm}ENDDO\\
+        \hspace*{0.6cm}ENDDO\\
+        ENDDO\\
+    \end{rcases}$
+    IJK\\
+    \hspace*{2.5cm}| INNER | IN BETWEEN | ACCES AUX TABLEAUX\\
+    IJK | DOT PRODUCT | VEC$\times$ MAT | C:Strive0 A:Ligne B:Colonne\\
+    JIK | DOT PRODUCT | MAT$\times$ MAT | C:Strive0 A:Ligne B:Colonne\\
+\end{document}
