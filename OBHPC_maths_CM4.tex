@@ -7,7 +7,7 @@
 \usepackage{amsmath}
 \usepackage{cancel}
 \usepackage{mathtools}
-
+\usepackage{multirow}
 \begin{document}
     \maketitle
     $\begin{rcases}
@@ -20,7 +20,83 @@
         ENDDO\\
     \end{rcases}$
     IJK\\
-    \hspace*{2.5cm}| INNER | IN BETWEEN | ACCES AUX TABLEAUX\\
-    IJK | DOT PRODUCT | VEC$\times$ MAT | C:Strive0 A:Ligne B:Colonne\\
-    JIK | DOT PRODUCT | MAT$\times$ MAT | C:Strive0 A:Ligne B:Colonne\\
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        &INNER&IN BETWEEN&ACCES AUX TABLEAUX\\
+        \hline
+        IJK&DOT PRODUCT&VEC$\times$ MAT&C:Strive0 A:Ligne B:Colonne\\
+        \hline
+        JIK&DOT PRODUCT&MAT$\times$ MAT&C:Strive0 A:Ligne B:Colonne\\
+        \hline
+        IKJ&AXPY&VEC$\times$MAT&C:Ligne A:Strive0 B:Ligne\\
+        \hline
+        JKI&AXPY&MAT$\times$VEC&C:Colonne A:Colonne B:Strive0\\
+        \hline
+        KIJ&AXPY&OUTER PRODUCT&C:Ligne A:Strive0 B:Ligne\\
+        \hline
+        KJI&AXPY&OUTER PRODUCT&C:Colonne A:Colonne B:Strive0\\
+        \hline        
+    \end{tabular}\\
+    $A \in \mathbb{R}^{m\times n}$\\
+    $B \in \mathbb{R}^{n\times l}$\\
+    $C=A,B$\\
+    Produit de matrices non commutatif $A.B\neq B.A$\\
+    $m\neq n$ Matrices Rectangulaires | $\in \mathbb{R}^{n\times n}$| (n'existe pas)\\
+    A$\in \mathbb{R}^{n\times n}$
+    B$\in \mathbb{R}^{n\times n}$\\
+    Matrices carrées\\
+    A.B$\neq$B.A\\
+    $(A+B).C=(A.C)+(BC)$
+    $A^{-1}$ n'existe pas toujours.\\
+    $A\in\mathbb{R}^{n\times n}$
+    $Ax=b$\\
+    $x$,$b \in \mathbb{R}^{n\times 1}$\\
+    A et b donnés, chercher $x\Leftrightarrow x=A^{-1}b$\\
+    F.P:Commutativité OK\\
+    ("+" op flottante)\\
+    $a"+"b=b"+"a\\
+    a"*"b=b"*"a$\\
+    Associativié\\
+    $(a"+"b)"+"c\neq a"+"(b"+"c)$ erreur d'arrondi\\
+    Une erreur = OK\\
+    Mais GROS problème d'accumulation d'erreurs.\\
+    $A \ 
+    \in \mathbb{R}^{n\times m}$
+    $A=
+    \begin{pmatrix}
+        A_{11}&...&A_{1s}\\
+        ...&...&...\\
+        A_{r1}&...&A_{rs}
+    \end{pmatrix}$
+    $\begin{matrix}
+        u_1+...+u_r=n\\
+        v_1+...v_s=m        
+    \end{matrix}$\\
+    $B \ 
+    \in \mathbb{R}^{m\times l}$
+    $B=
+    \begin{pmatrix}
+        B_{11}&...&B_{1t}\\
+        ...&...&...\\
+        B_{s1}&...&B_{st}
+    \end{pmatrix}$
+    $w1+...+w_t=l$\\
+    $C \ 
+    \in \mathbb{R}^{n\times l}$
+    $C=
+    \begin{pmatrix}
+        C_{11}&...&C_{1t}\\
+        ...&...&...\\
+        C_{r1}&...&C_{rt}
+    \end{pmatrix}$\\
+    DO I=1,R\\
+    \hspace*{0.6cm}DO J=1,T\\
+    \hspace*{1.2cm}DO K=1,S\\
+    \emph{$_{BLOCK}$}$\to C_{ij}=C_{ij}+A_{ik}*B{kj}$\\
+    \hspace*{1.2cm}ENDDO\\
+    \hspace*{0.6cm}ENDDO\\
+    ENDDO\\
+    \textbf{- Matrice Dense}\\
+    Une matrice dense est une matrice dans laquelle "à priori" tous les éléments sont nuls.\\
+    $D\in \mathbb{R}^{n\times n}$
 \end{document}
