@@ -57,14 +57,14 @@
         ...&...&...\\
         \frac{\partial f_1}{\partial x_n} &...& \frac{\partial f_p}{\partial x_n}
     \end{pmatrix}$\\
-    $\vec{f}: \mathbb{R^n}\to \mathbb{R^p}$\\
+    $\vec{f}: \mathbb{R}^n\to \mathbb{R}^p$\\
     $\vec{f}:(f_1,...,f_p)$
     $\lim_{||h||\to 0}\frac{||\vec{f}(\vec{a}+\vec{h}-\vec{f}(a)-\triangledown\vec{f}.\vec{h}||)}{||\vec{h}||}\to 0$\\
     Dérivée partielle de la composante j par rapport à la variable i\\
     $\frac{\partial f_i}{\partial x_i} = \beta_{ji}$
     $\lim_{hi\to 0}\frac{f_j(a+h)-f(a)-\beta_{ji}h_i}{h_i}\to 0$\\
-    $f:\mathbb{R^n}\to \mathbb{R}$\\
-    $\triangledown f: \mathbb{R^n}\to \mathbb{R^n}$\\
+    $f:\mathbb{R}^n\to \mathbb{R}$\\
+    $\triangledown f: \mathbb{R}^n\to \mathbb{R}^n$\\
     $\begin{pmatrix}
         \frac{\partial f}{\partial x_1}\\
         ...\\
@@ -86,8 +86,8 @@
     \end{matrix}$\\
     \underline{Théoreme:} Si $f$ est de classe $C^2$\\
     $\frac{\partial}{\partial x_i}(\frac{\partial f}{\partial x_j}) =\frac{\partial}{\partial x_j}(\frac{\partial f}{\partial x_i})=\frac{\partial^2 f}{\partial x_j \partial x_j}$
-    $g:\mathbb{R^2}\to \mathbb{R}$\\
-    $h:\mathbb{R^2}\to \mathbb{R}$\hspace*{1cm}$\exists ? f: \mathbb{R^2} \to \mathbb{R} tq \triangledown f=
+    $g:\mathbb{R}^2\to \mathbb{R}$\\
+    $h:\mathbb{R}^2\to \mathbb{R}$\hspace*{1cm}$\exists ? f: \mathbb{R}^2 \to \mathbb{R} tq \triangledown f=
     \begin{pmatrix}
         g\\
         h
@@ -96,7 +96,7 @@
     $\frac{\partial f}{\partial x_2} = h$\\
     $\frac{\partial}{\partial x_1}(\frac{\partial f}{\partial x_2})=\frac{\partial}{\partial x_2}(\frac{\partial f}{\partial x_1})$\\
     $\frac{\partial h}{\partial x_1}=\frac{\partial g}{\partial x_2}$\\
-    $\vec{f}:\mathbb{R^n}\to \mathbb{R^p}$\\
+    $\vec{f}:\mathbb{R}^n\to \mathbb{R}^p$\\
     $\triangledown \vec{f}$\\
     Jacobien$(\vec{f})=
     \begin{pmatrix}
@@ -105,37 +105,37 @@
         \frac{\partial f_p}{\partial x_1}&...&\frac{\partial f_p}{\partial x_n}
     \end{pmatrix}$\\
     Pour $i\neq j$, on appelle $\frac{\partial^2 f}{\partial x_i \partial x_j}$ une dérivée croisée.\\
-    $f:\mathbb{R^n}\to \mathbb{R}$\\
+    $f:\mathbb{R}^n\to \mathbb{R}$\\
     Laplacien: $\Delta f= \frac{\partial^2 f}{\partial^2 x_1} +
     \frac{\partial^2 f}{\partial^2 x_2}+...+\frac{\partial^2 f}{\partial^2 x_N}$\\
-    $\Delta f: \mathbb{R^n}\to \mathbb{R}$\\
-    $\vec{g}: \mathbb{R^n}\to \mathbb{R^n}$\\
+    $\Delta f: \mathbb{R}^n\to \mathbb{R}$\\
+    $\vec{g}: \mathbb{R}^n\to \mathbb{R}^n$\\
     Divergence: div$(\vec{g})=\frac{\partial g_1}{\partial x_1}+
     \frac{\partial g_2}{\partial x_2}+...+
     \frac{\partial g_n}{\partial x_n}$\\
     $f:\mathbb{R}\to \mathbb{R}$\\
     $f$ inconnue\\\\
     $f$ tq $G(f,f',f'',...,f^{(h)},x)=0$ Equation Differentiel Ordinaire (ODE ou EDO)\\
-    $f:\mathbb{R^n}\to \mathbb{R}$\\
+    $f:\mathbb{R}^n\to \mathbb{R}$\\
     $f \in C^{(k)}$\\
     $\frac{\partial{\alpha_1 +\alpha_2+...+\alpha_n}}{\partial^{\alpha_1}_{x_1}
     \partial^{\alpha_2}_{x_2} ... \partial^{\alpha_n}_{x_n}}$\\
     $(f)=\frac{\partial \vec{\alpha}}{\partial_x}(f)$\\
     $H(b,\frac{\partial \vec{\alpha}}{\partial \vec{x}}(f),\frac{\partial \vec{\beta}}{\partial \vec{x}}(f),...,\vec{x})$\\
-    $H:\mathbb{R^h}\to \mathbb{R}$\\
+    $H:\mathbb{R}^h\to \mathbb{R}$\\
     Equation aux dérivées partielles (PDE ou EDP)\\
     ordre: max$(d1+d2=...+dn)$\\\\\\
     \textbf{- Complément de cours:}\\
-    $f:\mathbb{R^n}\to \mathbb{R}$\\
+    $f:\mathbb{R}^n\to \mathbb{R}$\\
     $grad(f)=
     \begin{pmatrix}
         \frac{\partial f}{\partial x_1}\\
         \vdots\\
         \frac{\partial f}{\partial x_n}    
     \end{pmatrix}$\\
-    $g:\mathbb{R^n}\to \mathbb{R^n}$\\
+    $g:\mathbb{R}^n\to \mathbb{R}^n$\\
     $div(g)=\frac{\partial g_1}{\partial x_1}+\frac{\partial g_2}{\partial x_2}+...+\frac{\partial g_n}{\partial x_n}$\\
-    $grad f:\mathbb{R^n}\to \mathbb{R^n}$\\
+    $grad f:\mathbb{R}^n\to \mathbb{R}^n$\\
     $div(grad(f))=\frac{\partial}{\partial x_1}(\frac{\partial f}{\partial x_1})+\frac{\partial}{\partial x_2}(\frac{\partial f}{\partial x_2})+...+\frac{\partial}{\partial x_n}(\frac{\partial f}{\partial x_n})$\\
     $=\frac{\partial^2 f}{\partial^2 x_1}+\frac{\partial^2 f}{\partial^2 x_2}+...+\frac{\partial^2 f}{\partial^2 x_n}$\\
     $=\Delta f$\\
