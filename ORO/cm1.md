@@ -19,7 +19,6 @@ $\to$ on cherhce le point $x*$ où l'optimisation (minimum ou maximum selon le c
 fonction f est réalisé.
 
 \textbf{Recherche opérationnelle:}
-
 $\to$ on se trouve dans un contexte industriel dans lequel on cherche à résoudre un 
 problème concret, problèmes que l'on peut représenter comme des problème d'optimisation.
 
@@ -433,6 +432,367 @@ fin|65|65|0|0
 
 
 \pagebreak
+# Thursday February 2nd 2023 Course
+
+La méthode ___PERT___ est une autre méthode pour calculer un ordonnancement optimal. 
+Dans cette méthode, on dessine un graphe dont les arcs (et non plus les noeuds ) 
+représentent les tâches du problème d'ordonnancement.
+
+Les noeuds représentent alors des "étapes" de la réalisation du projet, étapes auxquelles
+un certain nombre de tâches ont été réalisées, permettant de démarrer de nouvelles tâches.
+
+Dans des situations où deux tâches n'ont pas les mêmes antécédents, mais en partagent
+certains, pour placer leur étape de départ, on peut être obligé de recourir à des tâches
+fictives, de durées nulles, et allant d'une étape correspondant à la réalisation d'un 
+ensemble de ses tâches vers une étape correspondant à un ensemble de tâches.
+
+\begin{center}
+\begin{tikzpicture}[node distance={20mm},main/.style = {draw, circle}] 
+\node[main] (1) {$\frac{\_\_}{|}$};
+\node (2) [above right of=1] {ensemble de tâches terminées correspondant à 
+l'antécedence des tâches qui en sortent.};
+\node (3) [below right of=1] {date au plus tard}; 
+\node (4) [below left of=1] {date au plus tôt}; 
+    \draw[->] (1) -- (2);
+    \draw[->] (1) -- (3);
+    \draw[->] (1) -- (4);
+\end{tikzpicture} 
+\end{center}
+
+\pagebreak
+
+**1.**
+
+Tâche|durée|antécédant
+---|---|---
+A|6|-
+B|5|-
+C|7|-
+D|4|B
+E|1|A,D
+F|6|C,D
+G|7|A
+H|2|E,G
+
+
+\begin{center}
+  \begin{tikzpicture}
+    [scale=.8,node/.style={draw, circle}]
+    \node[node] (0) at (0,0) {$\frac{Début}{0|0}$};
+    \node[node] (1) at (2,-4) {$\frac{A}{6|6}$};
+    \node[node] (2) at (2,0) {$\frac{B}{5|5}$};
+    \node[node] (3) at (4,4) {$\frac{C,D}{9|8}$};
+    \node[node] (4) at (4,0) {$\frac{D}{9|9}$};
+    \node[node] (5) at (6,-4) {$\frac{E,G}{13|13}$};
+    \node[node] (10)at (4,-2) {$\frac{A,D}{9|12}$};
+    \node[node] (9) at (8,0) {$\frac{FIN}{15|15}$};
+
+    \foreach \from/\val/\to in {0/A\,6/1, 0/C\,7/3, 0/B\,5/2, 2/D\,4/4, 1/G\,7/5, 10/E\,1/5, 5/H\,2/9, 3/f\,6/9}
+    \draw[->] (\from) -- node[midway, above, sloped] {\val}(\to);
+
+    \foreach \from/\to in {4/3, 4/10, 1/10}
+    \draw[dashed,->] (\from) -- node[midway, above, sloped] {$\phi$\,0}(\to);
+     
+  \end{tikzpicture}
+\end{center}
+
+Tâche|date au plus tôt|date au plus tard|marge totale|marge libre
+---|---|---|---|---
+A|0|0|0|0
+B|0|0|0|0
+C|0|2|2|2
+D|5|5|0|0
+E|9|9|0|0
+F|9|9|0|0
+G|6|6|0|0
+H|13|13|0|0
+
+**2.**
+
+Tâche|durée|antécédant
+---|---|---
+A|4|-
+B|2|-
+C|7|-
+D|4|B
+E|4|A
+F|5|D
+G|3|E,F
+H|3|D
+I|4|C,H
+J|1|I,G
+
+\begin{center}
+  \begin{tikzpicture}
+    [scale=.8,node/.style={draw, circle}]
+    \node[node] (0) at (0,0) {$\frac{Début}{0|0}$};
+    \node[node] (1) at (2,-4) {$\frac{A}{4|7}$};
+    \node[node] (2) at (2,0) {$\frac{B}{2|2}$};
+    \node[node] (3) at (4,4) {$\frac{C,H}{9|10}$};
+    \node[node] (4) at (4,0) {$\frac{D}{6|6}$};
+    \node[node] (5) at (6,-4) {$\frac{E,F}{11|11}$};
+    \node[node] (10)at (8,0) {$\frac{I,G}{14|14}$};
+    \node[node] (9) at (10,0) {$\frac{FIN}{15|15}$};
+
+    \foreach \from/\val/\to in {0/A\,4/1, 0/B\,2/2, 2/D\,4/4, 1/E\,4/5, 
+    4/F\,5/5, 5/G\,3/10, 4/H\,3/3, 3/I\,4/10, 10/J\,1/9, 0/C\,7/3}
+    \draw[->] (\from) -- node[midway, above, sloped] {\val}(\to);
+
+  \end{tikzpicture}
+\end{center}
+
+Tâche|date au plus tôt|date au plus tard|marge totale|marge libre
+---|---|---|---|---
+A|0|3|3|0
+B|0|0|0|0
+C|0|3|3|2
+D|2|2|0|0
+E|4|7|3|3
+F|6|6|0|0
+G|11|11|0|0
+H|6|7|1|0
+I|9|10|1|1
+J|14|14|0|0
+
+**3.**
+
+Tâche|durée|antécédant
+---|---|---
+A|5|-
+B|1|-
+C|7|-
+D|3|B
+E|3|B
+F|3|A,D
+G|4|A,C
+H|4|A
+I|3|H
+J|5|I,F,G
+K|2|L
+L|3|H
+
+\begin{center}
+  \begin{tikzpicture}
+    [scale=.8,node/.style={draw, circle}]
+    \node[node] (0) at (0,0) {$\frac{Début}{0|0}$};
+    \node[node] (1) at (2,-4) {$\frac{A}{5|5}$};
+    \node[node] (2) at (4,2) {$\frac{B}{1|6}$};
+    \node[node] (3) at (4,4) {$\frac{A,C}{7|8}$};
+    \node[node] (5) at (4,-2) {$\frac{A,D}{5|9}$};
+    \node[node] (9) at (8,-4) {$\frac{H}{9|9}$};
+    \node[node] (10)at (7,0) {$\frac{I,F,G}{12|12}$};
+    \node[node] (11)at (10,0) {$\frac{L}{12|15}$};
+    \node[node] (12)at (8,4) {$\frac{FIN}{17|17}$};
+
+    \foreach \from/\val/\to in {0/A\,5/1, 0/B\,1/2, 0/C\,7/3, 2/E\,3/12, 
+    2/D\,3/5, 3/G\,4/10, 1/H\,4/9, 9/L\,3/11, 11/K\,2/12, 9/I\,3/10, 5/F\,3/10, 10/J\,5/12}
+    \draw[->] (\from) -- node[midway, above, sloped] {\val}(\to);
+
+    \foreach \from/\to in {1/3,1/5}
+    \draw[dashed,->] (\from) -- node[midway, above, sloped] {$\phi,0$}(\to);
+  \end{tikzpicture}
+\end{center}
+
+Tâche|date au plus tôt|date au plus tard|marge totale|marge libre
+---|---|---|---|---
+A|0|0|0|0
+B|0|5|5|0
+C|0|1|1|0
+D|1|6|5|1
+E|1|14|13|13
+F|5|9|4|4
+G|7|8|1|1
+H|5|5|0|0
+I|9|9|0|0
+J|12|12|0|0
+K|12|15|3|3
+L|9|12|3|0
 ## II - Programmation linéaire
+
+Un programme linéaire est un problème d'optimisation dans lequel la fonction objective
+est linéaire et les contraintes sont affines.
+
+max/min $\{\sum_{i=1}^n c_i x_i / \forall j, \sum_{j=}^n a_{ij} x_i \{\leq , \geq , 
+\text{ ou } = \} b_j\}$ 
+
+C'est une catégorie particulière, mais importante de problèmes d'optimisation.
+
+* Imaginer une entreprise fabriquant des compotes.\
+$\to$compote pommes/fraises PF\
+$\to$compote pommes P\
+$\to$compote pommes F
+
+* Pour produire 1kg de compotes\
+\makebox[0.5cm]{PF}$\to$ 2kg pommes, 1kg fraises\
+\makebox[0.5cm]{P}$\to$ 3kg pommes\
+\makebox[0.5cm]{F}$\to$ 1kg pommes, 2kg fraises
+
+Chaque jour, l'usine reçoit, 3t de pommes et 5t de fraises.
+
+* La préparation d'une tonne de compote nécessite:\
+$\to$ 40h pour PF\
+$\to$ 30h pour F\
+$\to$ 40h pour P\
+L'entreprise dispose de 80h de travail/j.
+
+L'entreprise ne peut pas produire plus de 4t de compote par jour (limite de stockage est 
+expédition).
+
+* Le bénéfice de l'entreprise est de:\
+$\to$ 60€ par tonne de PF\
+$\to$ 70€ par tonne de F\
+$\to$ 20€ par tonne de P
+
+* Les variables de décision sont ici les nombres de tonne de chaque compote produits 
+chaque jour:\
+$\to x_1$ est le nombre de tonnes de PF produit chaque jour.\
+$\to x_2$ est le nombre de tonnes de F produit chaque jour.\
+$\to x_3$ est le nombre de tonnes de P produit chaque jour.\
+$(x_1,x_2,x_3)$ représente un plan de production.
+
+* Ce plan de production doit vérifier des contraintes:
+  * stockage:\
+ $x_1+x_2+x_3 \leq 4$
+
+  * travail:\
+  $40x_1+30x_2+40x_3 \leq 80$
+
+  * approvisionnement:\
+  $2x_1+x_2+3x_3 \leq 3$\
+$\qquad \qquad \uparrow$\
+_quantité de pommes (en t)\
+nécessaire pour produire\
+la quantité de PF du plan\
+de produit._\
+$$x_1+2x_2 \leq 5$$
+
+   * positivité:\
+  $x_1 \geq 0$\
+  $x_2 \geq 0$\
+  $x_3 \geq 0$
+
+On cherche à maximiser les bénéfices quotidiens:\
+$$60x_1+70x_2+20x_3$$
+
+Au final, le problème peut s'écrire:
+$$\text{max} \{60x_1+70x_2+20x_3\}\
+s.c
+\left\{\begin{array}{lll}
+x_1+x_2+x_3& \leq & 4\\
+40x_1+30x_2+40x_3& \leq & 80\\
+2x_1+x_2+3x_3& \leq & 3\\
+x_1+2x_2 & \leq & 5\\
+x_1,x_2,x_3& \leq & 0\\
+\end{array}\right.$$
+
+On appelle solution (réalisable) d'un problème d'optimisation un plan de production $x$
+véridiant les contraintes. La solution optimale $x^*$ est la solution
+réalisable optimisant la fonction objective.
+
+\begin{tikzpicture}
+\draw (0,0) -- (0,1) -- (-1,0.25) -- (-0.5,-1) -- (1,-1) -- (1.5,0) -- (0,0);
+\draw (-0.175,0.65) -- (0.75,-0.25);
+\end{tikzpicture}
+
+_pas convexe_
+
+
+* L'ensemble des contraintes définit polyèdre:\
+$\to$ c'est l'intersection des sous-espaces définis par chaque contrainte,\
+$\to$ chaque contrainte $\sum a_{ij} x_i \leq b_j$ définit un demi-espace limité par
+l'hyperplan $\sum a_{ij} x_i = b_j$\
+La fonction objective est linéaire. Donc son gradient est constant.\
+Donc son gradient est constant. De plus les lignes de niveau associée à cette fonction
+sont des hyperplans.\
+\begin{tikzpicture}
+\draw (-1.75,0) -- (-1,1.25) -- (1,1.25) -- (1.75,0) -- (1,-1.25) -- (-1,-1.25) -- (-1.75,0);
+\draw[->] (-0.125,0) -- (0.125,0.125);
+\end{tikzpicture}\
+Si on prend un point à l'intérieur du polyèdre, le gradient en ce point est non-nul, et
+on peut prendre un point $x_0 + \epsilon \triangledown f(x_0)$ avec $\epsilon > 0$ 
+suffisement petit, point qui sera meilleur que $x_0$ et toujours dans le polyèdre.\
+La solution optimale est forcément sur la frontière ("au bord") de polyèdre.
+
+//COURBE ORO 1
+
+Une solution optimale est donc nécessairement un sommet du ployèdre.
+Il suffit donc de parcourir les sommets du polyèdre.
+De plus le polyèdre est convexe.
+
+\begin{center}\begin{tikzpicture}
+\draw (0,0) -- (0.5,-0.5) -- (1,1) -- (1.2,-0.6) -- (0.8,-1) -- (0.5,-1.7) -- (0.5, -1.25) -- (0,-1.25) -- (0,0);
+\end{tikzpicture}\end{center}
+
+La convexité garantit que si un sommet a une valeur meilleur que celle des sommets
+adjacents, il est un optimum global.
+
+On peut donc parcourir les sommets de façon à examiner des sommets avec une valeur toujours meilleure, jusqu'à trouver l'optimum.
+
+gradient: 
+
+$$\triangledown f(y) =
+\begin{pmatrix}
+\frac{\partial f}{\partial x_1} (y)\\
+\frac{\partial f}{\partial x_2} (y)\\
+\frac{\partial f}{\partial x_3} (y)\\
+\end{pmatrix}$$
+
+courbe de niveau:
+$$\{x:f(x)=\alpha\}$$
+
+En tout point $x_0$ , le gradient $\vec{\triangledown} f(x_0)$ est normale à la courbe 
+de niveau $$\{x/f(x)=f(x_0)\}$$
+
+# Thursday February 2nd 2023 Exercises
+
+## Exercice 1
+
+max \{ $15x_1 +8x_2 - 6HS - 1,5MP - PUB_1 - PUB_2$ \}
+
+
+$$\text{sc}\left\{\begin{array}{ll}
+MP &\leq 400\\
+2x_1+x_2 &\leq MP\\
+0,75x_1+0,5x_2 &\leq 160 + HS\\
+x_1 &\leq 50 + 10PUB_1\\
+x_2 &\leq 60 + 15PUB_2\\
+PUB_1 + PUB_2 &\leq 100\\
+x_1,x_2,MP,HS,PUB_1,PUB_2 &\geq 0
+\end{array}\right.$$
+
+## Exercice 2 (annule et remplace !)
+
+On considère un problème d'ordonnancement,
+
+tâche|durée|antécédents
+---|---|---
+$i$|$d_i$|$P_i$
+
+Modéliser le sous forme de PL.
+
+Notons $x_i$ la date de début de la tâche i (en u.t.) contraintes:
+$$\begin{array}{ll}
+\forall i, \forall j \in P_i , x_i &\geq x_j + d_j\\
+\forall i, x_i &\geq 0
+\end{array}$$
+
+fonction objective:\
+\begin{center}min\{max\{$x_i+d_i$\}\}\end{center}
+
+Cette fonction objective n'est pas linéaire.
+
+On ajoute une variable de décision, $x_f$, représentant la date de fin du projet.
+
+$$\forall, x_f \geq x_i + d_i$$
+
+$\qquad\qquad\qquad\qquad\qquad\qquad\quad\text{min}\{x_f\}$
+$$\text{sc}\left\{\begin{array}{l}
+\forall i, \forall j \in P_i, x_i \geq x_j + d_j\\
+\forall i, x_i \geq 0\\
+\forall i, x_f \geq x_i + d_i
+\end{array}\right.$$
+
+$x_f$ représente une date plus grande que le max\{$x_i+d_i\}, mais que les contraintes autorisent à lui être égale; puisqu'on cherche à le minimiser, on a la garanti que, dans la solution optimale, il vaudra ce max.
+
 ### Algo du simplexe
 ## III - Séparation et Evaluation
