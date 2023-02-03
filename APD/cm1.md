@@ -111,7 +111,7 @@ $$\text{nombres d'arête }=\frac{n(n-1}{2}$$
 \end{center}
 
 * ___Arbres___: graphe qui n'a pas de cycles.\
-cycle:\
+**cycle:**\
 \begin{center}
 \begin{tikzpicture}[node distance={15mm},main/.style = {draw, circle}] 
 \node[main] (1) {1};
@@ -152,7 +152,7 @@ Nombre d'arêtes dans un arbre, sans sommet de degré 0: n-1\
 \end{center}\
 Feuille d'un arbre: sommets de degré 1 qui n'est pas la racine.
 
-Chemin: ensemble de sommets $x_1,x_2,x_3,...,x_{n-1},x_n$
+**Chemin:** ensemble de sommets $x_1,x_2,x_3,...,x_{n-1},x_n$
 
 tel que ($x_1,x_2,x_3,...,x_{n-1},x_n$) sont des arêtes
 
@@ -167,12 +167,12 @@ tel que ($x_1,x_2,x_3,...,x_{n-1},x_n$) sont des arêtes
 \end{tikzpicture} 
 \end{center}
 
-longueur chemin: nombre de ses arêtes
+___longueur chemin:___ nombre de ses arêtes
 
-père d'un noeud x: soit h(x) sa hauteur, Son père est son voisin dont la hauteur vaut 
+___père d'un noeud x:___ soit h(x) sa hauteur, Son père est son voisin dont la hauteur vaut 
 h(x)-1
 
-fils d'un noeuf: comme le père mais h(x)+1
+___fils d'un noeuf:___ comme le père mais h(x)+1
 
 ___mini exo:___
 
@@ -204,7 +204,7 @@ $$\sum_{i=1}^n d(s_i) \geq 2\times (n-1)+1$$
 
 
 * ___Complexité - notion :___\
-Notation de Landeau: $O(f(x))=g(x)$
+Notation de ___Landeau___: $O(f(x))=g(x)$
 
 * ___informel:___\
 à partir d'un certain x, la valeur $g(x)$ sera inférieur à $f(x)$
@@ -218,7 +218,7 @@ f(x)&=&O(g(x))\\
 f(x)&\in &O(g(x))
 \end{array}$$\
 $$\text{Ssi: }\forall x \geq x_0, \exists k \in N \text{ tel que }|f(x)|\leq k|g(x)|$$\
-Exemple:
+__Exemple:__
 $$\begin{array}{lll}
 f(x)&=&x\\
 g(x)&=&x^x
@@ -259,12 +259,12 @@ ___mini exemple:___
 \end{tikzpicture} 
 \end{center}
 
-On veut un algo: à la fin de l'execution chaque noeud connait la valeur var max dans le
+___On veut un algo:___ à la fin de l'execution chaque noeud connait la valeur var max dans le
 réseau.
 
-chaque noeud e*nvoie son* var à son voisin
+chaque noeud envoie son var à son voisin
 
-calcul: sur réception de var faire le calcul de max (var $x_1$, var $x_2$)
+___calcul:___ sur réception de var faire le calcul de max (var $x_1$, var $x_2$)
 
 
 
