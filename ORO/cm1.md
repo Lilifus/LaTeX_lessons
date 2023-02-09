@@ -7,9 +7,12 @@ header-includes:
     - \usepackage{algorithm}
     - \usepackage{algpseudocode}
     - \usepackage{tikz}
+    - \usepackage{twemojis}
 toc: true
 ...
 
+
+\pagebreak
 
 # Thursday January 26 2023 Course
 
@@ -794,5 +797,151 @@ $$\text{sc}\left\{\begin{array}{l}
 
 $x_f$ représente une date plus grande que le max\{$x_i+d_i\}, mais que les contraintes autorisent à lui être égale; puisqu'on cherche à le minimiser, on a la garanti que, dans la solution optimale, il vaudra ce max.
 
+# Thursday February 9th 2023
+
+## Exercice 3
+
+Notons $x_1$ la quantité de brut n°1, en Mt, traité par la raffinerie.
+
+Notons $x_2$ la quantité de brut n°2, en Mt, traité par la raffinerie.
+
+Notons $x_3$ la quantité de brut n°3, en Mt, traité par la raffinerie.
+
+On cherche à minimiser le bénéfice: 
+$$4x_1+5x_2+5x_3$$
+
+A cause de la capacité d'entreposage et de livraison des gaz et gaz liquéfiés, le plan de 
+production($x_1,x_2,x_3$) doit respecter:
+$$0,02x_1+0,06x_3 \leq 0,3 \Leftrightarrow 2x_1+6x_3 \leq 30$$
+
+ * Pour l'essence:\
+ $$20x_1+25x_2+30x_3 \leq 105 \Leftrightarrow 4x_1+5x_2+6x_3 \leq 21$$
+
+ * Pour le pétrole:\
+ $$8x_1+4x_3 \leq 18$$
+
+ * Pour le gasoil:\
+ $$40x_1+25x_2+30x_3 \leq 135$$
+
+## Exercice 4
+
+
+Notons $x_1$ la fraction d'orge contenu dans l'aliment produit, en t.
+Notons $x_2$ la fraction d'arachide contenu dans l'aliment produit, en t.
+Notons $x_3$ la fraction de sésame contenu dans l'aliment produit, en t.
+
+On cherche à minimiser le coût d'une tonne d'aliment produit:
+$$25x_1+41x_2+39x_3$$
+
+Un aliment de composition ($x_1,x_2,x_3$) contient $0,12x_1+0,52x_2+0,42x_3$, qui doit être ___au moins___ égale à 0,22:
+
+$$12x_1+52x_2+42x_3^* \geq 22$$
+
+*comme taux de protéines
+
+* Pour la graisse, on a:\
+$$2x_1+2x_2+10x_3 \geq 3,6$$\
+De plus:\
+$$\begin{array}{ll}
+x_1,x_2,x_3&\geq 0\\
+x_1+x_2+x_3 &= 1
+\end{array}$$
+
+* Au final:
+$$min\{25x_1+41x_2+39x_3\}$$
+
+$$\text{sc}\left\{\begin{array}{lll}
+12x_1+52x_2+42x_3&\geq &22\\
+2x_1+2x_2+10x_3&\geq &3,6\\
+x_1+x_2+x_3&=&1\\
+x_1,x_2,x_3&\geq &0
+\end{array}\right.$$
+
+Puisque $x_1+x_2+x_3=1$, ou substitue à $x_3$ $1-x_1-x_2$ partout. Le plan de production
+, de la composition de l'aliment, est ($x_1,x_2,1-x_1-x_2$).
+
+* La première contrainte devient:\
+$$\begin{array}{llll}
+&12x_1+52x_2+42(1-x_1-x_2)&\geq &22\\
+\Leftrightarrow &-30x_1+10x_2+42&\geq &22\\
+\Leftrightarrow &-30x_1+10x_2 &\geq &-20\\
+\Leftrightarrow &3x_1-x_2&\geq &2
+\end{array}$$\
+
+* La deuxieme contrainte devient:\
+$$\begin{array}{llll}
+&8x_1+8x_2&\leq &6,4\\
+\Leftrightarrow & x_1+x_2&\leq &0,8\\
+\Leftrightarrow &5x_1+5x_2&\leq &4
+\end{array}$$\
+
+* La troisème contrainte devient:\
+$$0=0$$\
+On a de plus:\
+$$x_1 \geq 0, x_2 \geq 0, x_3 \geq 0$$\
+$$\begin{array}{lll}
+&1-x_1-x_2 &\geq 0\\
+\Leftrightarrow &x_1+x_2&\leq 1
+\end{array}$$
+
+* La fonction objective devient:\
+$$\begin{array}{ll}
+&min\{25x_1+41x_2+39(1-x_1-x_2)\}\\
+=&min\{-14x_1+2x_2+39\}\\
+=&min\{-14x_1+2x_2\}+39
+\end{array}$$
+
+* On cherche:\
+$$min\{-14x_1+2x_2\}+39$$\
+$$\left\{\begin{array}{lll}
+3x_1-2x_2&\leq &2\\
+5x_1+5x_2&\leq &4\\
+x_1+x_2&\leq&1\\
+x_1,x_2&\geq &0
+\end{array}\right.$$\
+Cette contrainte est redondante avec la précédente: $4\leq 5$, donc\
+$$5x_1+5x_2\leq 4 \Rightarrow 5x_1+5x_2\leq 5 \Rightarrow x_1 + x_2 \leq 1$$
+
+# Exercice 5
+
+Notons $x_1$ le nombre d'objets $A_1$ produit chaque mois.
+Notons $x_2$ le nombre d'objets $A_2$ produit chaque mois.
+Notons $x_3$ le nombre d'objets $A_3$ produit chaque mois.
+
+* On cherche à maximiser le bénéfic mensuel:\
+$$60x_1+40x_2+80x_3$$
+
+* On a:\
+$$\begin{array}{lll}
+x_1 & \leq &4800\\
+x_2 & \leq &5400\\
+x_3 & \leq &2000
+\end{array}$$\
+à cause des contraintes du marché.
+
+* La disponibilité de la machine-outil impose:\
+\begin{center}obj/(obj/h)=h\end{center}\
+$$\frac{x_1}{35}+\frac{x_2}{45}+\frac{x_3}{20}\leq 200$$
+
+* Celle de la main d'oeuvre:\
+$$\text{min}\to 4x_1+3x_2+2x_3\leq \text{h}\to (170*3)*60$$\
+De plus:
+$$x_1,x_2,x_3 \geq 0$$\
+
+$$max\{60x_1+40x_2+80x_3\}$$\
+$$\text{sc}\left\{\begin{array}{lll}
+x_1 & \leq & 4900\\
+x_2 & \leq & 5400\\
+x_3 & \leq & 2000\\
+\frac{x_1}{35}+\frac{x_2}{45}+\frac{x_3}{20}&\leq &200 
+\Leftrightarrow 36x_1 + 28x_2 + 63x_3 \leq 252000\\
+x_1,x_2,x_3 \geq 0
+\end{array}\right.$$\
+Comme $x_1,x_2,x_3 \geq 0$,\
+$$36x_1+27x_2+18x_3 \leq 36x_1+28x_2+63x_3$$\
+Donc si la 2e est $\leq$ 252 000, la 1ere est $\leq$ 252000 $\leq$ 275 400.
+
 ### Algo du simplexe
 ## III - Séparation et Evaluation
+
+\vfill \null \hfill \twemoji{deer}

@@ -266,5 +266,486 @@ chaque noeud envoie son var à son voisin
 
 ___calcul:___ sur réception de var faire le calcul de max (var $x_1$, var $x_2$)
 
+# Wednesday February 8th 2023
 
+ * **2 types d'évenements exterieur:**\
+ a.\
+  -évènement initial $\to$ bout de code\
+  -il est executé initialement sur un ensemble non vide, le noeud du système\
+  -1 seule fois\
+  -il ne peut pas être executé sur 1 noeud qui a déjà fait du code\
+  b.\
+  -réception
+
+\begin{center}
+\begin{tikzpicture}[node distance={15mm},main/.style = {draw, circle}] 
+\node[main] (1) {1}; 
+\node[main] (2) [below left of=1] {2}; 
+\node[main] (3) [below of=2] {3}; 
+\node[main] (4) [right of=3] {i}; 
+\foreach \from/\to in {1/2,2/3,2/4,3/4}
+    \draw (\from) -- (\to);
+\end{tikzpicture} 
+\end{center}
+
+**Algo: pour le noeud i**\
+ 1.
+ * description des variables\
+ 2. 
+ * event initial: (des regles gardés)\
+ * sur réception des messages: prends code classique
+
+ * **Les types de variables:**\
+ * locals: on les indices par l'identifiant du site|noeud i \
+ * $hookrightarrow$ connaissance: elles ne sont accessibles qu'en lecture, elles servent
+ à décider le système\
+ par ex: voisin i, l'ensemble des voisin du sommet\
+ * $\hookrightarrow$ variables locales au site pour les calculs. Elles sont accessible en lecture/ecriture.
+
+ * variables de communication\
+ B - \
+ -Elle contient une info qui est transmise\
+ +info du site emetteur\
+ -elles ne sont pas indices\
+ -elles sont ephemere.
+
+**Calcul des max dans une chaine**
+
+ 
+\begin{center}
+\begin{tikzpicture}[node distance={15mm},main/.style = {draw, circle}] 
+\node[main] (1) {1}; 
+\node[main] (2) [right of=1] {2}; 
+\node[main] (3) [right of=2] {3}; 
+\node[main] (4) [right of=3] {x}; 
+\foreach \from/\to in {1/2,2/3}
+    \draw (\from) -- (\to);
+\foreach \from/\to in {3/4}
+    \draw[dashed] (\from) -- (\to);
+\end{tikzpicture} 
+\end{center}
+
+* **Algo pour i:**
+
+ * connaissance:\
+ \underline{voisin i:} ensemble des voisins de i dans la chaine\
+ \underline{valeur i:} valeur entiere du noeud i
+
+ * variables:\
+ \underline{max i :} le maximum dourant calculé sur i
+
+ ___Initialement___ (description de l'evenement initial)  \*sur tous les noeuds\*
+$\qquad$ envoyer Msg(val i) à voisin i
+
+\begin{algorithm}
+\caption{INIT}\label{alg:cap}
+\begin{algorithmic}
+\State envoyer Msg(val$_i$) à vois$_i$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{Sur réception de Msg(v) ($\leftarrow$ données) de j ($\leftarrow$ noeud 
+émetteur)}\label{alg:cap}
+\begin{algorithmic}
+\If{max$_i < v_i$}
+    \State $max_i \gets v_i$
+\ElsIf{$|vois_i| = 2$}
+    \State envoyer Msg(v) à vois$_i$ sans \{j\}
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+**Init**:
+
+\begin{center}
+\begin{tikzpicture}[node distance={15mm},main/.style = {draw, circle}] 
+\node[main] (1) {2}; 
+\node[main] (2) [right of=1] {5}; 
+\node[main] (3) [right of=2] {6}; 
+\foreach \from/\to in {1/2,2/3}
+    \draw (\from) -- (\to);
+\foreach \from/\val/\to in {1/7/2,2/2/3}
+    \draw[->] (\from) to [out=-80,in=-100, looseness=1] node[below] {\val} (\to);
+\foreach \from/\val/\to in {2/2/1,3/13/2}
+    \draw[->] (\from) to [out=100,in=80, looseness=1] node[above] {\val} (\to);
+\end{tikzpicture} 
+\end{center}
+
+\begin{center}val$_2$=7; val$_5$= 2; val$_6$=13\end{center}
+\begin{center}max$_2$=7; max$_5$=13; max$_6$=13\end{center}
+
+$$\begin{array}{ll}
+2 & \to 5\\
+5 & \to 2 \to 6\\
+6 & \to 5\\
+\end{array}$$
+
+O(n$^2$) mémoire \qquad O(n+m) (m étant le nbres d'arêtes)
+
+## Complexité
+
+\begin{center} Configuration + Execution + complexité en temps\end{center}
+$$ A \qquad\qquad\qquad B \qquad\qquad\qquad C$$
+
+### A - Configuration
+"screenshot" de votre système à 1 instant donné
+
+$$\begin{array}{ll}
+&\to \text{états des variables de tous les sites}\\
++& \to \text{exo des messages en transit}\\
+=&\text{état local de tous les sites et les messages en transit}
+\end{array}$$
+
+### B - Execution
+
+ * Dans 1 config donnée, 1 site est activable si il existe 1 evenement exterieur qui a été déclenché et qui est en attente de traitement\
+ * Execution: une sequence C$_1$, C$_2$,\dots,C$_i$,C$_{i+1}$,\dots,C$_n$\
+ telle que entre 2 config consecutives:
+ - tous les sites activables ont executé les actions associées aux event exterieur 
+ (modifs des états locaux)
+ - les autres ne font rien
+
+\begin{center}
+\begin{tikzpicture}[node distance={15mm},main/.style = {draw, circle}] 
+\node[main] (1) {a}; 
+\node[main] (2) [right of=1] {b}; 
+\node[main] (3) [right of=2] {c}; 
+\foreach \from/\to in {1/2,2/3}
+    \draw (\from) -- (\to);
+\end{tikzpicture} 
+\end{center}
+
+\begin{center}val$_a$=3; val$_b$= 7; val$_c$=9\end{center}
+\begin{center}max$_a$=3; max$_b$=7; max$_c$=9\end{center}
+
+$$\Downarrow$$
+
+\begin{center}
+\begin{tikzpicture}[node distance={15mm},main/.style = {draw, circle}] 
+\node[main] (1) {a}; 
+\node[main] (2) [right of=1] {b}; 
+\node[main] (3) [right of=2] {c}; 
+\foreach \from/\to in {1/2,2/3}
+    \draw (\from) -- (\to);
+\foreach \from/\val/\to in {1/3/2,2/7/3}
+    \draw[->] (\from) to [out=-80,in=-100, looseness=1] node[below] {\val} (\to);
+\foreach \from/\val/\to in {2/7/1,3/9/2}
+    \draw[->] (\from) to [out=100,in=80, looseness=1] node[above] {\val} (\to);
+\end{tikzpicture} 
+\end{center}
+
+le problème qui apparait est que tous les messages ne circulent pas à la meme vitesse. Par
+conséquent, ils n'arrivent pas en meme temps, ce qui crée de l'indeterminisme.
+
+La complexité en tmps est donc le tmps de la plus longue exectution possible.
+
+
+\begin{center}
+\begin{tikzpicture}[node distance={15mm},main/.style = {draw, circle}] 
+\node (1) {}; 
+\node[main] (2) [above right of=1] {a}; 
+\node[main] (3) [right of=2] {b}; 
+\node[main] (4) [right of=3] {c}; 
+\node[main] (5) [below right of=1] {a}; 
+\node[main] (6) [right of=5] {b}; 
+\node[main] (7) [right of=6] {c}; 
+\foreach \from/\val/\to in {1/$C_2$/2,1/$C'_2$/5}
+    \draw[->] (\from) -- node [above,sloped]{\val} (\to);
+\foreach \from/\to in {2/3,3/4,5/6,6/7}
+    \draw (\from) -- (\to);
+\foreach \from/\val/\to in {2/3/3,3/7/4,5/3/6}
+    \draw[->] (\from) to [out=-80,in=-100, looseness=0.5] node[below] {\val} (\to);
+\foreach \from/\val/\to in {4/9/3,6/7/5}
+    \draw[->] (\from) to [out=100,in=80, looseness=0.5] node[above] {\val} (\to);
+    \draw[->] (6) to [out=100,in=80, looseness=0.3] node[below] {9} (5);
+\end{tikzpicture} 
+\end{center}
+
+$$C_2: \text{Si msg(7) de b est reçu par a}$$
+$$C'_2: \text{Si msg(7) de b est reçu par c, msg(9) reçu par b}$$
+
+$\to$ On observe qu'il existe plusieur execution possible pour 1 meme algo/reseau.
+Cela est du à un non determinisme provoqué par le tps de transit des msg qui est variable.
+
+cas de figure: (execution asynchrone)
+
+La complexité en tps va etre la longueure de la plus longue execution possible, parmis ttes les executions.
+
+b - hypothèse synchrone:
+
+ * l'ensemble des msgs en transit est réceptionné en 1 unité de tps
+ * Entre 2 config, on a 1 round
+ * $\to$ tous les msg sont récéptionnés + toutes les règles gardées associées ...
+ $$\downarrow$$
+ le round se termine et on est dans 1 round config.
+
+ Dans cette hypothese: la complexité en tps = nbr de noeuds (il n'y a plus qu'une exec 
+ possible)
+
+ **Terminaison des algorithmes**
+
+ 1 algo termine quand dans toutes les exec il existe une config contenant aucun msd en transit et dans lequel aucun site n'a de regle gardées à vrai
+
+ - terminaison explicite: Il existe au moins 1 site qui sont que l'algo se termine $\hookrightarrow$
+ c'est indiqué stop-globaldans le code.
+
+ - terminaison locale: 1 site sait qu'il a terminé sans que la terminaison soit associée pr le reste des noeuds
+ $\to$ dénoté dans le code par stop-local
+
+\begin{center}
+\begin{tikzpicture}[node distance={15mm},main/.style = {draw, circle}] 
+\node[main] (1) {a}; 
+\node[main] (2) [right of=1] {b}; 
+\node[main] (3) [right of=2] {c}; 
+\node[main] (4) [right of=3] {k}; 
+\foreach \from/\to in {1/2,2/3}
+    \draw (\from) -- (\to);
+\foreach \from/\val/\to in {1/info/2,2//3}
+    \draw[->] (\from) to [out=80,in=100, looseness=0.5] node[above] {\val} (\to);
+\foreach \from/\to in {3/4}
+    \draw[dashed] (\from) -- (\to);
+\end{tikzpicture} 
+\end{center}
+
+\begin{center}
+racine\hspace*{4cm}feuille
+\end{center}
+\begin{center}
+\hspace*{4.5cm}(A)
+\end{center}
+
+**Algo pour 1 noeud i**
+
+**Connaissance** (lecture)
+
+ * vois$_i$: les voisins de i dans la chaine
+ * estRacine$_i$: bool (=1 pour noeud racine, 0 sinon)
+ * val$_i$: info à diffuser $\to$ null pour tout les noeuds sauf la racine
+
+**Variables**
+ * Save$_i$: sert à stocker l'info à diffuser. Vaut ndef initialement.
+
+\begin{algorithm}
+\caption{INIT}\label{alg:cap}
+\begin{algorithmic}
+\If{estRacine$_i == 1$}
+    \State envoyer Msg(info$_i$) à vois$_i$
+    \State save$_i \gets$ info$_i$
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+
+\begin{algorithm}
+\caption{Sur reception de message Msg(v) de j)}\label{alg:cap}
+\begin{algorithmic}
+\If{vois$_i == 1$}\Comment{(A)}
+    \State save$_i \gets v$
+    \State stop-global
+\EndIf
+\If{vois$_i == 2$}
+    \State save$_i \gets v$
+    \State envoyer Msg(v) à vois$_i$ sans \{j\}
+    \State stop-global
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+complexité en msg: n-1
+
+en temps ..
+
+* synchrone: n-1
+* asynchrone: n-1
+
+## Exercie 2
+
+### 1.
+
+\begin{algorithm}
+\caption{Sur reception de message Msg(v) de j)}\label{alg:cap}
+\begin{algorithmic}
+\If{vois$_i == 1$}\Comment{(A)}
+    \State save$_i \gets v$
+    \State envoyer Retour(u) à j
+    \State stop-global
+\EndIf
+\If{vois$_i == 2$}
+    \State save$_i \gets v$
+    \State envoyer Msg(v) à vois$_i$ sans \{j\}
+    \State stop-global
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+compléxité: O(2n) $\to$ O(n)
+
+\begin{algorithm}
+\caption{Sur reception de Retour(v) de j)}\label{alg:cap}
+\begin{algorithmic}
+\If{estRacine$_i == 1$}
+    \State stop-global
+\EndIf
+\If{vois$_i == 2$}
+    \State envoyer Msg(v) à vois$_i$ sans \{j\}
+    \State stop-global
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\begin{center}
+\begin{tikzpicture}[node distance={8mm},main/.style = {draw, circle}] 
+\node (0) {la racine doit recevoir une info de chacune des feuilles}; 
+\node[main] (1) [below left of=1] {}; 
+\node[main] (2) [below left of=1] {}; 
+\node[main] (3) [below of=1] {}; 
+\node[main] (4) [below right of=1] {}; 
+\node[main] (5) [below left of=3] {}; 
+\node[main] (6) [below of=3] {}; 
+\node[main] (7) [below right of=3] {}; 
+\node[main] (8) [below left of=2] {}; 
+\foreach \from/\to in {0/1,2/1,3/1,4/1,5/3,6/3,7/3,8/2}
+    \draw[->] (\from) -- (\to);
+\end{tikzpicture} 
+\end{center}
+
+**Connaissance:**
+
+père$_i$ le père du noeud$_i$. Vaut null pour la racine
+
+fils$_i$ les fils du noeud$_i$: vaut ndef pour les feuilles
+
+info$_i$: l'information à diffuser: ndef sauf pour les noeuds
+
+**Variables:**
+
+cpt$_i$: compter le nombre de messages reçus
+
+save$_i$: init à null, sert à sauvegarder l'info
+
+\begin{algorithm}
+\caption{INIT}\label{alg:cap}
+\begin{algorithmic}
+\If{fils$_i == 0$}
+    \State envoyer Msg(info$_i$) à père$_i$
+    \State stop-local
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{Sur réception de Msg(v) de j)}\label{alg:cap}
+\begin{algorithmic}
+\State cpt$_i$++
+\If{cpt$_i == $|fils$_i$|}
+    \State envoyer Msg(info$_i$) à père$_i$
+    \State save$_i \gets v$
+    \If{père$_i \neq null$}
+        \State envoyer Msg(v) à père$_i$\Comment{top-local}
+    \Else
+        \State stop-global
+    \EndIf
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+compléxité en message: n-1 : 1 message par canal de comm
+
+n noeuds $\Rightarrow$ n-1 arêtes
+
+en temps: hauteur de l'arbre
+
+### 2.
+
+**Connaissance:**
+
+estRacine$_i$
+
+vois$_i$ voisins du sommet
+
+info$_i$: l'information à diffuser: ndef sauf pour les noeuds
+
+**Variables:**
+
+cpt$_i$: compter le nombre de messages reçus
+
+save$_i$: init à null, sert à sauvegarder l'info
+
+\begin{algorithm}
+\caption{INIT}\label{alg:cap}
+\begin{algorithmic}
+\If{vois$_i == 1$}
+    \State envoyer Msg(v) à vois$_i$
+    \State père$_i \gets$ vois$_i$
+    \State fils$_i \gets null$
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{Sur réception de Msg(v) de j)}\label{alg:cap}
+\begin{algorithmic}
+\State cpt$_i$++
+\State ajouter j dans fils i
+\If{estRacine$_i == 0$}
+    \If{|vois$_i| - cpt_i == 1$}
+        \State enoie msg(v) à vois$_i$ sans fils$_i$
+        \State père $\gets$ vois$_i$ sans fils$_i$
+        \State stop-local
+    \EndIf
+\Else
+    \If{père$_i == null$ AND cpt == |vois$_i$|}
+        \State stop-global
+    \EndIf
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+## Exercice 4
+
+**Connaissance:**
+
+vois$_i$ 
+
+estRacine$_i$
+
+info$_i$
+
+**Variables:**
+
+père$_i = NULL$
+
+fils$_i = []$
+
+save$_i$: init à null, sert à sauvegarder l'info
+
+\begin{algorithm}
+\caption{INIT}\label{alg:cap}
+\begin{algorithmic}
+\If{estRacine}
+    \State envoyer Msg(val$_i$) à vois$_i$
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{Sur réception de Msg(v) de j)}\label{alg:cap}
+\begin{algorithmic}
+\If{estRacine$_i == 1$}
+    \State fils $\gets$ fils + j
+    \If{|fils|==|vois$_i$|}
+        stop-global
+    \EndIf
+\ElsIf{père$_i == null$ AND cpt == |vois$_i$|}
+        \State stop-global
+    \EndIf
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+## Exercice 5
+
+**Consigne:** Soit un arbre enraciné dans lequel on a les ???, père$_i$, fils$_i$. 
+On demande 1 algo tel qu'à la fin de l'execution, la racine connaisse le nombre de noeuds de l'arbre avec 2 fils.
 
