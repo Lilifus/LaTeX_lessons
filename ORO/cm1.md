@@ -10,7 +10,7 @@ header-includes:
     - \usepackage{twemojis}
 toc: true
 ...
-
+\newcommand{\deer}{\includegraphics[scale=0.5]{/home/zakaria/Pictures/deer_sig.png}}
 
 \pagebreak
 
@@ -944,4 +944,4 @@ Donc si la 2e est $\leq$ 252 000, la 1ere est $\leq$ 252000 $\leq$ 275 400.
 ### Algo du simplexe
 ## III - Séparation et Evaluation
 
-\vfill \null \hfill \twemoji{deer}
+\vfill \null \hfill \deer
