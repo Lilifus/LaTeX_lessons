@@ -7,9 +7,16 @@ header-includes:
     - \usepackage{algorithm}
     - \usepackage{algpseudocode}
     - \usepackage{tikz}
+    - \usepackage{fancyhdr}
 toc: true
+geometry:
+    - margin=2cm
 ...
 
+\pagestyle{fancy}
+\newcommand{\deer}{\includegraphics[height=1.5cm]{/home/zakaria/Pictures/deer_sig.png}}
+\fancyfoot[RE,RO]{\deer}
+\pagebreak
 
 # Wednesday February 1st 2023
 
@@ -739,7 +746,6 @@ save$_i$: init à null, sert à sauvegarder l'info
     \EndIf
 \ElsIf{père$_i == null$ AND cpt == |vois$_i$|}
         \State stop-global
-    \EndIf
 \EndIf
 \end{algorithmic}
 \end{algorithm}
@@ -749,3 +755,304 @@ save$_i$: init à null, sert à sauvegarder l'info
 **Consigne:** Soit un arbre enraciné dans lequel on a les ???, père$_i$, fils$_i$. 
 On demande 1 algo tel qu'à la fin de l'execution, la racine connaisse le nombre de noeuds de l'arbre avec 2 fils.
 
+# Wednesday February 15th 2023
+
+## Causalité et horloges distribuées
+
+* Dans un système réparti, l'ordre dans lequel surviennent les éveneent est primordial.
+
+* Il est nécessaire de définir des méthodes algorithmique qui premettent des relations
+causales entre les évenements.
+
+* Lanport qui a introduit ce concept en 1978 dans son papier. Il a cherché à créer
+un ordre partiel sur les évenements dans un système distribué.
+
+### Modèle proposé par Lanport
+
+Soit $\pi = p_1, p_2, \dots , p_n$ un système distribué avec n noeuds.
+
+* chaque site va executer une séquence ordonnée d'évenements $p_1: e_1^1, e_1^2, \dots, 
+e_1^h$ ($e^x$ avec x le numero de l'évenement).
+
+$e_i^1$ et $e_i^2$ sont locaux au processeur $i$ et $e_i^1 < e_i^2$ \} ordonnées: 
+l'evenement $e_i^1$ apparait avant $e_i^2$
+
+Les evenements qui apparaissent sur 1 sit sont de la forme suivante:\
+
+* réception d'un message\
+
+* envoi d'un message\
+
+* calcul interne
+
+![](img/IMG-2.jpg)
+
+On va écrire qu'un évenement $e$ précède causalement un évenement $e'$ et on écrira:
+$$e\to e'$$
+
+ssi:
+
+* e et e' sont locaux au même processeur et e apparait avant e'.
+
+**Exemple:** $e_1^2 \to e_1^3$
+
+* $\exists$ un message m tel que e = émission(m) et e'= recepetion(m). 
+(passage de message)\
+**exemple:** $e_1^3\to e_3^1$
+
+* $\exists$ e'' tel que $e \to e''$ et $e''\to e'$ (transitivité)\
+**exemple:** 
+$$e_1^2 \to e_3^1 \text{ car } \left\{\begin{array}{llll}
+e_1^2 &\to& e_1^3 &\text{ (local)}\\
+e^3_1 & \to& e_3^1 &\text{ (message)}
+\end{array}\right.$$
+
+Il peut aussi exister des evenements qui ne sont pas liées causalement:\
+**exemple:** $e_2^1$ et $e_1^1$
+
+ils sont dits concurrents et on écrira:
+$$e_2^1 || e_1^2$$
+
+## Algorithme de Lanport
+
+A chaque evenements e du site $p_i$ on va associer une horloge $H(e) = (h_i, i)$
+
+$\to$ c'est un couple $H(e)=(compteur, id (\leftarrow e'id \text{ du site }))$
+
+**init:**\
+-$h_i \leftarrow 0$
+-event local e à $p_i: h_i \leftarrow h_{i+1} H(e)=(h_i,i)$\
+-envoi de message m par $p_i: h_i \leftarrow h_{i+1}, H(e)=(h_i,i)$, envoi $(m,h_i)$\
+-reception de message (m,h) par $p_i: hi=max(h_i,h)+1, H(e)=(h_i,i)$
+
+\begin{algorithm}
+\caption{Pour chacun des sites $p_i$)}\label{alg:cap}
+\begin{algorithmic}
+\item \textbf{init:}
+\item -$h_i \leftarrow 0$
+\item -event local $e$ à $p_i: h_i \leftarrow h_{i+1} H(e)=(h_i,i)$
+\item -envoi de message $m$ par $p_i: h_i \leftarrow h_{i+1}, H(e)=(h_i,i)$, 
+envoi $(m,h_i)$
+\item -reception de message $(m,h)$ par $p_i: hi=max(h_i,h)+1, H(e)=(h_i,i)$
+\end{algorithmic}
+\end{algorithm}
+
+
+![](img/IMG-1.jpg)
+
+$H(e) < H(e')$ ssi:
+$$\left\{\begin{array}{lll}
+H(e).h & < & H(e').h \text{ ou}\\
+H(e).h & = & H(e').h \text{ et}\\
+H(e).id & < & H(e').id
+\end{array}\right.$$
+
+**1ere remarque:** les horloges de 2 events sont tjrs differentes
+
+**2e remarque:** L'horloge de Lanport rellete la relation suivante:
+$$H(e) < H(e') \implies (e\to e') \text{ ou } (e||e')$$
+$$\text{et } e\to e' \implies H(e)< H(e')$$
+
+**Exemples:**
+$$H(e_1^1) < H(e_2^1)$$
+$$\begin{array}{lll}
+H(e_1^2).h&=&1\\
+H(e_2^1).h&=&1
+\end{array}$$
+
+et
+
+$$\begin{array}{lll}
+H(e_1^2).id&=&1\\
+H(e_2^1).id&=&2
+\end{array}$$
+
+et on a $e_1^1||e_2^1$ (concurrents)
+
+$H(e_1^1) < H(e_1^2)$ et $e_1^1\to e_1^2$
+
+## Construction ordre global sur les évenements
+
+on va avoir un ordre total
+
+$$e < e' < e'' \text{ sur les events}$$
+$e < e'$ indique que l'ordre partiel suivant est réspecté:
+$$e\to e'$$
+$$e|| e'$$
+$e < e' \implies (e \to e')$ ou $(e || e')$.
+
+## Construction de l'ordre totale
+
+On ordronne les évenements par leur valeur d'horloge.
+
+![](img/IMG-3.jpg)
+
+# Wednesday February 15th Exercises
+
+## TD2 - Horloges
+
+Avec cette construction on aura l'équation suivante:
+$$e\to e' \Leftrightarrow V(e) < V(e')$$
+en terme d'espace mémoire $O(n)$
+(il faut stocker un vecteur d'entiers de taille n)
+
+\begin{algorithm}
+\caption{Algorithme de construction (en supposant n sites)}\label{alg:cap}
+\begin{algorithmic}
+\item \textbf{init:}
+\item - un precesseur $p_i$ et un vecteur $V_i$ de taille n dont les valeurs sont 
+initialisés à 0.
+\item - A chaque evenement e on associe une valeure d'horloge
+\item - A chaque event $V_i[i] \leftarrow V_i[i]+1$
+\item - Lors s'une emission, le vecteur $V_i$ est envoyé dans le message
+\item - Lors d'une reception contenant le vecteur D:
+\For{chaque case j!=i}
+\State $V_i[j]\leftarrow max(V_i[j],D[j])$
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+![](img/IMG-4.jpg)
+
+___Comment comparer 2 horloges ?___
+
+$$\begin{array}{lll}
+V\leq V'&ssi& \forall j V[j] \leq V[j']\\
+V\leq V'&ssi& V \leq V' et \exists k tq V[k] < V'[k]\\
+V || V'&ssi& !(V \leq V') \cap ! (V' \leq V)
+\end{array}$$
+
+**Exemple:**
+Horloges incompatibles
+$$\begin{array}{llll}
+&V(e_1^1)&=&[1 0 0]\\
+\text{et }& V(e_2^1)&=&[0 1 0]\\
+\text{car }& V(e_1^1)[1]&>&V(e_2^1)[1]\\
+\text{et }& V(e_2^1)[2]&>&V(e_1^1)[2]\\
+\text{donc }& e_1^1 &||& e_2^1
+\end{array}$$
+
+### Question 1
+
+![Diagramme Question 1](img/IMG-5.jpg)
+
+### Question 2
+
+$$e_1 < e_3 < e_2 < e_4 < e_5 < e_6 < e_7< e_9 < e_8 < e_{11} < e_{10} < e_{12}$$
+$$e_2 < e_4 < e_1 < e_3 < e_5 < e_6 < e_7< e_9 < e_8 < e_{11} < e_{10} < e_{12}$$
+$$e_2 < e_1 < e_4 < e_3 < e_5 < e_6 < e_7< e_9 < e_8 < e_{11} < e_{10} < e_{12}$$
+
+### Question 3
+
+* 1$^\text{er}$ possible.
+
+* 2$^\text{e}$: $e_5$ avant $e_4$ pas possible car $e_4 \to e_5$ (local).
+
+### Question 4
+
+$$\begin{array}{llll}
+e_9 &\to & e_{11}& \text{(local)}\\
+e_5 &\to & e_{7}& \text{(message)}\\
+e_1 &\to & e_{11}& \text{(transitivité)}\\
+e_2 &\to & e_{11}& \text{(transitivité)}\\
+e_1 &|| & e_{5}& \text{(!concurrent)}\\
+e_7 &|| & e_{11}& \text{(!concurrent)}
+\end{array}$$
+
+### Question 5
+
+Les évenements précedant $e_9$ sont: $e_1,e_2,e_3,e_4,e_5,e_6$
+
+### Question 6
+
+event|$e_1$|$e_2$|$e_3$|$e_4$|$e_5$|$e_6$|$e_7$|$e_8$|$e_9$|$e_{10}$|$e_{11}$|$e_{12}$
+---|---|---|---|---|---|---|---|---|---|---|---|---
+Lanport|1,2|1,4|2,3|2,1|3,1|4,1|4,4|5,4|5,3|6,1|6,3|7,1
+Vecteur|[0100]|[0001]|[0110]|[1001]|[2001]|[3001]|[2002]|[2003]|[5121]|[4003]|[3131]|[5003]
+
+# Wednesday February 15th Courses
+
+## Exclusion Mutuelle
+
+* a. Spécification du problème
+
+* b. 2 algos basés sur des permissions
+
+* c. 2 algos basés sur de la circulation de jetons
+
+Un algo d'exclusion mutuelle doit vérifier les 2 propriétés suivantes:
+
+* 1. Sûreté: la Section critique n'est pas acceder en parallele par des sites
+
+* 2. Vivacité: un site qui va vouloir entrer en section critique doit le faire en temps
+fini.
+
+## Algo Ricart-Agrawala avec permission
+
+**Principe:** 
+
+* Chaque site $i$ va avoir une date de demande d'entrer sur sit (last$_i$)
+
+* Un noeud va entrer en sc s'il reçoit la permission de tous ses voisins.
+
+### Hypothèse sur le réseau:
+
+* le réseau forme un graphe complet, il existe un lien de com entre toutes les paires
+de sommets.
+
+* identifié: tous les noeufs ont un numéro
+
+* asynchrone: les messages arrivent en temps fini.
+
+### Principe de l'algo
+
+* Un noeud qui veut rentrer en section critique va diffuser sa demande à ses voisins. 
+Il va envoyer sa date$_i$ de derniere demande d'entrer en SC.
+
+* Un voisin va lui accorder la permission. Si il veut aussi entrer en sc, il va accorder la permission si sa date de demande est anterieure.
+
+**types de messages:**
+
+* Perm: Quand un noeud accorde la permission d'entrer en sc à un autre.
+
+* Dem(h,j): requete de demande d'entrée en sc avec h la date de j.
+
+
+# Wednesday February 15th 2023 Exercises
+## TD3 - Exclusion Mutuelle
+### Exercice 1
+
+1. P2 à fait une demande, puis P3 a fait une demande, puis P2. P1 n'a pas
+fait de demande. 
+2. P2, P2, P3, P4
+3. P1 a fait 0 demande. P2 peut farie n demande, P3 peut faire m demande, P4 peut faire k demande
+4. a) C'est P3 car P3 fait dem(4,3) et P1 fait dem(4,1) or (4,1) < (4,3)
+   b) à la fin, P1(4,4), P2(4,1), P3(4,4), P4(4,3)
+   c) après C0, il y a eu 12 messages (6 demandes et 6 permissions).
+  
+5. P1 et P4 vont faire une demande en parallele:\
+\qquad P4: dem(3,4)\
+\qquad P1: dem(4,1)
+P1 va voir sa demande refusé car 3<4
+
+# Courses
+
+algo d'exclusion mutuelle avec un jeton
+
+Hypothese: no va avoir un réseau en commun.
+
+//TORE ORIENTE
+
+Algo: un jeton unique circule sur l'anneau
+
+Connaissance : successive (le voisin dans l'anneau)
+
+variables: etat$_i$ = \{S,SC,E\}
+
+Algo:
+
+* sur demande d'entrée en sc
+
+* sur sortie de sc
+
+* sur reception du jeton de sc

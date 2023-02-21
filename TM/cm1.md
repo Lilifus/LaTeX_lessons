@@ -1,11 +1,22 @@
 
 ---
 title: Technique de modélisation
+author: Zakaria EJJED
 documentclass: article
+header-includes:
+    - \usepackage{algorithm}
+    - \usepackage{algpseudocode}
+    - \usepackage{tikz}
+    - \usepackage{fancyhdr}
 toc: true
+geometry:
+    - margin=2cm
 ...
 
-//pandoc user guide pour la doc
+\pagestyle{fancy}
+\newcommand{\deer}{\includegraphics[scale=0.5]{/home/zakaria/Pictures/deer_sig.png}}
+\fancyfoot[RE,RO]{\deer}
+
 
 # Wednesday January 25 2023 Course
 ## I - Equations differentielles
@@ -22,8 +33,7 @@ Les EDP concernent les fonctions à plusieurs variables et les dérivées partie
 On dit qu'une équation est à coefficient constant si les coefficients devant la fonction et ses dérivées sont constants.
 Dans le cas contraire on parle d'EDO ou d'EDP à coefficients variables.
 * On dit qu'une EDP ou une EDO est homogène si tous ses termes dépendent de la fonction inconuue.
-Dans le cas contraire on parle d'EDO ou d'EDP non homogène.
-* Une distinction importante est de savoir si une EDO ou EDP est linéaire ou non linéaire.
+Dans le cas contraire on parle d'EDO ou d'EDP non homogène. * Une distinction importante est de savoir si une EDO ou EDP est linéaire ou non linéaire.
 Pour répondre à cette question on va transformer notre equation sous la forme: $L(u)=f$
 On dira que l'équation est linéaire si l'opérateur associé $L$ est linéaire.
 Dans le cas contraire, elle sera non linéaire.
@@ -209,4 +219,212 @@ Les variables sont $x$ et $t$, l'équation est donc une \textbf{EDP}.
 5. $(u(t))^{(2)}+u(t)=e^t$
 
 La seule variable est $t$, l'équation est donc une \textbf{EDO}.
+
+# Tuesday February 21st 2023 Exercises
+
+## Exercise 2
+
+* Correction manquante
+
+## Exercice 3
+
+* 1. \
+$$\left\{\begin{array}{lll}
+\frac{\partial u}{\partial t} + 2x\frac{\partial u}{\partial x} &=& 0  
+\qquad x\in \mathbb{R}, t > 0,\\
+u(x,0)&=&e^{-x^2}
+\end{array}\right.$$\
+$$\frac{\partial u}{\partial t}+\frac{\partial x(t)}{\partial t}
+\frac{\partial u}{\partial x}=0$$
+Courbe caractéristique:
+$\left\{\begin{array}{lll}
+\frac{\partial x(t)}{\partial t}=2x\\
+x(t=0)=x_0
+\end{array}\right.$\
+$$\begin{array}{llll}
+&x(t)&=&Ke^{2t}\\
+&x(t)&=&x_0e^{2t}\\
+\Rightarrow & x_0 & = & xe^{-2t}
+\end{array}$$\
+Sur la courbe caractéristique:\
+$$\begin{array}{lll}
+\frac{\partial u}{\partial t}&=&\frac{\partial x}{\partial t}\frac{\partial u}{\partial x}+
+\frac{\partial t}{\partial t}\frac{\partial u}{\partial t}\\
+&=&2x\frac{\partial u}{\partial x}+\frac{\partial u}{\partial t}=0
+\end{array}$$\
+$\int^t_0 \frac{\partial u}{\partial t} = \int^t_0 0 = 0 = u(x,t) - u(x_0,0)$\
+$$\begin{array}{lll}
+\Rightarrow u(x,t)&=&u(x_0,0)\\
+&=&\phi(x_0)\\
+&=&e^{-x_0^2}\\
+&=&e^{-(xe^{-2t})^2}
+\end{array}$$
+
+
+* 2. \
+$$\left\{\begin{array}{lll}
+\frac{\partial u}{\partial t} - x\frac{\partial u}{\partial x} &=& 0  
+\qquad x\in \mathbb{R}, t > 0,\\
+u(x,0)&=&sin(87x)
+\end{array}\right.$$\
+$$\frac{\partial u}{\partial t}+\frac{\partial x(t)}{\partial t}
+\frac{\partial u}{\partial x}=0$$
+Courbe caractéristique:
+$\left\{\begin{array}{lll}
+\frac{\partial x(t)}{\partial t}=-x\\
+x(t=0)=x_0
+\end{array}\right.$\
+$$\begin{array}{llll}
+&x(t)&=&Ke^{-t}\\
+&x(t)&=&x_0e^{-t}\\
+\Rightarrow & x_0 & = & xe^{t}
+\end{array}$$\
+Sur la courbe caractéristique:\
+$$\begin{array}{lll}
+\frac{\partial u}{\partial t}&=&\frac{\partial x}{\partial t}\frac{\partial u}{\partial x}+
+\frac{\partial t}{\partial t}\frac{\partial u}{\partial t}\\
+&=&-x\frac{\partial u}{\partial x}+\frac{\partial u}{\partial t}=0
+\end{array}$$\
+$\int^t_0 \frac{\partial u}{\partial t} = \int^t_0 0 = 0 = u(x,t) - u(x_0,0)$\
+$$\begin{array}{lll}
+\Rightarrow u(x,t)&=&u(x_0,0)\\
+&=&\phi(x_0)\\
+&=&sin(87x_0)\\
+&=&sin(87xe^t)
+\end{array}$$
+
+* 3.\
+$$\left\{\begin{array}{lll}
+\frac{\partial u}{\partial t} + x\frac{\partial u}{\partial x} &=& x  \qquad x\in \mathbb{R}, t > 0,\\
+u(x,0)=x_0
+\end{array}\right.$$\
+Courbe caractéristique:
+$\left\{\begin{array}{lll}
+\frac{\partial x(t)}{\partial t}=x(t) (\leftarrow a(x,t) )\\
+x(0)=x_0
+\end{array}\right.$\
+Donc $x(t) = Ke^t$ avec $K \in \mathbb{R}$\
+Or, $x(0)=x_0=Kxe^0$ donc $x(t) = x_0e^t$\
+Si $u$ est solution alors: 
+$$\begin{array}{lll}
+\frac{\partial u(x(t),t)}{\partial t}&=& 
+\frac{\partial u}{\partial x} \frac{\partial x(t)}{\partial t} +
+\frac{\partial u}{\partial t} \frac{\partial t}{\partial t} \\
+&&(\frac{\partial x(t)}{\partial t}
+=x(t)\text{ car u est le long d'une courbe caractéristique})\quad\&\quad(\frac{\partial t}{\partial t}= 1)\\
+&=& \frac{\partial u}{\partial t} + 
+x\frac{\partial u}{\partial x}\\&=& x
+\end{array}$$\
+$$\begin{array}{lll}
+\int^t_0 \frac{\partial u(x(\tau),\tau)}{\partial t} \partial\tau &=& \int^t_0 x(\tau) 
+\partial \tau\\
+\text{donc } u(x(t),t) - u(x(0),0) &= &[x_0e^\tau]^t_0\\
+\text{donc } u(x(t),t) &=& cos(90x_0) + x_0e^t -x_0 
+\end{array}$$
+
+$$\begin{array}{lll}
+u(x,t)&=&cos(90xe^{-t}+x-xe^{-t} \\
+u(x,t)&=&cos(90xe^{-t}+x(1-e^{-t}) \\
+x_0&=&xe^{-t}
+\end{array}$$
+
+* 4.\
+$$\left\{\begin{array}{lll}
+\frac{\partial u}{\partial t} + x\frac{\partial u}{\partial x} &=& x^2  \qquad x\in \mathbb{R}, t > 0,\\
+u(x,0)=sin(87x)cos(90x)
+\end{array}\right.$$\
+Courbe caractéristique:
+$\left\{\begin{array}{lll}
+\frac{\partial x(t)}{\partial t}=x(t) (\leftarrow a(x,t) )\\
+x(0)=x_0
+\end{array}\right.$\
+Donc $x(t) = Ke^t$ avec $K \in \mathbb{R}$\
+$$\begin{array}{llll}
+&x(t)&=&Ke^{t}\\
+&x(t)&=&x_0e^{t}\\
+\Rightarrow & x_0 & = & xe^{-t}
+\end{array}$$\
+SUITE....
+
+
+## Exercice 4
+
+
+$$\left\{\begin{array}{llll}
+\frac{\partial u}{\partial t} + \frac{\partial u}{\partial x} &=& u  
+\quad& x\in \mathbb{R}, t > 0,\\
+u(x,0)&=&\phi(x) \quad& x\in \mathbb{R}
+\end{array}\right.$$
+
+$$\frac{\partial u}{\partial t}+\frac{\partial x(t)}{\partial t}
+\frac{\partial u}{\partial x}=u$$
+
+Courbe caractéristique:
+$\left\{\begin{array}{lll}
+\frac{\partial x(t)}{\partial t}=1\\
+x(t=0)=x_0
+\end{array}\right.$
+
+$$\begin{array}{llll}
+&x(t)&=&t+cst\\
+&x(t)&=&t+x_0\\
+\Rightarrow & x_0 & = & x(t)-t
+\end{array}$$
+
+$$\begin{array}{lll}
+u(x(t),t)&=&Ke^t\\
+u(x(0),0)&=&K=\phi(x(0))
+\end{array}$$
+
+# Tuesday February 21st 2023 Course
+
+## b - Changement de variables
+### Equations des ondes :
+
+$u_{tt}(x,t)=u_{xx}(x,t)$  
+$u(x,0) = \phi (x)$  
+$u_t(x,0) = \psi (x)$  
+On pose  
+$\xi = x+t$  
+$\eta = x-t$  
+$u(x,t) = v(\xi ,\eta)$  
+$u_x(x,t) = \frac{\partial v(\xi ,\eta)}{\partial x} = \frac{\partial v}{\partial \xi}\frac{\partial \xi}{\partial x}+\frac{\partial v}{\partial \eta}\frac{\partial \eta}{\partial x}$  
+$= \partial_\xi v + \partial_\eta v$  
+$u_{xx}(x,t)=\partial x(\partial_\xi v) + \partial x(\partial_\eta v)$  
+$=\partial \xi(\partial x v) + \partial \eta(\partial x v)$  
+$=\partial \xi (\partial \xi v + \partial \eta v) + \partial \eta (\partial \xi v+ \partial \eta v)$  
+$= \partial^2_{\xi \xi} v + \partial^2_{\eta \xi} v + \partial^2_{\xi \eta}v + \partial^2_{\eta \eta} v$  
+$u_{xx}= \partial^2_{\xi \xi} v + 2\partial^2_{\eta \xi} v+ \partial^2_{\eta \eta} v$  
+$u_t = \frac{\partial v}{\partial t} = \frac{\partial \xi}{\partial t}\frac{\partial v }{\partial \xi}+
+\frac{\partial \eta}{\partial t}\frac{\partial v}{\partial \eta}$
+$=\partial_{\xi} v - \partial_{\eta}v$  
+
+
+$u_{tt}=\partial t(\partial_\xi v) - \partial t(\partial_\eta v)$  
+$=\partial \xi(\partial t v) - \partial \eta(\partial t v)$  
+$=\partial \xi (\partial \xi v - \partial \eta v) - \partial \eta (\partial \xi v- \partial \eta v)$  
+$= \partial^2_{\xi \xi} v - \partial^2_{\eta \xi} v - \partial^2_{\xi \eta}v + \partial^2_{\eta \eta} v$  
+$u_{tt}= \partial^2_{\xi \xi} v - 2\partial^2_{\eta \xi} v+ \partial^2_{\eta \eta} v$  
+$4\partial^2_{\eta \xi}v=0$  
+$\partial^2_{\eta \xi}v=0$  
+$\partial_{\eta} v = f_1(\eta)$  
+$v = \int f1(\eta) + c^k$ peut dÃ©pendre de $\xi$  
+$v(\xi , \eta) = f(\eta) + g(\xi)$  
+$u(x, t) = v(x+t, n-t) = f(x-t) + g(x+t)$  
+$u(x,t)=f(x-t)+g(x+t)$  
+$$u(x,0)=f(x)+g(x) = \phi (x)$$  
+$$u_t(x,0)=-f'(x)+g'(x) = \psi(x)$$  
+$g'(x)=\frac{\phi '(x)+\psi (x)}2$  
+$f'(x)=\frac{\phi '(x)-\psi (x)}2$  
+$g(x)=c_1 + \frac{\phi (x)}2 + \frac12\int \psi x$  
+$f(x)=c_2 + \frac{\phi (x)}2 - \frac12\int \psi x$  
+$f+g = c_1 + c_2 + \phi (x)$  
+$u(x,t)=\frac{\phi(x-t)}2 - \frac12 \int^{x-t}_0 \psi(z)\partial z+
+\frac{\phi(x+t)}2 + \frac12 \int^{x+t}_0 \psi(z)\partial z$
+$u(x,t)=\frac{\phi(x-t)+\phi(x+t)}2 + \frac12 \int_{x-t}^0 \psi(z)\partial z+
+\frac12 \int^{x+t}_0 \psi(z)\partial z$
+$u(x,t)=\frac{\phi(x-t)+\phi(x+t)}2 + \frac12 \int_{x-t}^{x+t} \psi(z)\partial z$
+
+# Tuesday February 21st Exercises (suite)
+
 
