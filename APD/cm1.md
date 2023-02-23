@@ -437,6 +437,7 @@ $$\Downarrow$$
     \draw (\from) -- (\to);
 \foreach \from/\val/\to in {1/3/2,2/7/3}
     \draw[->] (\from) to [out=-80,in=-100, looseness=1] node[below] {\val} (\to);
+
 \foreach \from/\val/\to in {2/7/1,3/9/2}
     \draw[->] (\from) to [out=100,in=80, looseness=1] node[above] {\val} (\to);
 \end{tikzpicture} 
@@ -900,7 +901,7 @@ en terme d'espace mémoire $O(n)$
 \caption{Algorithme de construction (en supposant n sites)}\label{alg:cap}
 \begin{algorithmic}
 \item \textbf{init:}
-\item - un precesseur $p_i$ et un vecteur $V_i$ de taille n dont les valeurs sont 
+\item - un processeur $p_i$ et un vecteur $V_i$ de taille n dont les valeurs sont 
 initialisés à 0.
 \item - A chaque evenement e on associe une valeure d'horloge
 \item - A chaque event $V_i[i] \leftarrow V_i[i]+1$
@@ -918,7 +919,7 @@ ___Comment comparer 2 horloges ?___
 
 $$\begin{array}{lll}
 V\leq V'&ssi& \forall j V[j] \leq V[j']\\
-V\leq V'&ssi& V \leq V' et \exists k tq V[k] < V'[k]\\
+V\leq V'&ssi& V \leq V' \text{ et }\exists k\text{ tq }V[k] < V'[k]\\
 V || V'&ssi& !(V \leq V') \cap ! (V' \leq V)
 \end{array}$$
 
@@ -1020,7 +1021,7 @@ Il va envoyer sa date$_i$ de derniere demande d'entrer en SC.
 
 # Wednesday February 15th 2023 Exercises
 ## TD3 - Exclusion Mutuelle
-### Exercice 1
+### Exercice 1 Algorithme basé sur les permissions de Ricart-Agrawala
 
 1. P2 à fait une demande, puis P3 a fait une demande, puis P2. P1 n'a pas
 fait de demande. 
@@ -1056,3 +1057,233 @@ Algo:
 * sur sortie de sc
 
 * sur reception du jeton de sc
+
+
+\newpage
+# Wednesday February 22nd 2023 Exercises
+## TD3 - Exclusion Mutuelle
+### Exercice 2 - Algorithme basé sur les permissions de Carvalho-Roucairol
+
+
+\begin{algorithm}[ht!]
+\caption{Variables et initialisations}\label{alg:cap}
+\begin{algorithmic}
+\item H est identique sauf initialisation
+\item h $attendu_i$
+\If{$g \in attendu_i$}
+    \State $i \notin attendu_j$
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[ht!]
+\caption{Sur réception de $Dem(h',j)$ de $j \to$}\label{alg:cap}
+\begin{algorithmic}
+\item Envoyer $Perm$ à $j \dots$
+\State $attendu_i \gets attendu_i U \{j\}$
+\If{etat = E}
+    \State envoyer $Dem(last_i,i)$ à $j$
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[ht!]
+\caption{Sur sortie de section critique $\to$}\label{alg:cap}
+\begin{algorithmic}
+\item Envoyer $Perm$ à $j\dots$
+\State $attendu_i \gets j$
+$\dots$
+\end{algorithmic}
+\end{algorithm}
+
+
+\newpage
+
+# Wednesday February 22nd 2023 Course
+On veut faire de l'exclusion mutuelle dans un reseau en anneau
+
+\begin{figure}[ht!]
+\begin{center}
+\begin{tikzpicture}[node distance={15mm},main/.style = {draw, circle}] 
+\node[main] (1) {1};
+\node[main] (2) [below right of=1] {2}; 
+\node[main] (3) [below of=2] {3}; 
+\node[main] (4) [below left of=3] {4}; 
+\node[main] (5) [above left of=4] {5}; 
+\node[main] (6) [above of=5] {6}; 
+\foreach \from/\to in {1/2,2/3,3/4,4/5,5/6,6/1}
+    \draw[->] (\from) -- (\to);
+\end{tikzpicture} 
+\end{center}
+\caption{ Orienté, les messages circulent dans une seule direction.}
+\end{figure}
+
+
+**L'idée:** il y a un jeton unique qui circule sur l'anneau. Le noeud qui a le jeton est 
+le seul à pouvoir entrer en sc.
+
+**Connaissance:** $succ_i$: le voisin successeur dans l'anneau avec qui 
+on peut communiquer
+
+**variables:** $etat_i$: s: sortie | sc: section critique | E: demande
+
+
+\begin{algorithm}[ht!]
+\caption{Algo de Lelann}\label{alg:cap}
+\begin{algorithmic}
+\item \textbf{Sur demande d'entrée en SC:}
+\State $etat \ gets E$
+\item \textbf{Sur réception de jeton:}
+\If{$etat=E$}
+    \State $etat \gets sc$
+\Else
+    \State envoyer jeton à $succ_i$
+\EndIf
+\item \textbf{Sur sortie de sc:}
+\State $etat \gets s$
+\State envoyer jeton à $succ_i$
+\end{algorithmic}
+\end{algorithm}
+
+
+Algorithme d'exclusion mutuelle basé sur ___une circulation de jeton___.
+
+**Ricard-Agrawala**
+
+**Hypothèse:** réseau complet, identifié
+
+**Principe:** Le jeton est un tableau avec autant de cases que de sites. Chaque case
+contient le nombre de demande du site associé à la case lorsque le jeton était sur le 
+site pour la dernière fois.
+
+# Wednesday February 22nd 2023 Exercises
+## TD3 - Exclusion Mutuelle
+### Exercice 3 - Algorithme basé sur la circulation d'un jeton de Ricart-Agrawala
+
+**a.**
+* P$_1$ fait la demande de sc:\
+ -met à jour son tableau\
+ -envoie Dem à ses voisins\
+ -supp qu'il reçoient la demande
+
+
+* P$_5$ va executer le code\
+    dans sortie de sc:\
+
+
+
+P$_i$|nb demande|JetonPresent|valeur jeton
+---|---|---|---
+P$_1$|10000|0|00000
+P$_2$|10000|0|
+P$_3$|10000|0|
+P$_4$|10000|0|
+P$_5$|10000|1|
+
+
+# Wednesday February 22nd 2023 Course
+
+**Hypothèse:** anneau orienté + identifié + asynchrone
+
+**Principe:**\
+- au départ, tous les sites sont dans l'état initial\
+- évenement initial: certains noeuds se déclarent spontanement candidats.\
+- les candidats envoient leurs id à leur successeurs\
+- un candidat conserve les ids reçus\
+- lorsqu'un candidat reçoit son propre id, il se déclare leader si cet id est le 
+minimum parmi ceux reçus.
+
+* Tous les messages font le tour de l'anneau.
+
+**connaissance:**  
+- $succ_i$
+
+**variables:**  
+- $max_i$ initialisé à $id_i$  
+- $etat_i$: \{candidat, leader, battu, init\}
+
+**Messages:** $Msg(id)$
+
+\begin{algorithm}[ht!]
+\caption{Algo de Lelann}\label{alg:cap}
+\begin{algorithmic}
+\item \textbf{Initialement:}
+\item *Sur un ensemble non vide de sommets*
+    \State $etat_i \gets candidat$
+    \State envoyer $Msg(i)$ à $succ_i$
+\item \textbf{Sur réception de $Msg(v)$ de $j$:}
+\If{$etat_i \in \{init, battu\}$}
+    \State $etat_i \gets battu$
+    \State envoyer $Msg(v)$ à $succ_i$
+    \State $min_i \gets min(v,min_i)$
+\Else
+    \If{$ v \neq i$}
+        \State $min_i \gets min(v,min_i)$
+        \State envoyer $Msg(v)$ à $succ_j$
+    \Else
+        \If {$min_i == i$}
+            \State $etat_i \gets leader_i$
+        \Else
+            \State $etat_i \gets battu_i$
+        \EndIf
+    \EndIf
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+**Remarque 1:** en supposant un anneau de taille n à k candidats.  
+Compléxité messages: O($n \times k$) $\quad k=O(n)$  
+Compléxité round: O(n)  
+
+**Remarque 2:** Quand un candidat reçoit son identifiant on est sûr qu'il a 
+reçu tous les ids de cndidats à une condition: que les canaux de com soient FIFO.
+
+# Wednesday February 22nd 2023 Exercises
+## TD5 - Election
+### Exercice 1 - Algorithme de Memann et son amélioration par Chang et Roberts.
+
+* 1.  
+Compléxité en message: O(?)
+
+* 2.  
+\begin{algorithm}[ht!]
+\caption{Algo de Chang et Roberts (à faire)}\label{alg:cap}
+\begin{algorithmic}
+\item \textbf{Initialement:}
+\item *Sur un ensemble non vide de sommets*
+    \State $etat_i \gets candidat$
+    \State envoyer $Msg(i)$ à $succ_i$
+\item \textbf{Sur réception de $Msg(v)$ de $j$:}
+\If{$etat_i \in \{init, battu\}$}
+    \State $etat_i \gets battu$
+    \State envoyer $Msg(v)$ à $succ_i$
+    \State $min_i \gets min(v,min_i)$
+\Else
+    \If{$ v \neq i$}
+        \State $min_i \gets min(v,min_i)$
+        \State envoyer $Msg(v)$ à $succ_j$
+    \Else
+        \If {$min_i == i$}
+            \State $etat_i \gets leader_i$
+        \Else
+            \State $etat_i \gets battu_i$
+        \EndIf
+    \EndIf
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

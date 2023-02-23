@@ -427,4 +427,221 @@ $u(x,t)=\frac{\phi(x-t)+\phi(x+t)}2 + \frac12 \int_{x-t}^{x+t} \psi(z)\partial z
 
 # Tuesday February 21st Exercises (suite)
 
+## Exercice 1
+
+* 1.\
+$\partial_x f - \partial_y f = a$, avec $u=x+y$ et $v=x-y$\
+$$\left\{\begin{array}{lll}
+\partial_x f - \partial_y f &=& a,\quad a\quad cst \in \mathbb{R}\\
+u&=&x+y\\
+v&=&x-y
+\end{array}\right.$$\
+$$\begin{array}{lll}
+f(x,y)&=&W(u,v)\\\\
+f_x(x,y)&=&\frac{\partial W(u,v)}{\partial x}\\
+&=&\frac{\partial W}{\partial u}\frac{\partial u}{\partial x}+
+\frac{\partial W}{\partial v}\frac{\partial v}{\partial x}\\
+&=&\frac{\partial W}{\partial u}+\frac{\partial W}{\partial v}\\\\
+f_y(x,y)&=&\frac{\partial W(u,v)}{\partial y}\\
+&=&\frac{\partial W}{\partial u}\frac{\partial u}{\partial y}+
+\frac{\partial W}{\partial v}\frac{\partial v}{\partial y}\\
+&=&\frac{\partial W}{\partial u}-\frac{\partial W}{\partial v}
+\end{array}$$\
+
+$$f_x(x,y)-f_y(x,y)=a$$
+
+$\Rightarrow (\frac{\partial W}{\partial v} - (- \frac{\partial W}{\partial v})=a$
+$\Rightarrow 2 \frac{\partial W}{\partial v}=a$
+$\Rightarrow \int \frac{2 \partial W}{\partial v}=\int a$
+$\Rightarrow 2W= av + cst(u)$
+$\Rightarrow W= \frac{av + cst(u)}2 = \frac{a}2 v + g(u)$
+
+
+* 2.\
+$x\partial_x f = y\partial_y f$, avec $u=xy$ et $v=\frac{x}{y}$\
+$$\left\{\begin{array}{lll}
+x\partial_x f &=& y\partial_y f\\
+u&=&xy\\
+v&=&\frac{x}{y}
+\end{array}\right.$$\
+$$\begin{array}{lll}
+f(x,y)&=&W(u,v)\\\\
+f_x(x,y)&=&\frac{\partial W(u,v)}{\partial x}\\
+&=&\frac{\partial W}{\partial u}\frac{\partial u}{\partial x}+
+\frac{\partial W}{\partial v}\frac{\partial v}{\partial x}\\
+&=&\frac{y\partial W}{\partial u}+\frac{\partial W}{y\partial v}\\\\
+f_y(x,y)&=&\frac{\partial W(u,v)}{\partial y}\\
+&=&\frac{\partial W}{\partial u}\frac{\partial u}{\partial y}+
+\frac{\partial W}{\partial v}\frac{\partial v}{\partial y}\\
+&=&\frac{x\partial W}{\partial u}+\frac{\partial W}{\partial v}\frac{-x}{y^2}
+\end{array}$$  
+$$xf_x(x,y)=yf_y(x,y)$$  
+$\Rightarrow xy \frac{\partial W}{\partial u} + \frac{x}{y}\frac{\partial W}{\partial v}=
+xy \frac{\partial W}{\partial u} + \frac{-x}{y}\frac{\partial W}{\partial v}$  
+$\Rightarrow u \frac{\partial W}{\partial u} + v \frac{\partial W}{\partial v}=
+u \frac{\partial W}{\partial u} -v \frac{\partial W}{\partial v}$  
+$\Rightarrow 2v\frac{\partial W}{\partial v} = 0$
+$\Rightarrow \frac{\partial W}{\partial v} = 0$ $v=0$ ou 
+$\frac{\partial W}{\partial v}=0$  
+$\hookrightarrow W_v=0$  
+$\exists g \in C^1$ tq $W(u,v)=g(u)$  
+$\exists g \in C^1 / f(x,y)=g(xy)$
+
+# Thursday February 23rd 2023 Cours
+## c - Méthode de séparation de variables
+
+* Considérons l'équation de la chaleur:  
+$$(Y)\left\{\begin{array}{lll}
+\forall (x,t) \in ]0,L[ \times \mathbb{R}^{t \alpha} & u_t(x,t) = \beta u_{xx}(x,t) & 
+\beta > 0\\
+u(0,t)=u(t,t)=0 & \forall t > 0&\\
+u(x,0)=f(x)&&
+\end{array}\right.$$  
+On suppose que la solution de cette équation peut s'écrire sous la forme 
+$u(x,t) = X(x)T(t)$ (séparation de variable) pour tout (x,t) $\in ]0,L[ \times
+\mathbb{R}^{t\alpha}$  
+En injectant dans (Y) on obtient:  
+$$\partial_t(X(x)T(t))=\beta \partial_{xx}(X(x)T(t)$$
+$$X.T'=\beta T.X''$$
+$$\frac{X}{X''} = \frac{\beta T}{T'} \text{ ou } \frac{X''}{X}=\frac{T'}{\beta T}$$
+$$\frac{X''}{X}\to \text{ ne dépend que de "x" } \to \text{ forcément constant } \gets
+\text{ ne dépends que de "t" } \gets \frac{T'}{\beta T}$$  
+$\exists \lambda \in \mathbb{R}$ tq $\frac{X''}{X}=\frac{T'}{\beta T} = - \lambda$  
+soit $X''=-\lambda X$ et $T' = - \lambda \beta T$  
+
+$$\forall t \in \mathbb{R}^{+*}\left|\begin{array}{lll}
+u(0,t)=&X(0)T(t)&=0\\
+u(L,t)=&X(L)T(t)&=0
+\end{array}\right\}  
+\Rightarrow
+\begin{array}{l}
+X(0)=0\\
+X(L)=0
+\end{array}$$
+
+Si on veut autre chose que la solution triviale $u=0$  
+On doit donc résoudre:  
+$$\left\{\begin{array}{lllll}
+X''&+&\lambda X&=&0\\
+X(0)&=&X(L)&=&0
+\end{array}\right.$$  
+Polynôme caractéristique associé à $X''+ \lambda X = 0$ est  
+$$r^2+\lambda=0$$  
+$$r^2=-\lambda$$
+
+**Remarque:**  
+$$\begin{array}{llll}
+&ay''+by'+cy&=&0\\
+\hookrightarrow & ar^2+br+c&=&0
+\end{array}$$  
+___cas 1:___ 2 solutions réelles $r_1,r_2$  
+$$y(z)=\alpha_1 e^{r_1 Z} + \alpha_2 e^{r_2 z} \quad
+(\alpha_1, \alpha_2) \in \mathbb{R}^2$$
+
+___cas 2:___ 2 solutions complexes $c_1,c_2$  
+$$y(z)=\alpha_1 e^{c_1 Z} + \alpha_2 e^{c_2 z} \quad
+(\alpha_1, \alpha_2) \in \mathbb{R}^2$$
+$$ = \gamma_1 cos(\omega z) + \gamma_2 sin(\omega z)$$
+$$ \omega = \sqrt{|b^2-4ac|}$$
+
+___cas 3:___ 1 solutions double $d_1$  
+$$y(z)=\delta_1 ze^{d_1 z}+\delta_2 ze^{d_2 z}$$  
+$$=\delta_1 z +\delta_2 = e^{d_1 z}$$  
+
+**$$r^2 = -\lambda$$**
+**cas 1** :$-\lambda > 0$  
+$r_1 = \sqrt{- \lambda} \quad r_2 = -\sqrt{- \lambda}$  
+$X(x) = \alpha_1 e^{\sqrt{-\lambda}x} + \alpha_2 e^{-\sqrt{-\lambda}x}$  
+$$
+\begin{array}{ll}
+  X(0) = 0 = \alpha_1 + \alpha_2 &\\
+  X(L) = 0 = \alpha_1 e^{\sqrt{-\lambda}L}+\alpha_2 e^{- \sqrt{-\lambda}L} & \\
+  \Leftrightarrow & \alpha_2 = - \alpha_1 \\
+  & \alpha_1 e^{\sqrt{-\lambda}L} - \alpha_1 e^{-\sqrt{-\lambda}L} = 0\\
+  & \alpha_1(e^{\sqrt{-\lambda}L} -e^{-\sqrt{-\lambda}L})\\
+  & \alpha_1 = 0 \quad e^{\sqrt{-\lambda}L} - e^{-\sqrt{-\lambda}L} = 0\\
+  & \alpha_1 = 0 \implies \alpha_2 = 0\\
+  & \implies X = 0 \implies u = 0
+\end{array}
+$$
+
+___cas 3:___ $-\lambda < 0$  
+$$X(x)=c_1 cos(\sqrt{\lambda} x ) + c_2 sin(\sqrt{\lambda}x)$$
+$$\left.\begin{array}{lll}
+X(0)&=&c_1 cos(0) + c_2 sin(0)\\
+&=&c_1\\
+&=&0
+\end{array}\right\}\Rightarrow c_1=0$$
+$$X(L) = c_1 cos (\sqrt{\lambda} L) + c_2 sin(\sqrt{\lambda} L) = 0$$
+$$c_2 sin(\sqrt{\lambda}L)=0 \Rightarrow c_2=0 \text{ ou } sin(\sqrt{\lambda}L)=0$$
+
+___si___ $c_2 = 0, c_2 = c_1 = 0 \Rightarrow X=0 \Rightarrow c_1 = 0$
+$$sin(\sqrt{\lambda}L)=0$$
+$$\begin{array}{llll}
+\sqrt{\lambda}L&=&k\pi&\quad k \in \mathbb{Z}^*\\
+\lambda&=&(\frac{k\pi}L)^2&\quad k \in \mathbb{Z}^*
+\end{array}$$
+
+Si l'on veut une solution non-triviale il faut que 
+$$ \lambda=(\frac{k\pi}L)^2 \quad k \in \mathbb{Z}^*$$
+
+### Principe de superposition
+
+Pour des EDP linéaire homogènes, si u et v sont solution de cette EDP alors toute 
+combinaison linéaire de ces solutions est encore solution de l'EDP.
+
+On introduit $X_k$ qui va être la solution de
+$$X''_k+ (\frac{2\pi}L)^2 X_k=0$$
+$$X_k=a_k sin(\frac{k\pi}L x)$$
+
+On introduit $T_k$ solution de l'équation:
+$$\begin{array}{ll}
+T'_k = &- \beta (\frac{k\pi}L)^2 T_k\\
+T(t)=& b_k e^{- \beta (\frac{k\pi}L)^2 t}
+\end{array}$$
+
+$$u_k(x,t)=T_k(t)X_k(x)=a_kb_ke^{- \beta (\frac{k\pi}L)^2 t} sin(\frac{k\pi}L x)$$
+$$u_k(x,t)=x_ke^{- \beta (\frac{k\pi}L)^2 t}sin(\frac{k\pi}L x)$$
+$$u(x,t)=\sum^{+\infty}_{k=1} c_ke^{- \beta (\frac{k\pi}L)^2 t} sin(\frac{k\pi}L x)$$ 
+
+$$\begin{array}{lll}
+u(x,0)&=&f(x)\\
+&=&\sum^{+\infty}_{k=1} c_k sin(\frac{k\pi}L x)
+\end{array}$$
+
+On calcule la série de fourrier de de "$f$" et par unicité de ce développement on 
+identifie les coefficients "$c_k$" ou coefficients "$\alpha_k$" de $f$.  
+Si $f(x) = \sum^{+\infty}_{k=1} \alpha_k sin(\frac{k\pi}L x)$ alors  
+$\forall k \in \mathbb{N}^* \quad c_k =\alpha_k$
+$$u(x,t)=\sum^{+\infty}_{k=1} \alpha_ke^{- \beta (\frac{k\pi}L)^2 t} sin(\frac{k\pi}L x)$$ 
+
+**Calcul des $\alpha_k$:**  
+Le père de Fourier en "$sinus$" sur $]0,L[$ de $f$ est:  
+$\sum^{\infty}_{k=1} \alpha_k sin(\frac{k\pi}L$ avec  
+$\alpha_k \frac2L \int^L_0 f(x)sin(\frac{k\pi}L x) dx$  
+De même la série de Fourier en "$cosinus$" sur $[0,L]$ de $f$ est:
+$f(x) = \frac{\gamma_0}2 + \sum^{+\infty}_{k=1} \gamma_k cos(\frac{k\pi}L x)$  
+avec $\gamma_k = \frac2L \int^L_0 f(x) cos(\frac{k\pi}L x) dx$
+
+**Exemple:**
+On considère ($Y$) avec $L=\pi \quad \beta=7$ et  
+$f(x)=3sin(2x) - 6sin(5x)$  
+$$\begin{array}{lll}
+u(x,t)&=&\sum^{+\infty}_{k=1} \alpha_ke^{-7 (\frac{k\pi}{\pi})^2 t} 
+sin(\frac{k\pi}{\pi} x)\\
+&=&\sum^{+\infty}_{k=1} \alpha_k e^{-7k^2t} sin (kx)\\\\
+u(x,0)&=&\sum^{+\infty}_{k=1} \alpha_k sin(k,x)
+\end{array}$$
+
+on a $f(x)=3sin(2x)-6sin(5x) \to$ (c'est déjà le développement en série de Fourier.
+
+on a donc:
+$$\begin{array}{lll}
+\alpha_2&=&3\\
+\alpha_5&=&-6
+\end{array}$$
+
+$\forall k \in \mathbb{N}^* \ \{2,5\} \quad \alpha_k=0$  
+$u(x,t)=3e^{-7\times 2^2 \times t} sin(2x) - 6e^{-7\times 2^2 \times t} sin(5x)$  
+$u(x,t)=3e^{-28t} sin(2x) - 6e^{-175t} sin(5x)$
 
