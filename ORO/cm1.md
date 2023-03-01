@@ -7,12 +7,15 @@ header-includes:
     - \usepackage{algorithm}
     - \usepackage{algpseudocode}
     - \usepackage{tikz}
-    - \usepackage{twemojis}
+    - \usepackage{fancyhdr}
 toc: true
+geometry:
+    - margin=2cm
 ...
-\newcommand{\deer}{\includegraphics[scale=0.5]{/home/zakaria/Pictures/deer_sig.png}}
 
-\pagebreak
+\pagestyle{fancy}
+\newcommand{\deer}{\includegraphics[height=1.5cm]{/home/zakaria/Pictures/deer_sig.png}}
+\fancyfoot[RE,RO]{\deer}
 
 # Thursday January 26 2023 Course
 
@@ -944,4 +947,85 @@ Donc si la 2e est $\leq$ 252 000, la 1ere est $\leq$ 252000 $\leq$ 275 400.
 ### Algo du simplexe
 ## III - Séparation et Evaluation
 
-\vfill \null \hfill \deer
+$$max\{x_1+3x_2\}$$
+$$sc\left\{\begin{array}{lll}
+x_1+x_2&\leq & 14\\
+-2x_1 + 3x_2 & \leq &12\\
+2x_1-x_2& \leq &12\\
+x_1,x_2&\geq & 0
+\end{array}\right.$$
+
+$$max\{2x_1+x_2\}$$
+$$sc\left\{\begin{array}{lll}
+x_1-x_2&\leq & 3\\
+x_1 + 2x_2 & \leq &6\\
+-x_1+2x_2& \leq &2\\
+x_1,x_2&\geq & 0
+\end{array}\right.$$
+
+
+$$min\{x_2-x_1\}$$
+$$sc\left\{\begin{array}{lll}
+2x_1-x_2&\geq & -2\\
+x_1 - x_2 & \leq &2\\
+x_1+x_2& \leq &5\\
+x_1,x_2&\geq & 0
+\end{array}\right.$$
+
+
+$$max\{x_1+2x_2\}$$
+$$sc\left\{\begin{array}{lll}
+x_1-\frac15 x_2&\leq & 1\\
+x_1 + x_2 & \geq &6\\
+-x_1+x_2& = &3\\
+x_1,x_2&\geq & 0
+\end{array}\right.$$
+
+$$max(min)\{x_1+2x_2\}$$
+$$sc\left\{\begin{array}{lll}
+-2x_1+ x_2&\leq & 2\\
+-x_1 + 2x_2 & \leq &5\\
+x_1-3x_2& \leq &4
+\end{array}\right.$$
+
+# Thursday February 23rd 2023 Cours
+## L'algorithme de simplexe
+
+On considère un problème de programmation linéaire sous la forme:  
+$max\{c_1x_1+c_2x_2+\dots+c_nx_n$\}$  
+On impose de plus que $\forall j, b_j \geq 0,$ ou de façon équivalente, que 0 soit
+solution réalisable. Le fait que 0 soit réalisable et que l'on ait des contraintes de 
+signe sur les $x_i$ permet que 0 soit un sommet du polygone, qui donnera un point
+de départ à l'algo.  
+On transforme les contraintes en équations en posant pour tout $1\leq j\leq k$.  
+$$y_j =b_j - \sum^n_{i=1} a_{ji} x_i$$
+Ainsi on a :  
+$$\sum^n_{i=1}a_{ji}x_i+y_j=b_j \text{ (c'est la définition de }y_j)$$
+$$y_j \geq 0\text{ (c'est la contrainte que l'on transforme)}$$
+
+On appelle $y_j$ la variable d'écart associée à la ressource $j$: y_j représente la
+quantité de la ressource j qui n'est pas utilisée dans le plan de production.
+
+**Exemple:** $max\{x_1+ 3x_2\}$
+$$sc\left\{\begin{array}{lll}
+x_1+ x_2 +y_1&= & 14\\
+-2x_1 + 3x_2 + y_2 & = &12\\
+2x_1 - x_2 + y_3 & = &12\\
+x_1,x_2,y_1,y_2,y_3& \geq &0
+\end{array}\right.$$
+
+Le problème défini par les contraintes:
+$$\forall j, \sum a_{ji}x_i+y_j=b_j$$
+admet une solution évidente: on pose $y_j=b_j$ pour chacune des contraintes (on a le 
+droit car $b_j \geq$); on pose x_i=0 pour tout $i$.
+
+**Exemple:** $x_1=x_2=0; y_1=14,y_2=12,y_3=12$  
+Le but de l'algorithme du simplexe est de transformer ce système d'équations en un
+système équivalent, ayant toujours la même structure (à chaque ligne est associée une 
+colonne rempli de 0, sauf sur 1 à l'intersection avec cette ligne), garantissant qu'on
+a toujours une solution évidente avec cette fois-ci une meilleur solution.  
+On choisit une variable ayant un coefficient superieur à 0 dans la fonction objective
+(en général celle ayant le coefficient le plus élevé; règle du pivot de Dantzig.
+On calcule alors jusqu'à combien on peut augmenter cette variable sans violer les 
+contraintes, et en laissant à zéro les autres variables déjà à zéro dans la solution 
+évidente.
