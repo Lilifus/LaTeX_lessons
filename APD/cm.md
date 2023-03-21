@@ -143,7 +143,7 @@ Nombre d'arêtes dans un arbre, sans sommet de degré 0: n-1\
 \end{tikzpicture} 
 \end{center}
 
-* ___arbres enracinés___: Arbres don orienté dans lequel on distingue un noeud racine.
+* ___arbres enracinés___: Arbres non orienté dans lequel on distingue un noeud racine.
 
 \begin{center}
 \begin{tikzpicture}[node distance={15mm},main/.style = {draw, circle}] 
@@ -253,7 +253,7 @@ résoudre des problèmes globaux.
 * ___objectif:___ résoudre problèmes globaux à l'aide d'algos locaux\
 $\to$ Les noeuds vont devoir communiquer entre eux par passage de message.\
 $\hookrightarrow$ 1 noeud peut recevoir 1 message (on sait qui nous l'a envoyé).
-$\hookrightarrow$ 1 noeud peut envoyer 1 message à son voisin/
+$\hookrightarrow$ 1 noeud peut envoyer 1 message à son voisin.
 
 ___mini exemple:___
 
@@ -304,7 +304,7 @@ ___calcul:___ sur réception de var faire le calcul de max (var $x_1$, var $x_2$
 
  * **Les types de variables:**\
  * locals: on les indices par l'identifiant du site|noeud i \
- * $hookrightarrow$ connaissance: elles ne sont accessibles qu'en lecture, elles servent
+ * $\hookrightarrow$ connaissance: elles ne sont accessibles qu'en lecture, elles servent
  à décider le système\
  par ex: voisin i, l'ensemble des voisin du sommet\
  * $\hookrightarrow$ variables locales au site pour les calculs. Elles sont accessible en lecture/ecriture.
@@ -493,7 +493,7 @@ b - hypothèse synchrone:
 
  **Terminaison des algorithmes**
 
- 1 algo termine quand dans toutes les exec il existe une config contenant aucun msd en transit et dans lequel aucun site n'a de regle gardées à vrai
+ 1 algo termine quand dans toutes les exec il existe une config contenant aucun msg en transit et dans lequel aucun site n'a de regle gardées à vrai
 
  - terminaison explicite: Il existe au moins 1 site qui sont que l'algo se termine $\hookrightarrow$
  c'est indiqué stop-globaldans le code.
@@ -566,201 +566,11 @@ en temps ..
 
 * synchrone: n-1
 * asynchrone: n-1
-
-## Exercie 2
-
-### 1.
-
-\begin{algorithm}
-\caption{Sur reception de message Msg(v) de j)}\label{alg:cap}
-\begin{algorithmic}
-\If{vois$_i == 1$}\Comment{(A)}
-    \State save$_i \gets v$
-    \State envoyer Retour(u) à j
-    \State stop-global
-\EndIf
-\If{vois$_i == 2$}
-    \State save$_i \gets v$
-    \State envoyer Msg(v) à vois$_i$ sans \{j\}
-    \State stop-global
-\EndIf
-\end{algorithmic}
-\end{algorithm}
-
-compléxité: O(2n) $\to$ O(n)
-
-\begin{algorithm}
-\caption{Sur reception de Retour(v) de j)}\label{alg:cap}
-\begin{algorithmic}
-\If{estRacine$_i == 1$}
-    \State stop-global
-\EndIf
-\If{vois$_i == 2$}
-    \State envoyer Msg(v) à vois$_i$ sans \{j\}
-    \State stop-global
-\EndIf
-\end{algorithmic}
-\end{algorithm}
-
-\begin{center}
-\begin{tikzpicture}[node distance={8mm},main/.style = {draw, circle}] 
-\node (0) {la racine doit recevoir une info de chacune des feuilles}; 
-\node[main] (1) [below left of=1] {}; 
-\node[main] (2) [below left of=1] {}; 
-\node[main] (3) [below of=1] {}; 
-\node[main] (4) [below right of=1] {}; 
-\node[main] (5) [below left of=3] {}; 
-\node[main] (6) [below of=3] {}; 
-\node[main] (7) [below right of=3] {}; 
-\node[main] (8) [below left of=2] {}; 
-\foreach \from/\to in {0/1,2/1,3/1,4/1,5/3,6/3,7/3,8/2}
-    \draw[->] (\from) -- (\to);
-\end{tikzpicture} 
-\end{center}
-
-**Connaissance:**
-
-père$_i$ le père du noeud$_i$. Vaut null pour la racine
-
-fils$_i$ les fils du noeud$_i$: vaut ndef pour les feuilles
-
-info$_i$: l'information à diffuser: ndef sauf pour les noeuds
-
-**Variables:**
-
-cpt$_i$: compter le nombre de messages reçus
-
-save$_i$: init à null, sert à sauvegarder l'info
-
-\begin{algorithm}
-\caption{INIT}\label{alg:cap}
-\begin{algorithmic}
-\If{fils$_i == 0$}
-    \State envoyer Msg(info$_i$) à père$_i$
-    \State stop-local
-\EndIf
-\end{algorithmic}
-\end{algorithm}
-
-\begin{algorithm}
-\caption{Sur réception de Msg(v) de j)}\label{alg:cap}
-\begin{algorithmic}
-\State cpt$_i$++
-\If{cpt$_i == $|fils$_i$|}
-    \State envoyer Msg(info$_i$) à père$_i$
-    \State save$_i \gets v$
-    \If{père$_i \neq null$}
-        \State envoyer Msg(v) à père$_i$\Comment{top-local}
-    \Else
-        \State stop-global
-    \EndIf
-\EndIf
-\end{algorithmic}
-\end{algorithm}
-
-compléxité en message: n-1 : 1 message par canal de comm
-
-n noeuds $\Rightarrow$ n-1 arêtes
-
-en temps: hauteur de l'arbre
-
-### 2.
-
-**Connaissance:**
-
-estRacine$_i$
-
-vois$_i$ voisins du sommet
-
-info$_i$: l'information à diffuser: ndef sauf pour les noeuds
-
-**Variables:**
-
-cpt$_i$: compter le nombre de messages reçus
-
-save$_i$: init à null, sert à sauvegarder l'info
-
-\begin{algorithm}
-\caption{INIT}\label{alg:cap}
-\begin{algorithmic}
-\If{vois$_i == 1$}
-    \State envoyer Msg(v) à vois$_i$
-    \State père$_i \gets$ vois$_i$
-    \State fils$_i \gets null$
-\EndIf
-\end{algorithmic}
-\end{algorithm}
-
-\begin{algorithm}
-\caption{Sur réception de Msg(v) de j)}\label{alg:cap}
-\begin{algorithmic}
-\State cpt$_i$++
-\State ajouter j dans fils i
-\If{estRacine$_i == 0$}
-    \If{|vois$_i| - cpt_i == 1$}
-        \State enoie msg(v) à vois$_i$ sans fils$_i$
-        \State père $\gets$ vois$_i$ sans fils$_i$
-        \State stop-local
-    \EndIf
-\Else
-    \If{père$_i == null$ AND cpt == |vois$_i$|}
-        \State stop-global
-    \EndIf
-\EndIf
-\end{algorithmic}
-\end{algorithm}
-
-## Exercice 4
-
-**Connaissance:**
-
-vois$_i$ 
-
-estRacine$_i$
-
-info$_i$
-
-**Variables:**
-
-père$_i = NULL$
-
-fils$_i = []$
-
-save$_i$: init à null, sert à sauvegarder l'info
-
-\begin{algorithm}
-\caption{INIT}\label{alg:cap}
-\begin{algorithmic}
-\If{estRacine}
-    \State envoyer Msg(val$_i$) à vois$_i$
-\EndIf
-\end{algorithmic}
-\end{algorithm}
-
-\begin{algorithm}
-\caption{Sur réception de Msg(v) de j)}\label{alg:cap}
-\begin{algorithmic}
-\If{estRacine$_i == 1$}
-    \State fils $\gets$ fils + j
-    \If{|fils|==|vois$_i$|}
-        stop-global
-    \EndIf
-\ElsIf{père$_i == null$ AND cpt == |vois$_i$|}
-        \State stop-global
-\EndIf
-\end{algorithmic}
-\end{algorithm}
-
-## Exercice 5
-
-**Consigne:** Soit un arbre enraciné dans lequel on a les ???, père$_i$, fils$_i$. 
-On demande 1 algo tel qu'à la fin de l'execution, la racine connaisse le nombre de noeuds de l'arbre avec 2 fils.
-
 # Wednesday February 15th 2023
 
 ## Causalité et horloges distribuées
 
-* Dans un système réparti, l'ordre dans lequel surviennent les éveneent est primordial.
+* Dans un système réparti, l'ordre dans lequel surviennent les évenement est primordial.
 
 * Il est nécessaire de définir des méthodes algorithmique qui premettent des relations
 causales entre les évenements.
@@ -888,90 +698,7 @@ On ordronne les évenements par leur valeur d'horloge.
 
 ![](img/IMG-3.jpg)
 
-# Wednesday February 15th Exercises
-
-## TD2 - Horloges
-
-Avec cette construction on aura l'équation suivante:
-$$e\to e' \Leftrightarrow V(e) < V(e')$$
-en terme d'espace mémoire $O(n)$
-(il faut stocker un vecteur d'entiers de taille n)
-
-\begin{algorithm}
-\caption{Algorithme de construction (en supposant n sites)}\label{alg:cap}
-\begin{algorithmic}
-\item \textbf{init:}
-\item - un processeur $p_i$ et un vecteur $V_i$ de taille n dont les valeurs sont 
-initialisés à 0.
-\item - A chaque evenement e on associe une valeure d'horloge
-\item - A chaque event $V_i[i] \leftarrow V_i[i]+1$
-\item - Lors s'une emission, le vecteur $V_i$ est envoyé dans le message
-\item - Lors d'une reception contenant le vecteur D:
-\For{chaque case j!=i}
-\State $V_i[j]\leftarrow max(V_i[j],D[j])$
-\EndFor
-\end{algorithmic}
-\end{algorithm}
-
-![](img/IMG-4.jpg)
-
-___Comment comparer 2 horloges ?___
-
-$$\begin{array}{lll}
-V\leq V'&ssi& \forall j V[j] \leq V[j']\\
-V\leq V'&ssi& V \leq V' \text{ et }\exists k\text{ tq }V[k] < V'[k]\\
-V || V'&ssi& !(V \leq V') \cap ! (V' \leq V)
-\end{array}$$
-
-**Exemple:**
-Horloges incompatibles
-$$\begin{array}{llll}
-&V(e_1^1)&=&[1 0 0]\\
-\text{et }& V(e_2^1)&=&[0 1 0]\\
-\text{car }& V(e_1^1)[1]&>&V(e_2^1)[1]\\
-\text{et }& V(e_2^1)[2]&>&V(e_1^1)[2]\\
-\text{donc }& e_1^1 &||& e_2^1
-\end{array}$$
-
-### Question 1
-
-![Diagramme Question 1](img/IMG-5.jpg)
-
-### Question 2
-
-$$e_1 < e_3 < e_2 < e_4 < e_5 < e_6 < e_7< e_9 < e_8 < e_{11} < e_{10} < e_{12}$$
-$$e_2 < e_4 < e_1 < e_3 < e_5 < e_6 < e_7< e_9 < e_8 < e_{11} < e_{10} < e_{12}$$
-$$e_2 < e_1 < e_4 < e_3 < e_5 < e_6 < e_7< e_9 < e_8 < e_{11} < e_{10} < e_{12}$$
-
-### Question 3
-
-* 1$^\text{er}$ possible.
-
-* 2$^\text{e}$: $e_5$ avant $e_4$ pas possible car $e_4 \to e_5$ (local).
-
-### Question 4
-
-$$\begin{array}{llll}
-e_9 &\to & e_{11}& \text{(local)}\\
-e_5 &\to & e_{7}& \text{(message)}\\
-e_1 &\to & e_{11}& \text{(transitivité)}\\
-e_2 &\to & e_{11}& \text{(transitivité)}\\
-e_1 &|| & e_{5}& \text{(!concurrent)}\\
-e_7 &|| & e_{11}& \text{(!concurrent)}
-\end{array}$$
-
-### Question 5
-
-Les évenements précedant $e_9$ sont: $e_1,e_2,e_3,e_4,e_5,e_6$
-
-### Question 6
-
-event|$e_1$|$e_2$|$e_3$|$e_4$|$e_5$|$e_6$|$e_7$|$e_8$|$e_9$|$e_{10}$|$e_{11}$|$e_{12}$
----|---|---|---|---|---|---|---|---|---|---|---|---
-Lanport|1,2|1,4|2,3|2,1|3,1|4,1|4,4|5,4|5,3|6,1|6,3|7,1
-Vecteur|[0100]|[0001]|[0110]|[1001]|[2001]|[3001]|[2002]|[2003]|[5121]|[4003]|[3131]|[5003]
-
-# Wednesday February 15th Courses
+# Wednesday February 15th
 
 ## Exclusion Mutuelle
 
@@ -1019,26 +746,8 @@ Il va envoyer sa date$_i$ de derniere demande d'entrer en SC.
 * Dem(h,j): requete de demande d'entrée en sc avec h la date de j.
 
 
-# Wednesday February 15th 2023 Exercises
-## TD3 - Exclusion Mutuelle
-### Exercice 1 Algorithme basé sur les permissions de Ricart-Agrawala
 
-1. P2 à fait une demande, puis P3 a fait une demande, puis P2. P1 n'a pas
-fait de demande. 
-2. P2, P2, P3, P4
-3. P1 a fait 0 demande. P2 peut farie n demande, P3 peut faire m demande, P4 peut faire k demande
-4. a) C'est P3 car P3 fait dem(4,3) et P1 fait dem(4,1) or (4,1) < (4,3)
-   b) à la fin, P1(4,4), P2(4,1), P3(4,4), P4(4,3)
-   c) après C0, il y a eu 12 messages (6 demandes et 6 permissions).
-  
-5. P1 et P4 vont faire une demande en parallele:\
-\qquad P4: dem(3,4)\
-\qquad P1: dem(4,1)
-P1 va voir sa demande refusé car 3<4
-
-# Courses
-
-algo d'exclusion mutuelle avec un jeton
+**algo d'exclusion mutuelle avec un jeton**
 
 Hypothese: no va avoir un réseau en commun.
 
@@ -1060,46 +769,7 @@ Algo:
 
 
 \newpage
-# Wednesday February 22nd 2023 Exercises
-## TD3 - Exclusion Mutuelle
-### Exercice 2 - Algorithme basé sur les permissions de Carvalho-Roucairol
-
-
-\begin{algorithm}[ht!]
-\caption{Variables et initialisations}\label{alg:cap}
-\begin{algorithmic}
-\item H est identique sauf initialisation
-\item h $attendu_i$
-\If{$g \in attendu_i$}
-    \State $i \notin attendu_j$
-\EndIf
-\end{algorithmic}
-\end{algorithm}
-
-\begin{algorithm}[ht!]
-\caption{Sur réception de $Dem(h',j)$ de $j \to$}\label{alg:cap}
-\begin{algorithmic}
-\item Envoyer $Perm$ à $j \dots$
-\State $attendu_i \gets attendu_i U \{j\}$
-\If{etat = E}
-    \State envoyer $Dem(last_i,i)$ à $j$
-\EndIf
-\end{algorithmic}
-\end{algorithm}
-
-\begin{algorithm}[ht!]
-\caption{Sur sortie de section critique $\to$}\label{alg:cap}
-\begin{algorithmic}
-\item Envoyer $Perm$ à $j\dots$
-\State $attendu_i \gets j$
-$\dots$
-\end{algorithmic}
-\end{algorithm}
-
-
-\newpage
-
-# Wednesday February 22nd 2023 Course
+# Wednesday February 22nd 2023
 On veut faire de l'exclusion mutuelle dans un reseau en anneau
 
 \begin{figure}[ht!]
@@ -1132,7 +802,7 @@ on peut communiquer
 \caption{Algo de Lelann}\label{alg:cap}
 \begin{algorithmic}
 \item \textbf{Sur demande d'entrée en SC:}
-\State $etat \ gets E$
+\State $etat \gets E$
 \item \textbf{Sur réception de jeton:}
 \If{$etat=E$}
     \State $etat \gets sc$
@@ -1155,33 +825,6 @@ Algorithme d'exclusion mutuelle basé sur ___une circulation de jeton___.
 **Principe:** Le jeton est un tableau avec autant de cases que de sites. Chaque case
 contient le nombre de demande du site associé à la case lorsque le jeton était sur le 
 site pour la dernière fois.
-
-# Wednesday February 22nd 2023 Exercises
-## TD3 - Exclusion Mutuelle
-### Exercice 3 - Algorithme basé sur la circulation d'un jeton de Ricart-Agrawala
-
-**a.**
-* P$_1$ fait la demande de sc:\
- -met à jour son tableau\
- -envoie Dem à ses voisins\
- -supp qu'il reçoient la demande
-
-
-* P$_5$ va executer le code\
-    dans sortie de sc:\
-
-
-
-P$_i$|nb demande|JetonPresent|valeur jeton
----|---|---|---
-P$_1$|10000|0|00000
-P$_2$|10000|0|
-P$_3$|10000|0|
-P$_4$|10000|0|
-P$_5$|10000|1|
-
-
-# Wednesday February 22nd 2023 Course
 
 **Hypothèse:** anneau orienté + identifié + asynchrone
 
@@ -1238,50 +881,117 @@ Compléxité round: O(n)
 **Remarque 2:** Quand un candidat reçoit son identifiant on est sûr qu'il a 
 reçu tous les ids de cndidats à une condition: que les canaux de com soient FIFO.
 
-# Wednesday February 22nd 2023 Exercises
-## TD5 - Election
-### Exercice 1 - Algorithme de Memann et son amélioration par Chang et Roberts.
 
-* 1.  
-Compléxité en message: O(?)
+# Wednesday March 8th 2023
+## Chapitre 4
+### Parcourir en profondeur dans le cadre général des graphes
 
-* 2.  
+
+\begin{figure}[ht!]
+\begin{center}
+\begin{tikzpicture}[node distance={15mm},main/.style = {draw, circle}] 
+\node[main] (1) {1};
+\node[main] (2) [below of=1] {2}; 
+\node[main] (3) [right of=2] {3}; 
+\node[main] (4) [right of=1] {4}; 
+\node[main] (5) [right of=4] {5}; 
+\node[main] (6) [below right of=4] {6}; 
+\foreach \from/\to in {1/2,1/4,2/3,3/4,4/5,4/6}
+    \draw (\from) -- (\to);
+\end{tikzpicture} 
+\end{center}
+\caption{Exemple}
+\end{figure}
+
+On veut explorer le graphe à l'aide d'algorithme de parcours de graphe.
+
+* Une stratiégie possible: parcours en profondeur : on explore le graphe récursivement le
+"plus loin" possible, avant de revenir en arrière (grâce à la récursion) pour explorer 
+ensuite le reste.  
+
+* L'autre stratégie: exploration en largeur . C'est un algo itératif basé sur 
+l'utilisation d'une file de priorité.  
+Le graphe est exploré par couche.
+
+Structure de données:  
+Un graphe est représenté par une matrice s'il a n sommets: $a_1, a_2,\dots , a_n$  
+$$\begin{matrix}
+&a_1 & \dots & a_n\\
+a_1 & & & \\
+\vdots &&&\\
+a_n &&&
+\end{matrix}
+\quad M[a_i][a_j]=1 \text{ si }a_i-a_j \text{ est une arête et 0 sinon.}$$
+
+Ex: écrire une fonction:  
+$voisin(S,G):void$ qui affiche les voisins d'un sommet S donné dans G.
+
+
 \begin{algorithm}[ht!]
-\caption{Algo de Chang et Roberts (à faire)}\label{alg:cap}
+\caption{Voisin(S,G):void}\label{alg:cap}
 \begin{algorithmic}
-\item \textbf{Initialement:}
-\item *Sur un ensemble non vide de sommets*
-    \State $etat_i \gets candidat$
-    \State envoyer $Msg(i)$ à $succ_i$
-\item \textbf{Sur réception de $Msg(v)$ de $j$:}
-\If{$etat_i \in \{init, battu\}$}
-    \State $etat_i \gets battu$
-    \State envoyer $Msg(v)$ à $succ_i$
-    \State $min_i \gets min(v,min_i)$
-\Else
-    \If{$ v \neq i$}
-        \State $min_i \gets min(v,min_i)$
-        \State envoyer $Msg(v)$ à $succ_j$
-    \Else
-        \If {$min_i == i$}
-            \State $etat_i \gets leader_i$
-        \Else
-            \State $etat_i \gets battu_i$
-        \EndIf
+\For{i de 1 à n}
+    \If{ G[S][i]==1}
+        \State Afficher i
     \EndIf
-\EndIf
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+**parcours en profondeur:**  
+Il va y avoir 2 fonctions:  
+
+* La fonction principale PP(G): void  
+
+* Procédure ProcPP(G,S,marque) (G:matrice d'adjacence; S: un sommet du graphe; marque:
+tableau de booléen initialisé à false, taille=nbr de sommet, décrit si un sommet à déjà
+était exploré).
+
+PP(G):void  
+
+* initialisé une tableau de bool marque de taille = taille(G) (le nbre de ligne de 
+la matrice) initialisé à false (variable globale).  
+
+* Pour tout sommet S de G non marque (marque[S]==0)
+ProcPP(G,S,marque).
+
+\begin{algorithm}[ht!]
+\caption{ProcPP(S,G,<marque>):void}\label{alg:cap}
+\begin{algorithmic}
+\State marque[S] $\gets$ true
+\State Afficher S
+\For{chaque voisin t de S qui n'est pas marque (marque[t]==0)}
+    \State ProcPP(G,t,marque)
+\EndFor
 \end{algorithmic}
 \end{algorithm}
 
 
+\begin{figure}[ht!]
+\begin{center}
+\begin{tikzpicture}[node distance={15mm},main/.style = {draw, circle}] 
+\node[main] (6) {6};
+\node[main] (1) [above of=6] {1};
+\node[main] (2) [right of=1] {2}; 
+\node[main] (3) [below right of=2] {3}; 
+\node[main] (5) [below right of=6] {5}; 
+\node[main] (4) [below of=5] {4}; 
+\node[main] (7) [below right of=5] {7}; 
+\foreach \from/\to in {1/2,2/3,3/5,4/7,6/5,5/7}
+    \draw [color=red!60,thick](\from) -- (\to);
+\foreach \from/\to in {1/6,4/5}
+    \draw (\from) -- (\to);
+\end{tikzpicture} 
+\end{center}
+\caption{Parcour Profondeur en partant du sommet 1}
+\end{figure}
 
+**Complexité:**  
+Avec une matrice d'adjacence: Il faut parcourir toute la matrice pour trouver les 
+voisins: O($n^2$).
 
-
-
-
-
-
-
+Si au lieu de la matrice d'adjacence le graphe est représenté avec des listes 
+d'adjacences.
 
 
 
