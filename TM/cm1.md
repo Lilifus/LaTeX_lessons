@@ -14,7 +14,7 @@ geometry:
 ...
 
 \pagestyle{fancy}
-\newcommand{\deer}{\includegraphics[scale=0.5]{/home/zakaria/Pictures/deer_sig.png}}
+\newcommand{\deer}{\includegraphics[height=1.3cm]{/home/zakaria/Pictures/deer_sig.png}}
 \fancyfoot[RE,RO]{\deer}
 
 
@@ -108,8 +108,8 @@ $u(t) = \frac{2(2-\epsilon)}{2-\epsilon + \epsilon e^{t^2}}$
 
 On appelle problème de Cauchy, une équation différentielle sur $\mathbb{R}$ avec une condition initiale.
 
-Considéroons le problème suivant:
-$$ \begin{cases}
+Considérons le problème suivant:
+$$\begin{cases}
 u_t(x,t) + a(x,t) u_x(x,t) = 0 \forall x \in \mathbb{R}, t > 0\\
 u(x,0) = \Phi(x) \forall x \in \mathbb{R}
 \end{cases}$$
@@ -132,13 +132,12 @@ $$
  $$ u(x(t),t) = const = u(x_0,0) = \Phi(x_0)$$
 
 \textbf{Exemple:}
-$$
-\begin{cases}
+$$ \begin{cases}
 u_t + au_x = 0 \quad a = c^k\\
 u(x,0) = \Phi(x)
 \end{cases}$$
 
-$$ \begin{cases}
+$$\begin{cases}
 \frac{\partial x}{\partial t} = a\\
 x(0) = x_0
 \end{cases}
@@ -552,8 +551,7 @@ $$=\delta_1 z +\delta_2 = e^{d_1 z}$$
 **cas 1** :$-\lambda > 0$  
 $r_1 = \sqrt{- \lambda} \quad r_2 = -\sqrt{- \lambda}$  
 $X(x) = \alpha_1 e^{\sqrt{-\lambda}x} + \alpha_2 e^{-\sqrt{-\lambda}x}$  
-$$
-\begin{array}{ll}
+$$\begin{array}{ll}
   X(0) = 0 = \alpha_1 + \alpha_2 &\\
   X(L) = 0 = \alpha_1 e^{\sqrt{-\lambda}L}+\alpha_2 e^{- \sqrt{-\lambda}L} & \\
   \Leftrightarrow & \alpha_2 = - \alpha_1 \\
@@ -562,8 +560,7 @@ $$
   & \alpha_1 = 0 \quad e^{\sqrt{-\lambda}L} - e^{-\sqrt{-\lambda}L} = 0\\
   & \alpha_1 = 0 \implies \alpha_2 = 0\\
   & \implies X = 0 \implies u = 0
-\end{array}
-$$
+\end{array} $$
 
 ___cas 3:___ $-\lambda < 0$  
 $$X(x)=c_1 cos(\sqrt{\lambda} x ) + c_2 sin(\sqrt{\lambda}x)$$
@@ -644,4 +641,172 @@ $$\begin{array}{lll}
 $\forall k \in \mathbb{N}^* \ \{2,5\} \quad \alpha_k=0$  
 $u(x,t)=3e^{-7\times 2^2 \times t} sin(2x) - 6e^{-7\times 2^2 \times t} sin(5x)$  
 $u(x,t)=3e^{-28t} sin(2x) - 6e^{-175t} sin(5x)$
+
+# Monday 27th March 2023 Exercises
+## TD1 suite
+### Exercice 2
+
+Posons $u(x,t)=X(x)T(t)$  
+$u_{tt}=X(x)T''(t)=c_0^2u_{xx}=c^2_0 X''(x)T(t)$
+donc $c_0^2 \frac{X''(x)}{X(x)}= - \lambda \quad \lambda \in \mathbb{R}$  
+Considérons
+$$\left\{\begin{array}{ lll }
+c^2_0 X''(x) &+ \lambda X (x) &= 0\\
+X(0)&=X(L)&=0
+\end{array}\right.$$
+L'équation caractéristique associée est $c_0^2 r^2 + \lambda = 0$ (e)  
+On cherche les racines de (e).  
+
+* **cas 1:** "solution réelles" $\lambda < 0$  
+$c_0^2 r^2 = -\lambda \Leftrightarrow r^2 = \frac{-\lambda}{c^2_0}$  
+On a comme solutions $X(x)=\alpha_0 e^{r_1 x}+\alpha_1 e^{r_2 x}$
+$$\left\{ \begin{array}{ lll }
+X(0)=0 \Rightarrow \alpha_0 + \alpha_1 = 0 \text{ donc } \alpha_1=-\alpha_0\\
+X(L)=0 \Rightarrow \alpha_0(e^{r_1L}-e^{r_2L}= 0 \text{ donc } \alpha_0=0 ou e^{r_1L}-
+e^{r_2L}=0
+\end{array}\right.$$  
+On retombe sur la solution triviale  
+$$u(x,t)=X(x)T(t)=0 \text{ car } X(x) = 0)$$
+
+* **cas 2:* "solution double" $\lambda = 0$  
+$c_0^2 r^2 = 0 \qquad r^2=0 donc r=0$  
+$c_0^2 \frac{X''(x)}{X(x)}=0$ donc $c^2_0=0$ ou $X''(x)=0$
+- $X''(x)=0 \Rightarrow X'(x)=c_0 \Rightarrow X(x)=c_0x+c_1$
+$$\left\{ \begin{array}{ lll }
+X(0)=0 \Rightarrow X'(x) = c_0 \Rightarrow X(x) = c_0x+c_1\\
+X(L)=0 \Rightarrow c_0L=0 \Rightarrow c_0=0
+\end{array}\right.$$  
+- $c_0=0 \Rightarrow$ même chose. On retombe sur la solution triviale.
+
+* **cas 3:** "solution imaginaires" $\lambda > 0$
+$c_0^2 r^2 + \lambda = 0 \Leftrightarrow c_0^2r^2=-\lambda$  
+donc $r=\pm i \sqrt{\frac{\lambda}{c_0^2}} =\pm i\omega$  
+$X_n)=\alpha_0 cos(\omega x) + \alpha_1 sin(\omega x)$  
+$$\left\{ \begin{array}{ lll }
+X(0)=0 \Rightarrow X'(x) = c_0 &\Rightarrow \alpha_0&=0\\
+X(L)=0 \Rightarrow c_0L=0 &\Rightarrow \alpha_1 sin(\omega L)&=\alpha_1 
+sin(\frac{sqrt{\lambda}}{c_0}L=0\\
+&\Rightarrow \frac{sqrt{\lambda}L}{c_0}&=k\pi\\
+&\Rightarrow \lambda &=(\frac{k\pi c_0}{L})^2
+\end{array}\right.$$  
+On introduit pour $k \in \mathbb{N}\*$  
+$X_k(x) solution de c_0^2 X_k''(x)+\lambda_k X(k)=0$ avec 
+$\lambda_k=(\frac{k\pi c_0}{L})^2$  
+$X_k(x)=a_k sin(x\frac{\sqrt{\lambda k}}{c_0}) \qquad \sqrt{\lambda k}=k c_0$  
+$T_k(t) solution de T''_k(t)+\lambda_k T_k(t)=0$  
+l'équation caractéristique associée est $r^2+\lambda_k=0$ comme $\lambda_k=(\frac{k\pi 
+c_0}{L})^2>0$  
+les racones sont $r=\pm i\sqrt{\lambda_k}$  
+$$T_k(t)=b_k cos(\sqrt{\lambda_k} t) + c_k sin(\sqrt{\lambda_k t})$$
+Par le théorème de superposition:  
+$$\begin{array}{ ll }
+u(x,t)&=\sum^\infty_{k=1} X_k(x)T_k(t)\\
+&=\sum^\infty_{k=1} a_k sin (x\frac{\sqrt{\lambda_k}}{c_0})[b_k cos(\sqrt{\lambda_k t}) +
+c_k sin(\sqrt{\lambda_k t})]
+\end{array}$$  
+$$\begin{array}{ ll }
+u(x,0)&=\sum^\infty_{k=1} a_k b_k sin(\frac{sqrt{\lambda_k}}{c_0} x)\\
+&= sin(3x)-4sin(10x)
+\end{array}$$  
+$u(x,t)=\sum^\infty_{k=1} a_k \frac{sqrt{\lambda_k}}{c_0}$  
+$cos(\frac{x\sqrt{\lambda k}}{c_0}) [ b_k cos\sqrt{\lambda_k} t) + c_k sin(\sqrt{\lambda_k t})]$
+$$\begin{array}{ ll }
+u(x,0)&=\sum^\infty_{k=1} a_k b_k cos(\frac{x\sqrt{k}}{c_0})\\
+&=\sum^\infty_{k=1} a_k b_k cos(kx)\\
+&= 2sin(4x)+sin(6x)
+\end{array}$$  
+
+Par identification:
+$-k=3$, 
+$$a_3 b_3=1$$
+$$a_10 b_10=-4$$
+$$\forall k \notin {3,10}, a_k b_k = 0$$
+
+# Course
+## 4 - Solution numérique
+Considérons le problème suivant:
+$$(PC)\left\{\begin{array}{ll}
+u'(t)=&f(u(v)) \quad \forall t \in ]0,+\infty[\\
+u(0)=&u_0
+\end{array}\right.$$
+
+Supposons que u soit de class $C^2$, alors son développement de taylor à l'ordre 2 s'écrit:
+$$u(t+\Delta t) = u(t)+u'(t)\Delta t + u''(t)\frac{\Delta t^2}{2!}+o(\Delta t^2)$$
+
+$$u'(t)=\frac{(t+\Delta t)-u(t)}{\Delta t} + O(\Delta t)$$
+
+Nous allons utiliser cette relation pour construire une solution numérique approchée.  
+Pour cela on va discrétiser l'intervalle sur lequel on cherche la solution ($[0,T_0]$) en 
+($n+1$) points $t_i,i=0,\dots,n$ avec $t_0=0$ et $t_n=T_0$.  
+$\Delta t_i = t_{i+1}-t_i$ est le pas de discrétisation.
+On le considère constant ici $\Delta t = \frac{T-0}{n}=\frac{T}{n}$  
+On parle alors de discrétisation régulière.  
+En appliquant l'approximation de la dérivée première entre $t_i$ et $t_{i+1}$ on peut 
+écrire:  
+$$u'(_i) \simeq \frac{u(t_{i+1} - u(t_i)}{\Delta t}$$
+Si on note $u_i=u(t_i) \quad \forall i \in [\![0,n]\!]$
+
+Le problème numérique approchée obtenu est:
+$$\left\{\begin{array}{l}
+\frac{u_{i+1}-u_i}{\Delta t} = f(u_i) \quad \forall  i \in [\![0,n-1]\!]\\
+u_0
+\end{array}\right.$$
+$$u_{i+1}=u_i+\Delta t f(u_i)$$
+$$\to \text{ schéma d'Euler explicite (E-E)}$$
+
+**Exp:**  
+$$f(u)=u$$
+$$u(0)=1$$
+$$PC\left\{\begin{array}{ll}
+u'=&u\\
+u(0)=&1
+\end{array}\right.\to \text{solution analytique: }t\to e^t$$
+
+**Schéma d'E-E**:
+$$PC\left\{\begin{array}{ll}
+u_{i+1}=&u_i+\Delta t u_i = (1+\Delta t)u_i\\
+u_0=&1
+\end{array}\right.$$
+$$u_{i+1}=(1+\Delta t)^{i+1}u_0=(1+\Delta t)^{i+1}$$
+
+# Exercise
+## TD1
+### Exercice 7 - Mini-Projet
+
+1.  
+$$\left\{\begin{array}{ll}
+u'(t)=&-u(t)\\
+u(0)=&1
+\end{array}\right. u(t)=e^{-t}$$
+
+2.  
+En partant du schéma E-E
+$$\begin{array}{lll}
+u_{n+1}&=&u_n + \Delta t f(u_n)\\
+u_{n+1}&=&u_n - \Delta t u_n\\
+&=&(1-\Delta t)u_n\\
+&=&(1-\Delta t) \times (1-\Delta t)u_{n-1}\\
+&&\dots\\
+&=&(1-\Delta t)^{n+1} u_0\\
+\Rightarrow u_n &=& (1-\Delta t)^n
+\end{array}$$
+
+3.  
+$u_n=(1-\Delta t)^n$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

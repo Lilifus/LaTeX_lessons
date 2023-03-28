@@ -206,8 +206,9 @@ save$_i$: init à null, sert à sauvegarder l'info
 
 ## Exercice 5
 
-**Consigne:** Soit un arbre enraciné dans lequel on a les ???, père$_i$, fils$_i$. 
-On demande 1 algo tel qu'à la fin de l'execution, la racine connaisse le nombre de noeuds de l'arbre avec 2 fils.
+**Consigne:** Soit un arbre enraciné dans lequel on a les ???, père$_i$,
+fils$_i$. On demande 1 algo tel qu'à la fin de l'execution, la racine connaisse
+le nombre de noeuds de l'arbre avec 2 fils.
 
 
 # Wednesday February 15th
@@ -475,42 +476,91 @@ C'est linéaire mais la preuve est compliqué.
 
 3.  
 \begin{algorithm}[ht!]
-\caption{Algorithme Vitesse}\label{alg:cap}
+\caption{algorithme vitesse}\label{alg:cap}
 \begin{algorithmic}
-\State \textbf{Connaissance:}
-\State fils$_i$
-\State pere$_i$
-\State estFeuille
-\State estRacine
-\State \textbf{Variables:}
-\State restant
-\State counterFeuille $\gets 0$
-\State counterSpecial $\gets 0$
-\State \textbf{Initialement:}
-\State restant = fils$_i$
-\If{estFeuille==1}
-    \State Envoyer Msg(0,"feuille")
-\EndIf
-\State \textbf{Sur reception Msg(val,s) de j:}
-\State restant $\gets$ restant $\backslash j$
-\If{s == "feuille"}
-    \State counterFeuille++
-\ElsIf{s == "special"}
-    \State counterspecial+=val
-\EndIf
-\If{restant == \{\}}
-    \State counterspecial+=val
-    \If{counterFeuille == 1}
-        \State counterspecial++
-    \EndIf
-    \If{estRacine == 1}
-        \State StopGlobal
-    \Else
-        \State Envoyer Msg(counterSpecial,"special") $\to$ pere
-    \EndIf
-\EndIf
+\state \textbf{connaissance:}
+\state fils$_i$
+\state pere$_i$
+\state estfeuille
+\state estracine
+\state \textbf{variables:}
+\state restant
+\state counterfeuille $\gets 0$
+\state counterspecial $\gets 0$
+\state \textbf{initialement:}
+\state restant = fils$_i$
+\if{estfeuille==1}
+    \state envoyer msg(0,"feuille")
+\endif
+\state \textbf{sur reception msg(val,s) de j:}
+\state restant $\gets$ restant $\backslash j$
+\if{s == "feuille"}
+    \state counterfeuille++
+\elsif{s == "special"}
+    \state counterspecial+=val
+\endif
+\if{restant == \{\}}
+    \state counterspecial+=val
+    \if{counterfeuille == 1}
+        \state counterspecial++
+    \endif
+    \if{estracine == 1}
+        \state stopglobal
+    \else
+        \state envoyer msg(counterspecial,"special") $\to$ pere
+    \endif
+\endif
+\end{begin{algorithm}[ht!]
+\caption{algorithme vitesse}\label{alg:cap}
+\begin{algorithmic}
+\state \textbf{connaissance:}
+\state fils$_i$
+\state pere$_i$
+\state estfeuille
+\state estracine
+\state \textbf{variables:}
+\state restant
+\state counterfeuille $\gets 0$
+\state counterspecial $\gets 0$
+\state \textbf{initialement:}
+\state restant = fils$_i$
+\if{estfeuille==1}
+    \state envoyer msg(0,"feuille")
+\endif
+\state \textbf{sur reception msg(val,s) de j:}
+\state restant $\gets$ restant $\backslash j$
+\if{s == "feuille"}
+    \state counterfeuille++
+\elsif{s == "special"}
+    \state counterspecial+=val
+\endif
+\if{restant == \{\}}
+    \state counterspecial+=val
+    \if{counterfeuille == 1}
+        \state counterspecial++
+    \endif
+    \if{estracine == 1}
+        \state stopglobal
+    \else
+        \state envoyer msg(counterspecial,"special") $\to$ pere
+    \endif
+\endif
 \end{algorithmic}
 \end{algorithm}
 
+# Wednesday 22nd March 2023
+## TD4 - Algorithmes Divers
+### Exercice 5 - Custom
 
+1.  
+**Consigne:**  
+Ecrire un algo sur une grille tel que un initiateur unique à la fin de l'algorithme 
+connaisse la taille de la grille (longueur x largeur)
+
+2.  
+**Consigne:**  
+Modifier l'algo précedent pour qu'il fonctionne en cas de pannes. Un sommet qui est en
+panne, lorsqu'il reçoit un message renvoie un message d'erreur à l'expediteur.
+
+En supposant que les pannes arrivent sur au plus un noeuds interne (degré 4) de la grille.
 
