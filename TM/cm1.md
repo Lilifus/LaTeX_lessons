@@ -7,6 +7,7 @@ header-includes:
     - \usepackage{algorithm}
     - \usepackage{algpseudocode}
     - \usepackage{tikz}
+    - \usepackage{cancel}
     - \usepackage{fancyhdr}
 toc: true
 geometry:
@@ -14,7 +15,9 @@ geometry:
 ...
 
 \pagestyle{fancy}
+\everymath{\displaystyle}
 \newcommand{\deer}{\includegraphics[height=1.3cm]{/home/zakaria/Pictures/deer_sig.png}}
+\renewcommand*{\frac}{\dfrac}
 \fancyfoot[RE,RO]{\deer}
 
 
@@ -794,19 +797,234 @@ u_{n+1}&=&u_n - \Delta t u_n\\
 3.  
 $u_n=(1-\Delta t)^n$
 
+# Monday April 3rd 2023 Cours
+
+## Méthode de différences finies
+
+On va s'intéresser dans ce qui suit à l'équation de la chaleur
+$$\mathcal{EC}\left\{\begin{array}{lll}
+U_t(x,t)&=&U_{xx}(x,t) \quad \forall x \in ]0,1[ / \quad \forall t>0\\
+U(0,t)&=&U(1,t)=0\\
+U(x,0)&=&f(x)
+\end{array}\right.$$
+
+### 1 - Approximations des dérivées successives
+Considérons une subdivision régulière de [a,b].
+
+\begin{tikzpicture}
+\draw (-4,0) -- (2,0);
+\foreach \x/\y in {-4/a,-3/\cdots,-2/x_{i-1},-1/x_i,0/x_{i+1},1/\cdots,2/b} {
+\draw (\x,0.1cm) -- (\x,-0.1cm) node[below] {$\y\phantom{-}\strut$};
+}
+\end{tikzpicture}
+
+$x_{i+1} - x_i = h \forall i$  
+L'idée est d'utiliser la formule de Taylor pour des fonctions réguilères
+
+### différences divisées progressives d'ordre 1
+$$u'(x_i)=\frac{u(x_i+h)-u(x_i)}{h} + O(h) \to u'(x_i)\simeq \frac{u(x_{i+1})-u(x_i)}{h}$$
+
+### différences divisées régressives d'ordre 1
+$$u'(x_i)=\frac{u(x_i)-u(x_i-h)}{h} + O(h) \to u'(x_i)
+\simeq \frac{u(x_{i})-u(x_{i-1})}{h}$$
+
+### différences divisées progressives d'ordre 2
+$$u'(x_i)=\frac{-u(x_i+2h)+4u(x_i+h)-3u(x_i)}{2h} + O(h^2) \to u'(x_i)
+\simeq \frac{-u(x_{i+2})+4u(x_{i+1})-3u(x_i)}{2h}$$
+
+$$\begin{array}{llll}
+(1)&u(x_i+h)&=&u(x_i)+hu'(x_i)+\frac{h^2}{2!}u''(x_i)+\frac{h^3}{3!}u'''(x_i)+O(h^3)\\
+(2)&u(x_i+2h)&=&u(x_i)+2hu'(x_i)+\frac{(4h)^2}{2!}u''(x_i)+
+\frac{(4h)^3}{3!}u'''(x_i)+O(h^3)\\
+4\times(1)+(2)&4u(x_i-h)-u(x_i+2h)&=&3u(x_i)+2hu'(x_i)+O(h^3)\\
+&u'(x_i)&=&\frac{-u(x_i)+2h)+4u(x_i+h)-3u(x_i)}{2h}-u'(x_i)| < Mh^2
+\end{array}$$
+
+### différences divisées regressives d'ordre 2
+$$u'(x_i)=\frac{3u(x_i)-4u(x_i-h)+u(x_i-2h)}{2h} + O(h^2) \to u'(x_i)
+\simeq \frac{3u(x_{i})-4u(x_{i-1})+u(x_{i-2})}{2h}$$
+
+$$\begin{array}{llll}
+(1)&u(x_i-h)&=&u(x_i)-hu'(x_i)+\frac{h^2}{2!}u''(x_i)-\frac{h^3}{3!}u'''(x_i)+O(h^3)\\
+(2)&u(x_i-2h)&=&u(x_i)-2hu'(x_i)+\frac{(2h)^2}{2!}u''(x_i)-
+\frac{(2h)^3}{3!}u'''(x_i)+O(h^3)\\
+4\times(1)-(2)&4u(x_i-h)-u(x_i-2h)&=&3u(x_i)-2hu'(x_i)+\frac{4h^3}{3!}u'''(x_i)+O(h^3)
+\end{array}$$
+
+### différences divisées centrées d'ordre 2
+$$u'(x_i)=\frac{u(x_i+h)-u(x_i-h)}{2h} + O(h^2) \to u'(x_i)
+\simeq \frac{u(x_{i+1})-u(x_{i-1})}{2h}$$
 
 
+$$\begin{array}{lll}
+u(x_i+h)&=&u(x_i) + hu'(x_i) + O(h^2)\\
+&=&u(x_i) + hu'(x_i)+\epsilon(h)
+\end{array}$$  
+$$O(h) \to \exists M>0 \quad tq \quad |\epsilon(h)| < Mh$$
+$$\begin{array}{lll}
+u(x_i+h)-u(x_i)&=&hu'(x_i)+O(h^2)\\
+\frac{u(x_i+h)-u(x_i)}{h}&=&u'(x_i)+O(\frac{h^2}{h})\\
+\frac{u(x_i+h)-u(x_i)}{h} - u'(x_i)&=&O(\frac{h^2}{h})
+\end{array}$$
 
+$$\begin{array}{llll}
+(1)&u(x_i+h)&=&u(x_i)+hu'(x_i)+\frac{h^2}{2!} u''(x_i) + \frac{h^3}{3!} u'''(x_i)+O(h^3)\\
+(2)&u(x_i-h)&=&u(x_i)-hu'(x_i)+\frac{h^2}{2!} u''(x_i) - \frac{h^3}{3!} u'''(x_i)+O(h^3)\\
+(1)-(2)&u(x_i+h)-u(x_i-h)&=&2hu''(x_i)+\frac{2h^3}{3!}u''(x_i)+O(h^3)\\
+(1)+(2)&u(x_i+h)+u(x_i-h)&=&2u(x_i)+h^2u''(x_i)+\frac{2h^4}{4!}u^{(4)}(x_i)+O(h^4)
+\end{array}$$
+$$\frac{u(x_i+h)+u(x_i-h)-2u(x_i)}{h^2}-u''(x_i)=O(h^2)$$
 
+Pour les dérivées d'ordre supérieurs on procède de la façon suivante:  
+$$\begin{array}{lll}
+u''(x_i)&=&\frac{u'(x_i+\frac{h}2)-u'\left(x_i-\frac{h}2\right)}{h}+O(h^2)\\
+&=&\frac{\frac{u(x_i+h)-u(x_i)}{h}-\frac{u(x_i)-u(x_i-h)}{h}+O(h^2)}{h}+O(h^2)\\
+&=&\frac{u(x_i+h)-2u(x_i)+u(x_i-h}{h^2}+O(h)+\cancel{O(h^2)}
+\end{array}$$
 
+### Schéma explicite pour l'équation de la chaleur
 
+$$\begin{array}{llll}
+u_t(x,t)&=&\frac{u(x,t+\Delta t)-u(x,t)}{\Delta t} &+ O(\Delta t)\\
+u_{xx}(x,t)&=&\frac{u(x+\Delta x,t)-2u(x,t)+u(x-\Delta x, t)}{\Delta x^2} &+ O(\Delta x^2)
+\end{array}$$
+où $\Delta t$ est la pas de discrétisation en temps et $\Delta x$ celui en espace.
+$$\frac{u(x,t+\Delta t) - u(x,t)}{\Delta t} + O(\Delta t) =
+\frac{u(x+\Delta x,t) - 2u(x,t)+u(x-\Delta x, t)}{\Delta x^2} + O(\Delta x^2)$$
+$$\frac{(x,t+\Delta t) - u -x,t)}{\Delta t} \simeq \frac{u(x+\Delta x,t) - 2 u(x,t) +
+u(x-\Delta x,t)}{\Delta x^2}$$
 
+Si on note:
+$u_j^m \simeq u(j\Delta x, m \Delta t)$ pour tout $j\in [\![1,m-1]\!]$ et pour tout $m\in
+\mathbb{N}^*$  
+$$\frac{u^{m+1}_j-u^m_j}{\Delta t} = \frac{u^m_{j+1}-2u^m_j+u^m_{j-1}}{\Delta x^2}$$  
+$$u_j^{m+1}=u^m_j+\frac{\Delta t}{\Delta x^2}[u^m_{j+1} - 2u^m_j+u^m_{j-1}]$$
+$$u^m+1_j=u^m_j+\frac{\Delta t}{\Delta x^2}[u^m_{j+1}-2u^m_j+u^m_{j-1}]$$
+$$u^m+1_j=ru^m_{j+1}+(1-2r)u^m_j+ru^m{j-1}$$
 
+Ce que je veux faire $u^{m+1} = Au^m$
 
+$$u^{m+1}=\begin{pmatrix}
+u_0^{m+1}\\
+\vdots\\
+u_1^{m+1}\\
+\vdots\\
+u_N^{m+1}\\
+\end{pmatrix}=
+\begin{pmatrix}
+0\\
+u_1^{m+1}\\
+\vdots\\
+u_j^{m+1}\\
+\vdots\\
+u^{m+1}_{N-1}\\
+0\\
+\end{pmatrix}\quad
+u^m=\begin{pmatrix}
+u_0^{m}\\
+\vdots\\
+u_1^{m}\\
+\vdots\\
+u_N^{m}\\
+\end{pmatrix}=
+\begin{pmatrix}
+0\\
+u_1^{m}\\
+\vdots\\
+u_j^{m}\\
+\vdots\\
+u^{m}_{N-1}\\
+0\\
+\end{pmatrix}$$
 
+$$F=(f(x_j))=\begin{pmatrix}
+f(0)\\
+f(x_1)\\
+\vdots\\
+f(x_j)\\
+\vdots\\
+f(x_{N-1})\\
+f(1)\\
+\end{pmatrix}$$
 
+$$\begin{pmatrix}
+u^{m-1}_1\\
+\vdots\\
+u^{m+1}_j\\
+\vdots\\
+u^{m+1}_{N-1}
+\end{pmatrix}=
+\begin{pmatrix}
+1&-&2r & r &0&\cdots&\cdots&0\\
+r & 1&-&2r & r&\ddots&&\vdots\\
+0&\ddots && \ddots && \ddots&\ddots&\vdots\\
+\vdots&\ddots& r & 1&-&2r & r&0\\
+\vdots&&\ddots& r & 1&-&2r & r\\
+0&\cdots&\cdots&0& r & 1&-&2r
+\end{pmatrix}
+\begin{pmatrix}
+u_1^m\\
+\vdots\\
+u^m_{j-1}\\
+u_j^m\\
+u_{j+1}^m\\
+\vdots\\
+u^m_{N-1}
+\end{pmatrix}$$
 
+Pour les schémas implicites il existe souvent une condition de stabilité qui lie les 
+différents pas de dicrétisation simultanément "petits" ce qui induit une puissance de calcul
+plus importante. On aimerait se passer de cette contrainte. Les schémas implicites peuvent
+répondre à cette contrainte.  
+En utilisant la même approche que pour le schéma explicite on obtient:
+$$ u(x,t + \Delta t) \simeq \frac{u(x, t + \Delta t) - u(x,t)}{\Delta t}$$
+$$ u_{xx}(x,t + \Delta t) \simeq \frac{u(x+\Delta x, t + \Delta t) - 2u(x, t) + \Delta t 
++ u(x - \Delta x ,t + \Delta t)}{\Delta x^2}$$
 
+* On obtient le schéma suivant:
+$\frac{u_j^{m+1}-u_j^m}{\Delta t}= \frac{u^{m+1}_{j+1}-2u^{m+1}_j+u^{m+1}_{j-1}}
+{\Delta x^2}$
+$u_j^{m+1}(1+\frac{2\Delta t}{\Delta x^2})-\frac{\Delta t}{\Delta x^2} u^{m+1}_{j+1} -
+\frac{\Delta t}{\Delta x^2} u^{m+1}_{j+1}=u^m_j$
+$-ru^{m+1}_{j-1}+(1+2r)u_j^{m+1} - r u_{j-1}^{m+1}=u_j^r$
 
+$$\begin{pmatrix}
+1&+&2r & -r &0&\cdots&\cdots&0\\
+-r & 1&+&2r & -r&\ddots&&\vdots\\
+0&\ddots && \ddots && \ddots&\ddots&\vdots\\
+\vdots&\ddots& -r & 1&+&2r & -r&0\\
+\vdots&&\ddots& -r & 1&+&2r & -r\\
+0&\cdots&\cdots&0& -r & 1&+&2r
+\end{pmatrix}$$
 
+## Analyse de la stabilité de Von Neuman
+On introduit la notation suivant:  
+$u_j^m = (a_k)^m e^{ik\pi x_j}$ avec $i^2=-1$.  
+$u^{m+m_0}_{j+j_0}=(a_k)^{m+m_0} e^{ik\pi x_{j+j_0}}$
+
+On introduit cette notation dans le schéma numérique dont on veut étudier la stabilité. 
+Par exemple, pour le schéma explicite de l'équation de la chaleur on obtient.
+
+$$\frac{u^{m+1}_j - u_j^m}{\Delta t}=\frac{u_{j+1}^m - 2u^m_j + u^m_{j-1}}{\Delta x^2}$$
+$$\frac{(a_k)^{m+1}e^{ik\pi x_{j}}-(a_k)^me^{ik\pi x_{j}}}{\Delta t} = \frac{(a_k)^m e^{ik\pi x_{j+1}} - 2(a_k)^m
+e^{ik\pi x_{j}}+(a_k)^me^{ik\pi x_{j-1}}}{\Delta x^2}$$
+
+$$e^{ik\pi x_{j+1}}=e^{ik\pi (x_{j}+\Delta x)}=\text{??? (voir photo 03/04/23 15:12)}$$
+
+$$\begin{array}{rll}
+\frac{a_k-1}{\Delta t} &=& \frac{e^{ik\pi \Delta x}-2+e^{-ik\pi \Delta x}}{\Delta x^2}\\
+&=& \frac{e^{\frac{ik\pi \Delta x}{2}}-e^{\frac{-ik\pi \Delta x}{2}}}{\Delta x^2}\\
+&=& \frac{2i sin(\frac{k\pi \Delta x}{2})}{\Delta x^2}\\
+a_k &=& 1 - 4 \frac{\Delta t}{\Delta x^2} sin^2(\frac{k\pi \Delta x}2)
+\end{array}$$
+Pour que le schéma soit stable, il faut que $|a_k| \leq 1$
+
+$$\begin{array}{llrll}
+&&|1 - 4 \frac{\Delta t}{\Delta x^2} sin^2(\frac{k\pi \Delta x}2)| &\leq& 1\\
+ -1 &\leq& 1 - 4 \frac{\Delta t}{\Delta x^2} sin^2(\frac{k\pi \Delta x}2) &\leq& 1\\
+-2&\leq& - 4 \frac{\Delta t}{\Delta x^2} sin^2(\frac{k\pi \Delta x}2) &\leq& 0\\
+&& 4 \frac{\Delta t}{\Delta x^2} sin^2(\frac{k\pi \Delta x}2) &\leq& 2\\
+&&\frac{\Delta t}{\Delta x^2} sin^2(\frac{k\pi \Delta x}2) &\leq& \frac{1}2\\
+&&\frac{\Delta t}{\Delta x^2} &\leq& \frac12
+\end{array}$$
 
