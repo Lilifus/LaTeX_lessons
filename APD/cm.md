@@ -7,6 +7,7 @@ header-includes:
     - \usepackage{algorithm}
     - \usepackage{algpseudocode}
     - \usepackage{tikz}
+    - \usepackage{cancel}
     - \usepackage{fancyhdr}
 toc: true
 geometry:
@@ -14,7 +15,9 @@ geometry:
 ...
 
 \pagestyle{fancy}
+\everymath{\displaystyle}
 \newcommand{\deer}{\includegraphics[height=1.5cm]{/home/zakaria/Pictures/deer_sig.png}}
+\renewcommand*{\frac}{\dfrac}
 \fancyfoot[RE,RO]{\deer}
 \pagebreak
 
@@ -994,6 +997,37 @@ Si au lieu de la matrice d'adjacence le graphe est représenté avec des listes
 d'adjacences.
 
 
+# Wednesday 5th April 2023
 
+Soit 1 graphe G$_1$ connexe (pour toute pairs de sommets du graphe, il existe un chemin),
+un arbre couvrant de G est un sous ensemble des arêtes T de G qui forme un arbre et tq
+tous les somemts de G sont couverts par T.
+
+## Propagation d'information avec jetons (PIF)
+
+**Hyp:** graphe quelconque
+
+**Principe:**  
+Il y a un initiateur qui initie en PiF. Il envoie un jeton à tous ses voisins puis attend
+le jeton de tous ses voisins.  
+Pour un site non initiateur:  
+à la première réception du jeton, il désigne l'émetteur comme son père puis il diffuse 
+le jeton à tous ses voisins sans son père. Il attend que tous ses voisins (sauf père) 
+lui envoie le jeton. Alors il le transmet à son père.
+
+\begin{algorithm}[ht!]
+\caption{ProcPP(S,G,<marque>):void}\label{alg:cap}
+\begin{algorithmic}
+\State \textbf{Variables:}
+\State utilise[] : tableau de bool qui va donner à qui le jeton à déjà été envoyé. Initialisé à faux.
+\State père$_i$
+\State \textbf{INIT:}
+\For{$j$ tq utilise[j]=faux}
+    \State utilise[j] $\gets$ vrai
+    \State envoyer jeton() à j
+\EndFor
+\State $\cdots$
+\end{algorithmic}
+\end{algorithm}
 
 

@@ -564,3 +564,17 @@ panne, lorsqu'il reçoit un message renvoie un message d'erreur à l'expediteur.
 
 En supposant que les pannes arrivent sur au plus un noeuds interne (degré 4) de la grille.
 
+# Thursdray 06th April 2023
+## TD7 - Gestion des défaillances
+### Exercice 1 - Diffusion asynchrone en cas de panne sur les noeuds
+1.  
+n-1 messages
+
+2.  
+\begin{algorithm}[ht!]
+\caption{Diffusion asynchrone}\label{alg:cap}
+\begin{algorithmic}
+\state \textbf{INIT:}
+
+\end{algorithmic}
+\end{algorithm}
