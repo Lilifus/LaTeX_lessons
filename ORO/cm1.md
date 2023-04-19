@@ -1029,3 +1029,165 @@ On choisit une variable ayant un coefficient superieur à 0 dans la fonction obj
 On calcule alors jusqu'à combien on peut augmenter cette variable sans violer les 
 contraintes, et en laissant à zéro les autres variables déjà à zéro dans la solution 
 évidente.
+
+# Wednesday 19th April 2023 Course
+
+$$max\{x_1+3x_2\}$$
+$$sc\left\{\begin{array}{lll}
+x_1+x_2&\leq & 14\\
+-x_1 + 3x_2 & \leq &12\\
+2x_1-x_2& \leq &12\\
+x_1,x_2&\geq & 0
+\end{array}\right.$$
+$$\Leftrightarrow$$
+
+$$max\{x_1+ 3x_2\}$$
+$$sc\left\{\begin{array}{lll}
+x_1+ x_2 +y_1&= & 14\\
+-x_1 + 3x_2 + y_2 & = &12\\
+2x_1 - x_2 + y_3 & = &12\\
+x_1,x_2,y_1,y_2,y_3& \geq &0
+\end{array}\right.$$
+
+Solution évidente: $x_1=x_2=0; y_1=14,y_2=12,y_3=12$  
+(Évdente à cause de la structure du problème $y_i$ dans l'éq $i$ avec coeff 1 et dnas les autres avec coeff 0).  
+On doit avoir $x_2 \leq 14$, $x_2 \leq 14 \Leftrightarrow 3x_2 \leq 12$ et $x_2 \leq 12$ toujours vrai (car $x_1 = 0$ et continue d'être nul dans cette itération), on reexprime le système précédent de façon que, dans la solution évidente, $x_2$ vaille 4.
+
+$$\Leftrightarrow max\{2x_1+ - y_2\}+12$$
+$$sc\left\{\begin{array}{llllll}
+\frac43 x_1+ y_1 - \frac23 y_2 & = & 10 & L_1' &\gets & L_1 - L_2'\\
+-\frac13 x_1 + x_2 + \frac13 y_2 & = & 4 & L_2' &\gets & \frac{L_2}{3} \\
+\frac53 x_1 + \frac13 y_2 + y_3& = & 16 & L_3' & \gets & L_3 + L_2'\\
+x_1,x_2,y_1,y_2,y_3 & \geq & 0 & L_{obj}' & \gets & L_{obj} - 3 L_1'
+\end{array}\right.$$  
+La solution évidente $x_1=y_2=0$, $y_1=10,x_2=4,y_3=16$ vaut 12.
+
+
+$$\Leftrightarrow max\{-\frac32 y_1 - \frac12 y_2\}+27$$
+$$sc\left\{\begin{array}{llllll}
+x_1+ \frac34 y_1 - \frac14 y_2 & = & \frac{15}2 & L_1' &\gets & \frac34 L_1\\
+x_2 + \frac14 y_1 + \frac14 y_2 & = & \frac{13}2 & L_2' &\gets & L_2 + \frac13 L_1' \\
+-\frac54 x_1 + \frac34 y_2 + y_3& = & \frac72 & L_3' & \gets & L_3 - \frac53 L_1'\\
+x_1,x_2,y_1,y_2,y_3 & \geq & 0
+\end{array}\right.$$  
+La solution optimale de ($P$) est ($\frac{15}2 , \frac{13}2$) de valeur 27.
+
+||$x_1$|$x_2$|$y_1$|$y_2$|$y_3$|
+---|---|---|---|---|---|---
+$y_1$|1|1$^{14}$|1|0|0|14
+$y_2$|1|3$^4$|0|1|0|12
+$y_3$|2|-1$^{\infty}$|0|0|1|12
+---|---|---|---|---|---|---
+||1|3|0|0|0|0
+
+
+||$x_1$|$x_2$|$y_1$|$y_2$|$y_3$|
+---|---|---|---|---|---|---
+$y_1$|$\frac43$|0|1|$-\frac13$|0|10
+$y_2$|$-\frac13$|1|0|$\frac13$|0|4
+$y_3$|2|-1|0|$\frac13$|1|16
+---|---|---|---|---|---|---
+||2|0|0|-1|0|-12  
+ (-12 est l'opposé de la valeur objective à la solution évidente).
+
+||$x_1$|$x_2$|$y_1$|$y_2$|$y_3$|
+---|---|---|---|---|---|---
+$y_1$|1|0|$\frac34$|$-\frac14$|0|$\frac{15}2$
+$y_2$|0|1|$\frac14$|$\frac14$|$\frac{13}2$
+$y_3$|0|0|$-\frac54$|$\frac34$|1|$\frac72$
+---|---|---|---|---|---|---
+||0|0|$-\frac32$|$-\frac12$|0|-27  
+
+Tous les coefficients de la fonction objective sont nuls: la solution évidente est optimale.
+
+$$min\{x_2-x_1\}$$
+$$sc\left\{\begin{array}{lll}
+2x_1 - x_2 &\geq & -2\\
+x_1 - x_2 & \leq & 2\\
+x_1 + x_2 & \leq & 5\\
+x_1,x_2 &\geq & 0
+\end{array}\right.$$
+$$\Leftrightarrow$$
+
+$$-max\{x_1-x_2\}$$
+$$sc\left\{\begin{array}{lll}
+-2x_1 + x_2 &\leq & 2\\
+x_1 - x_2 & \leq & 2\\
+x_1 + x_2 & \leq & 5\\
+x_1,x_2 &\geq & 0
+\end{array}\right.$$
+$$\Leftrightarrow$$
+
+$$-max\{x_1-x_2\}$$
+$$sc\left\{\begin{array}{lll}
+-2x_1 + x_2 + y_1 & = & 2\\
+x_1 - x_2 + y_2 & = & 2\\
+x_1 + x_2 + y_3 & = & 5\\
+x_1,x_2,y_1,y_2,y_3& \geq &0
+\end{array}\right.$$
+
+||$x_1$|$x_2$|$y_1$|$y_2$|$y_3$|
+---|---|---|---|---|---|---
+$y_1$|-2|1|1|0|0|2
+$y_2$|1|-1|0|1|0|2
+$y_3$|1|1|0|0|1|5
+---|---|---|---|---|---|---
+||1|-1|0|0|0|0
+
+$$-max\{x_1-x_2\}$$
+$$sc\left\{\begin{array}{llllll}
+-x_2 +  y_1 + 2 y_2 & = & 6 & L_1' &\gets &  L_1 + 2 L_2'\\
+x_1 - x_2 + y_2 & = & 2 & L_2' &\gets & L_2 \\
+2x_2 + y_3 - y_2 & = & 3 & L_3' & \gets & L_3 - L_2'\\
+x_1,x_2,y_1,y_2,y_3 & \geq & 0 & L_{obj}' & \gets & L_{obj} - L_2'
+\end{array}\right.$$  
+
+||$x_1$|$x_2$|$y_1$|$y_2$|$y_3$|
+---|---|---|---|---|---|---
+$y_1$|0|-1|1|2|0|6
+$y_2$|1|-1|0|1|0|2
+$y_3$|0|2|0|-1|1|3
+---|---|---|---|---|---|---
+||0|0|0|-1|0|-2
+
+$$max\{x_1+2x_2\}$$
+$$sc\left\{\begin{array}{lll}
+-2x_1 + x_2 &\leq & 2\\
+-x_1 + 2x_2 & \leq & 5\\
+x_1 - 3x_2 & \leq & 4\\
+x_1,x_2 &\geq & 0
+\end{array}\right.$$
+
+$$max\{x_1+2x_2\}$$
+$$sc\left\{\begin{array}{lll}
+-2x_1 + x_2 + y_1 & = & 2\\
+-x_1 + 2x_2 + y_2 & = & 5\\
+ x_1 - 3x_2 + y_3 & = & 4\\
+x_1,x_2 &\geq & 0
+\end{array}\right.$$
+
+$$\Leftrightarrow$$
+||$x_1$|$x_2$|$y_1$|$y_2$|$y_3$|
+---|---|---|---|---|---|---
+$y_1$|-2| 1|1|0|0|2
+$y_2$|-1| 2|0|1|0|5
+$y_3$| 1|-3|0|0|1|4
+---|---|---|---|---|---|---
+||1|2|0|0|0|0
+
+$$max\{x_1+2x_2\}$$
+$$sc\left\{\begin{array}{lll}
+-2x_1 + x_2 + y_1 & = & 2 & L_1' &\gets &  L_1\\
+3x_1 - 2y_1 + y_2 & = & 1 & L_2' &\gets &  L_2 - 2 L_1'\\
+ -5x_1 + 3 y_1 + y_3 & = & 10 & L_3' &\gets &  L_3 + 3 L_1'\\
+x_1,x_2 &\geq & 0 & L_{obj}' & \gets & L_{obj} - 2L_1'
+\end{array}\right.$$
+
+$$\Leftrightarrow$$
+||$x_1$|$x_2$|$y_1$|$y_2$|$y_3$|
+---|---|---|---|---|---|---
+$y_1$|-2|1| 1|0|0|2
+$y_2$| 3|0|-2|1|0|1
+$y_3$|-5|0| 3|0|1|10
+---|---|---|---|---|---|---
+||5|0|-2|0|0|-4

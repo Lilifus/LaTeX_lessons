@@ -383,37 +383,44 @@ u(x(0),0)&=&K=\phi(x(0))
 ## b - Changement de variables
 ### Equations des ondes :
 
-$u_{tt}(x,t)=u_{xx}(x,t)$  
-$u(x,0) = \phi (x)$  
-$u_t(x,0) = \psi (x)$  
-On pose  
-$\xi = x+t$  
-$\eta = x-t$  
-$u(x,t) = v(\xi ,\eta)$  
-$u_x(x,t) = \frac{\partial v(\xi ,\eta)}{\partial x} = \frac{\partial v}{\partial \xi}\frac{\partial \xi}{\partial x}+\frac{\partial v}{\partial \eta}\frac{\partial \eta}{\partial x}$  
-$= \partial_\xi v + \partial_\eta v$  
-$u_{xx}(x,t)=\partial x(\partial_\xi v) + \partial x(\partial_\eta v)$  
-$=\partial \xi(\partial x v) + \partial \eta(\partial x v)$  
-$=\partial \xi (\partial \xi v + \partial \eta v) + \partial \eta (\partial \xi v+ \partial \eta v)$  
-$= \partial^2_{\xi \xi} v + \partial^2_{\eta \xi} v + \partial^2_{\xi \eta}v + \partial^2_{\eta \eta} v$  
-$u_{xx}= \partial^2_{\xi \xi} v + 2\partial^2_{\eta \xi} v+ \partial^2_{\eta \eta} v$  
-$u_t = \frac{\partial v}{\partial t} = \frac{\partial \xi}{\partial t}\frac{\partial v }{\partial \xi}+
-\frac{\partial \eta}{\partial t}\frac{\partial v}{\partial \eta}$
-$=\partial_{\xi} v - \partial_{\eta}v$  
+$$\begin{array}{rll}
+u_{tt}(x,t)&=&u_{xx}(x,t)\\
+u(x,0) &=& \phi (x)\\
+u_t(x,0) &=& \psi (x)  
+\end{array}$$
+On pose:  
+$$\begin{array}{rll}
+\xi &=& x+t\\
+\eta &=& x-t\\ 
+u(x,t) &=& v(\xi ,\eta)\\
+u_x(x,t) &=& \frac{\partial v(\xi ,\eta)}{\partial x} = \frac{\partial v}{\partial \xi}\frac{\partial \xi}{\partial x}+\frac{\partial v}{\partial \eta}\frac{\partial \eta}{\partial x}\\
+&=& \partial_\xi v + \partial_\eta v\\
+u_{xx}(x,t)&=&\partial x(\partial_\xi v) + \partial x(\partial_\eta v)\\
+&=&\partial \xi(\partial x v) + \partial \eta(\partial x v)\\
+&=&\partial \xi (\partial \xi v + \partial \eta v) + \partial \eta (\partial \xi v+ \partial \eta v)\\
+&=& \partial^2_{\xi \xi} v + \partial^2_{\eta \xi} v + \partial^2_{\xi \eta}v + \partial^2_{\eta \eta} v\\
+u_{xx}&=& \partial^2_{\xi \xi} v + 2\partial^2_{\eta \xi} v+ \partial^2_{\eta \eta} v\\
+u_t &=& \frac{\partial v}{\partial t} = \frac{\partial \xi}{\partial t}\frac{\partial v }{\partial \xi}+
+\frac{\partial \eta}{\partial t}\frac{\partial v}{\partial \eta}\\
+&=&\partial_{\xi} v - \partial_{\eta}v
+\end{array}$$
 
 
-$u_{tt}=\partial t(\partial_\xi v) - \partial t(\partial_\eta v)$  
-$=\partial \xi(\partial t v) - \partial \eta(\partial t v)$  
-$=\partial \xi (\partial \xi v - \partial \eta v) - \partial \eta (\partial \xi v- \partial \eta v)$  
-$= \partial^2_{\xi \xi} v - \partial^2_{\eta \xi} v - \partial^2_{\xi \eta}v + \partial^2_{\eta \eta} v$  
-$u_{tt}= \partial^2_{\xi \xi} v - 2\partial^2_{\eta \xi} v+ \partial^2_{\eta \eta} v$  
-$4\partial^2_{\eta \xi}v=0$  
-$\partial^2_{\eta \xi}v=0$  
-$\partial_{\eta} v = f_1(\eta)$  
-$v = \int f1(\eta) + c^k$ peut dÃ©pendre de $\xi$  
-$v(\xi , \eta) = f(\eta) + g(\xi)$  
-$u(x, t) = v(x+t, n-t) = f(x-t) + g(x+t)$  
-$u(x,t)=f(x-t)+g(x+t)$  
+$$\begin{array}{rll}
+u_{tt}&=&\partial t(\partial_\xi v) - \partial t(\partial_\eta v)\\
+&=&\partial \xi(\partial t v) - \partial \eta(\partial t v)\\
+&=&\partial \xi (\partial \xi v - \partial \eta v) - \partial \eta (\partial \xi v- \partial \eta v)\\
+&=& \partial^2_{\xi \xi} v - \partial^2_{\eta \xi} v - \partial^2_{\xi \eta}v + \partial^2_{\eta \eta} v\\
+u_{tt}&=& \partial^2_{\xi \xi} v - 2\partial^2_{\eta \xi} v+ \partial^2_{\eta \eta} v\\
+4\partial^2_{\eta \xi}v&=&0\\  
+\partial^2_{\eta \xi}v&=&0\\
+\partial_{\eta} v &=& f_1(\eta)\\
+v &=& \int f1(\eta) + c^k \text{ peut dépendre de }\xi\\
+v(\xi , \eta) &=& f(\eta) + g(\xi)\\
+u(x, t) &=& v(x+t, n-t) = f(x-t) + g(x+t)\\
+u(x,t)&=&f(x-t)+g(x+t)
+\end{array}$$
+
 $$u(x,0)=f(x)+g(x) = \phi (x)$$  
 $$u_t(x,0)=-f'(x)+g'(x) = \psi(x)$$  
 $g'(x)=\frac{\phi '(x)+\psi (x)}2$  
