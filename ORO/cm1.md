@@ -1167,6 +1167,7 @@ x_1,x_2 &\geq & 0
 \end{array}\right.$$
 
 $$\Leftrightarrow$$
+
 ||$x_1$|$x_2$|$y_1$|$y_2$|$y_3$|
 ---|---|---|---|---|---|---
 $y_1$|-2| 1|1|0|0|2
@@ -1176,7 +1177,7 @@ $y_3$| 1|-3|0|0|1|4
 ||1|2|0|0|0|0
 
 $$max\{x_1+2x_2\}$$
-$$sc\left\{\begin{array}{lll}
+$$sc\left\{\begin{array}{llllll}
 -2x_1 + x_2 + y_1 & = & 2 & L_1' &\gets &  L_1\\
 3x_1 - 2y_1 + y_2 & = & 1 & L_2' &\gets &  L_2 - 2 L_1'\\
  -5x_1 + 3 y_1 + y_3 & = & 10 & L_3' &\gets &  L_3 + 3 L_1'\\
@@ -1184,6 +1185,7 @@ x_1,x_2 &\geq & 0 & L_{obj}' & \gets & L_{obj} - 2L_1'
 \end{array}\right.$$
 
 $$\Leftrightarrow$$
+
 ||$x_1$|$x_2$|$y_1$|$y_2$|$y_3$|
 ---|---|---|---|---|---|---
 $y_1$|-2|1| 1|0|0|2
@@ -1191,3 +1193,199 @@ $y_2$| 3|0|-2|1|0|1
 $y_3$|-5|0| 3|0|1|10
 ---|---|---|---|---|---|---
 ||5|0|-2|0|0|-4
+
+# Tuesday April 25th 2023 Exercises
+## Exercice du simplexe
+### Exercice 1
+
+$$max\{2x_1+x_2\}$$
+$$sc\left\{\begin{array}{lll}
+x_1 - x_2 &\leq & 3\\
+x_1 + 2x_2 & \leq & 6\\
+-x_1 + 2x_2 & \leq & 2\\
+x_1,x_2 &\geq & 0
+\end{array}\right.$$
+
+$$max\{2x_1+x_2\}$$
+$$sc\left\{\begin{array}{lll}
+x_1 - x_2 + y_1 &= & 3\\
+x_1 + 2x_2 + y_2 &= & 6\\
+-x_1 + 2x_2 +y_3 & = & 2\\
+x_1,x_2 &\geq & 0
+\end{array}\right.$$
+
+$$\Leftrightarrow$$
+
+||$x_1$|$x_2$|$y_1$|$y_2$|$y_3$|
+---|---|---|---|---|---|---
+$y_1$| 1|-1|1|0|0|3
+$y_2$| 1| 2|0|1|0|6
+$y_3$|-1| 2|0|0|1|2
+---|---|---|---|---|---|---
+||2|1|0|0|0|0
+
+
+$$max\{2x_1+x_2\}$$
+$$sc\left\{\begin{array}{llllll}
+x_1 - x_2 + y_1 &= & 3 & L_1' &\gets &  L_1\\
+3x_2 - y_1 + y_2 &= & 3 & L_2' &\gets &  L_2 - L_1'\\
+x_2 +y_1 +y_3 & = & 5 & L_3' &\gets &  L_3 + L_1'\\
+x_1,x_2 &\geq & 0 & L_{obj}' & \gets & L_{obj} - 2L_1'
+\end{array}\right.$$
+
+$$\Leftrightarrow$$
+
+||$x_1$|$x_2$|$y_1$|$y_2$|$y_3$|
+---|---|---|---|---|---|---
+$y_1$| 1|-1| 1| 0| 0|3
+$y_2$| 0| 3|-1| 1| 0|3
+$y_3$| 0| 1| 0| 1| 1|5
+---|---|---|---|---|---|---
+||0|3|-2|0|0|-6
+
+
+$$max\{2x_1+x_2\}$$
+$$sc\left\{\begin{array}{llllll}
+x_1 + \frac23 y_1 +\frac13 y_2 &= & 4 & L_1' &\gets &  L_1 + L_2'\\
+x_2 - \frac13 y_1 + \frac13 y_2 &= & 1 & L_2' &\gets &  L_2/3\\
+\frac43 y_1 - \frac13 y_2 +y_3 & = & 4 & L_3' &\gets &  L_3 - L_2'\\
+x_1,x_2 &\geq & 0 & L_{obj}' & \gets & L_{obj} - L_2
+\end{array}\right.$$
+
+$$\Leftrightarrow$$
+
+||$x_1$|$x_2$|$y_1$|$y_2$|$y_3$|
+---|---|---|---|---|---|---
+$y_1$| 1| 0| 2/3| 1/3|0|4
+$y_2$| 0| 1|-1/3| 1/3|0|1
+$y_3$| 0| 0| 4/3|-1/3| 1|4
+---|---|---|---|---|---|---
+||0|0|-1|-1|0|-9
+
+### Exercice 2
+
+
+$$max\{5x_1+ 4x_2 + 3x_3\}$$
+$$sc\left\{\begin{array}{lll}
+2x_1 + 3x_2 + x_3 &\leq & 5\\
+4x_1 + x_2 + 2x_3 & \leq & 11\\
+3x_1 + 4x_2 + 2x_3& \leq & 8\\
+x_1,x_2,x_3 &\geq & 0
+\end{array}\right.$$
+
+
+$$max\{5x_1+ 4x_2 + 3x_3\}$$
+$$sc\left\{\begin{array}{lll}
+2x_1 + 3x_2 + x_3 +y_1 &= & 5\\
+4x_1 + x_2 + 2x_3 +y_2 & = & 11\\
+3x_1 + 4x_2 + 2x_3 +y_3& = & 8\\
+x_1,x_2,x_3 &\geq & 0
+\end{array}\right.$$
+
+$$\Leftrightarrow$$
+
+||$x_1$|$x_2$|$x_3$|$y_1$|$y_2$|$y_3$|
+---|---|---|---|---|---|---
+$y_1$| 2| 3| 1|1|0|0|5
+$y_2$| 4| 1| 2|0|1|0|11
+$y_3$| 3| 4| 2|0|0|1|8
+---|---|---|---|---|---|---
+||5|4|3|0|0|0|0
+
+$$max\{5x_1+ 4x_2 + 3x_3\}$$
+$$sc\left\{\begin{array}{llllll}
+x_1 + \frac32 x_2 + \frac12 x_3 + \frac12 y_1 &= & \frac52 & L_1' &\gets &  L_1/2\\
+-5x_2 -2y_1 +y_2 & = & 1 & L_2' &\gets &  L_2 - 2L_1\\
+- \frac12 x_2 + \frac12 x_3& - \frac32 y_1 + y_3 = & \frac12 & L_3' &\gets &  L_3 - 3L_1'\\
+x_1,x_2 ,x_3&\geq & 0 & L_{obj}' & \gets & L_{obj} - 5L_1'
+\end{array}\right.$$
+
+$$\Leftrightarrow$$
+
+||$x_1$|$x_2$|$x_3$|$y_1$|$y_2$|$y_3$|
+---|---|---|---|---|---|---
+$y_1$| 1|3/2 | 1/2|1/2| 0| 0|5/2
+$y_2$| 0|-5  |-2| 1| 0|1
+$y_3$|0|-1/2| 1/2| 3/2| 1|1/2
+---|---|---|---|---|---|---
+||0|3|-2|0|0|-6
+
+//Suite fait sur feuille
+
+# Tuesday April 25th 2023 Cours
+## Méthode du grand M
+Pour appliquer l'algo du simplexe, il faut que le PL soit de la forme:  
+$$ max \{^t c.x / Ax \leq b, x \geq 0\} \text{ et } b \geq 0$$
+si on a un min:  
+$$ min\{^tc.x / Ax \leq b, x \geq 0\} = max\{^t(-c).x/Ax\leq b, x \geq 0\}$$  
+si on a une contrainte en signe: 
+$$\begin{array}{llll}
+&\sum^n_{j=1} a_{ij}x_j &\geq &b_i\\
+\Leftrightarrow & \sum^n_{j=1} (-a_{ij})x_j \leq (-b_i)
+\end{array}$$
+si on a une variable contrainte en signe négatif:  
+$$x_j \leq 0$$
+on pose $x_j=-x_j$ on substitue $-x'_j$ à toute les occurences de $x_j$, et on retrouve la forme attentue. Si on a une contrainte $x_j \geq C$ plutôt que $x_j \geq 0$, on pose $x_j = x_j - C$, on substitue $x'_j + C$ à toutes les occurences de $x_j$, et on retrouve la forme attendue.  
+Si on a une variable $x_j$ non-contrainte en signe: on pose deux variable $x^+_j \geq 0$ et $x_j^- \geq 0$, et on substitue à chaque occurence de $x_j$, $x_j^- - x_j^-$
+
+Si on n'a pas $b \geq 0$, si au moins une contrainte est de la forme:
+$$\sum^n_{j=1} a_{ij}, x_j \leq b_i  < 0$$
+alors 0 (mettre toues les variables $x$ à 0) n'est pas réalisable, et la solution évidente du premier tableau de simplexe n'est pas réalisable: l'algorithme risque de ne jamais trouver une solution réalisable.
+
+$$sum^n_{j=1} a_{ij}x_j \leq b_i < 0$$
+Plutôt que d'interdire de violer cette contrainte, on va pénaliser toute violation par un coût extremement élevé M qui est une valeur plus grande que toute autre valeur obtenue dans le calcul.  
+Pour tout $\alpha$ et $\beta$ qu'on manipule
+$$\begin{array}{llll}
+\alpha M & \geq & \beta &\\
+\alpha M + \beta & \geq & \alpha' M + \beta ' & \Leftrightarrow \alpha >  \alpha ' \text{ où } \alpha = \alpha ' \text{ et } \beta \geq \beta '
+\end{array}$$
+
+
+$$sum^n_{j=1} a_{ij}x_j \leq b_j$$
+$$\Leftrightarrow sum^n_{j=1} a_{ij}x_j+y_j \leq b_j, y_j \geq 0$$
+On remplace cette contre par:
+$$sum^n_{j=1} (-a_{ij})x_j - y_j + y'_j = -b_j, \quad u_j \geq 0, y'_j \geq 0$$
+et on pénalise $y_j'$ en ajoutant dans la fonction objective $-My'_j$:
+On fait ensuite tourner l'algo du simplexe (en prenant garde à ce que le premier tableau de simplexe soit bien formé).  
+Si la solution optimale a une valeur ne faisant pas intervenir M, c'est une solution réalisable et c'est la solution optimale du problème sinon, elle n'est pas réalisable, et le problème n'admet aucune solution réalisable.
+
+
+$$max\{2x_1+ x_2\}$$
+$$sc\left\{\begin{array}{lll}
+x_1 + x_2 &\geq & 2\\
+x_1 - x_2 & \leq & 1\\
+x_1 + 3x_2& \leq & 9\\
+x_1,x_2 &\geq & 0
+\end{array}\right.$$
+
+$$x_1+x_2\geq 2 \Leftrightarrow -x_1 -x_2 \leq -2 \Leftrightarrow \exists y_1 \geq 0, -x_1-x_2+y_1 = -2$$
+
+$$max\{2x_1+ x_2 -My_1'\}$$
+$$sc\left\{\begin{array}{lll}
+x_1 + x_2 -y_1+y_1' &=q & 2\\
+x_1 - x_2 +y_2& = & 1\\
+x_1 + 3x_2+y_3& = & 9\\
+x_1,x_2,y_1,y_1',y_2,y_3 &\geq & 0
+\end{array}\right.$$
+
+||$x_1$|$x_2$|$y_1$|$y_1'$|$y_2$|$y_3$|
+---|---|---|---|---|---|---
+$y_1$|1| 1|-1|1| 0| 0|2
+$y_2$|1|-1| 0|0| 1| 0|1
+$y_3$|1| 3| 0|0| 0| 1|1
+---|---|---|---|---|---|---
+||2|1|0|-M|0|0|0
+
+Ce tableau de simplexe est bien formé: on peut itérer.
+
+
+||$x_1$|$x_2$|$y_1$|$y_1'$|$y_2$|$y_3$|
+---|---|---|---|---|---|---
+$y_1$|0| 1| 0| 0|-1/4|1/4|2
+$y_2$|1| 0| 0| 0| 3/4|1/4|2
+$y_3$|0| 0| 1|-1| 1/2|1/2|3
+---|---|---|---|---|---|---
+||2|1|0|-M|-5/4|-3/4|-8
+
+
+
