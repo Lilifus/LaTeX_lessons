@@ -1388,4 +1388,69 @@ $y_3$|0| 0| 1|-1| 1/2|1/2|3
 ||2|1|0|-M|-5/4|-3/4|-8
 
 
+# Wednesday April 26th 2023 Cours
+## Branch and bound - séparation et évaluation
 
+Problème NP: il existe un algo polynômial permettant de vérifier la solution.  
+Problème, NP-complets: les plus difficiles des problèmes NP.
+$$\text{NP = P ?}$$
+$\Rightarrow$ on ne connaît pas d'algo polynômial permettant de résoudre des problèmes NP-complets.  
+$\rightsquigarrow$ on peut énumérer chacune des solutions potentielles, et on vérifie si c'est la solution du problème ou pas (complexité exponentielle)!  
+Les méthodes de B&B visent à faire cette énumération de façon intélligente, i.e. en excluant d'emblée des catégories de solution dont on sait qu'elles ne pourront pas contenir celle que l'on recherche.  
+Les méthodes de B&B consiste à séparer le problème en dexu sous-problèmes de même nature dont la solution de l'un permet de reconstruire la solution initiale.
+
+\begin{center}
+\begin{tikzpicture}[node distance={20mm},main/.style = {draw, circle}] 
+\node[main] (1) {$P_0$};
+\node[main] (2) [below left of=1] {$P_1$}; 
+\node[main] (3) [below right of=1] {$P_2$}; 
+\foreach \from/\val/\to in {1/oui/2,1/non/3}
+    \draw[->] (\from) -- node[midway, above, sloped] {\val}(\to);
+\end{tikzpicture} 
+\end{center}
+
+On calcule de plus une borne (évaluation) sur la qualité des solutions que l'on peut obtenir sur $P_1$ et sur $P_2$: cette borne doit être rapide à calculer, et on souhaite qu'elle soit fine.  
+Ensuite, on itère le procédé sur les sous-problèmes obtenus, en commençant toujours par le sous-problème ayant la meilleure forme.  
+max
+
+\begin{center}
+\begin{tikzpicture}[node distance={20mm},main/.style = {draw, circle}] 
+\node[main] (1) {$P_0$ 50};
+\node[main] (2) [below left of=1] {$P_1$ 17}; 
+\node[main] (3) [below right of=1] {$P_2$ 48}; 
+\node[main] (4) [below of=2] {$P_3$ 48}; 
+\node[main] (5) [below right of=3] {$P_4$ 32}; 
+\node[main] (6) [below left of=4] {$P_5$ 33}; 
+\node[main] (7) [below right of=4] {$P_6$ 60}; 
+\node[main] (8) [below left of=6] {$P_7$ 18}; 
+\node[main] (9) [below right of=6] {$P_8$ 28}; 
+\node[main] (10) [below left of=5] {$P_9$ 25}; 
+\node[main] (11) [below right of=5] {$P_10$ 29}; 
+\foreach \from/\to in {1/2,1/3,3/4,3/5,4/6,4/7,5/10,5/11,6/8,6/9}
+    \draw[->] (\from) -- node[midway, above, sloped] {}(\to);
+\end{tikzpicture} 
+\end{center}
+
+Problème du sac à dos:  
+on a un sac à dos de capacité C, que l'on cherche à remplir avec des objet $o_1,\dots,o_n$, qui ont chacun un poids $p_1,\dots,p_n$ et une valeur $v_1,\dots,v_n$, sont excéder sa capacité, et en maximisant sa valeur.  
+La séparation se fait en demandant pour chaque objet, si on le prend ou pas.  
+Le sous-problème 1, si on ne prend pas l'objet 1, est un problème de sac à dos de capacité C avec les objet $p_2$ à $p_n$; le sous problème 2, si on prend $o_1$, revient à résoudre un sace à dos de capacité C$-p_1$ avec $o_2,\dots,o_n$, puis à ajouter $v$ à la solution; la solution du problème initial est la meilleure de ces deux solutions.  
+L'évalutation va consister en une relaxation continue du problème: on va s'autoriser à ajouter des fonctions d'objet. La solution de cette relaxation est facile à calculer: on ajoute les objets dans l'ordre de ratio $\frac{v_i}{p_i}$ décroissant, en ajoutant, lorsque la capacité devient insuffisante, seulement une fraction du dernier objet que l'on prend.
+
+On a généralement intérêt à maximiser l'écart entre les valeurs des bornes des sous-problèmes. Pour ce faire, on traite les objets par ordre $\frac{v_i}{p_i}$ décroissant.
+En:  
+-  capacité: 5  
+
+objets|a|b|c|d
+:---:|---|---|---|---
+v|1|2|3|4
+p|4|3|3|1
+
+On trie ces objets par ordre $\frac{v}{p}$ décroissant:  
+
+objets|d|c|b|a
+:---:|---|---|---|---
+v|4|3|2|1
+p|1|3|3|4
+
+Relaxation continue de $P_0$:  
