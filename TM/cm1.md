@@ -743,7 +743,7 @@ u(0)=&u_0
 Supposons que u soit de class $C^2$, alors son développement de taylor à l'ordre 2 s'écrit:
 $$u(t+\Delta t) = u(t)+u'(t)\Delta t + u''(t)\frac{\Delta t^2}{2!}+o(\Delta t^2)$$
 
-$$u'(t)=\frac{(t+\Delta t)-u(t)}{\Delta t} + O(\Delta t)$$
+$$u'(t)=\frac{u(t+\Delta t)-u(t)}{\Delta t} + O(\Delta t)$$
 
 Nous allons utiliser cette relation pour construire une solution numérique approchée.  
 Pour cela on va discrétiser l'intervalle sur lequel on cherche la solution ($[0,T_0]$) en 
@@ -753,7 +753,7 @@ On le considère constant ici $\Delta t = \frac{T-0}{n}=\frac{T}{n}$
 On parle alors de discrétisation régulière.  
 En appliquant l'approximation de la dérivée première entre $t_i$ et $t_{i+1}$ on peut 
 écrire:  
-$$u'(_i) \simeq \frac{u(t_{i+1} - u(t_i)}{\Delta t}$$
+$$u'(t_i) \simeq \frac{u(t_{i+1}) - u(t_i)}{\Delta t}$$
 Si on note $u_i=u(t_i) \quad \forall i \in [\![0,n]\!]$
 
 Le problème numérique approchée obtenu est:
@@ -841,10 +841,10 @@ $$u'(x_i)=\frac{-u(x_i+2h)+4u(x_i+h)-3u(x_i)}{2h} + O(h^2) \to u'(x_i)
 
 $$\begin{array}{llll}
 (1)&u(x_i+h)&=&u(x_i)+hu'(x_i)+\frac{h^2}{2!}u''(x_i)+\frac{h^3}{3!}u'''(x_i)+O(h^3)\\
-(2)&u(x_i+2h)&=&u(x_i)+2hu'(x_i)+\frac{(4h)^2}{2!}u''(x_i)+
-\frac{(4h)^3}{3!}u'''(x_i)+O(h^3)\\
-4\times(1)+(2)&4u(x_i-h)-u(x_i+2h)&=&3u(x_i)+2hu'(x_i)+O(h^3)\\
-&u'(x_i)&=&\frac{-u(x_i)+2h)+4u(x_i+h)-3u(x_i)}{2h}-u'(x_i)| < Mh^2
+(2)&u(x_i+2h)&=&u(x_i)+2hu'(x_i)+\frac{4h^2}{2!}u''(x_i)+
+\frac{4h^3}{3!}u'''(x_i)+O(h^3)\\
+4\times(1)-(2)&4u(x_i+h)-u(x_i+2h)&=&3u(x_i)+2hu'(x_i)+O(h^3)\\
+&u'(x_i)&=&\frac{-u(x_i+2h)+4u(x_i+h)-3u(x_i)}{2h}-u'(x_i)| < Mh^2
 \end{array}$$
 
 ### différences divisées regressives d'ordre 2
@@ -886,7 +886,7 @@ Pour les dérivées d'ordre supérieurs on procède de la façon suivante:
 $$\begin{array}{lll}
 u''(x_i)&=&\frac{u'(x_i+\frac{h}2)-u'\left(x_i-\frac{h}2\right)}{h}+O(h^2)\\
 &=&\frac{\frac{u(x_i+h)-u(x_i)}{h}-\frac{u(x_i)-u(x_i-h)}{h}+O(h^2)}{h}+O(h^2)\\
-&=&\frac{u(x_i+h)-2u(x_i)+u(x_i-h}{h^2}+O(h)+\cancel{O(h^2)}
+&=&\frac{u(x_i+h)-2u(x_i)+u(x_i-h)}{h^2}+O(h)+\cancel{O(h^2)}
 \end{array}$$
 
 ### Schéma explicite pour l'équation de la chaleur
@@ -898,7 +898,7 @@ u_{xx}(x,t)&=&\frac{u(x+\Delta x,t)-2u(x,t)+u(x-\Delta x, t)}{\Delta x^2} &+ O(\
 où $\Delta t$ est la pas de discrétisation en temps et $\Delta x$ celui en espace.
 $$\frac{u(x,t+\Delta t) - u(x,t)}{\Delta t} + O(\Delta t) =
 \frac{u(x+\Delta x,t) - 2u(x,t)+u(x-\Delta x, t)}{\Delta x^2} + O(\Delta x^2)$$
-$$\frac{(x,t+\Delta t) - u -x,t)}{\Delta t} \simeq \frac{u(x+\Delta x,t) - 2 u(x,t) +
+$$\frac{(x,t+\Delta t) - u (x,t)}{\Delta t} \simeq \frac{u(x+\Delta x,t) - 2 u(x,t) +
 u(x-\Delta x,t)}{\Delta x^2}$$
 
 Si on note:
@@ -906,8 +906,8 @@ $u_j^m \simeq u(j\Delta x, m \Delta t)$ pour tout $j\in [\![1,m-1]\!]$ et pour t
 \mathbb{N}^*$  
 $$\frac{u^{m+1}_j-u^m_j}{\Delta t} = \frac{u^m_{j+1}-2u^m_j+u^m_{j-1}}{\Delta x^2}$$  
 $$u_j^{m+1}=u^m_j+\frac{\Delta t}{\Delta x^2}[u^m_{j+1} - 2u^m_j+u^m_{j-1}]$$
-$$u^m+1_j=u^m_j+\frac{\Delta t}{\Delta x^2}[u^m_{j+1}-2u^m_j+u^m_{j-1}]$$
-$$u^m+1_j=ru^m_{j+1}+(1-2r)u^m_j+ru^m{j-1}$$
+$$u^{m+1}_j=u^m_j+\frac{\Delta t}{\Delta x^2}[u^m_{j+1}-2u^m_j+u^m_{j-1}]$$
+$$u^{m+1}_j=ru^m_{j+1}+(1-2r)u^m_j+ru^m{j-1}$$
 
 Ce que je veux faire $u^{m+1} = Au^m$
 
@@ -989,11 +989,11 @@ $$ u_{xx}(x,t + \Delta t) \simeq \frac{u(x+\Delta x, t + \Delta t) - 2u(x, t) + 
 + u(x - \Delta x ,t + \Delta t)}{\Delta x^2}$$
 
 * On obtient le schéma suivant:
-$\frac{u_j^{m+1}-u_j^m}{\Delta t}= \frac{u^{m+1}_{j+1}-2u^{m+1}_j+u^{m+1}_{j-1}}
-{\Delta x^2}$
-$u_j^{m+1}(1+\frac{2\Delta t}{\Delta x^2})-\frac{\Delta t}{\Delta x^2} u^{m+1}_{j+1} -
-\frac{\Delta t}{\Delta x^2} u^{m+1}_{j+1}=u^m_j$
-$-ru^{m+1}_{j-1}+(1+2r)u_j^{m+1} - r u_{j-1}^{m+1}=u_j^r$
+$$\begin{array}{rll}
+\frac{u_j^{m+1}-u_j^m}{\Delta t}&=& \frac{u^{m+1}_{j+1}-2u^{m+1}_j+u^{m+1}_{j-1}} {\Delta x^2}\\
+u^m_j&=&u_j^{m+1}(1+\frac{2\Delta t}{\Delta x^2})-\frac{\Delta t}{\Delta x^2} u^{m+1}_{j+1} - \frac{\Delta t}{\Delta x^2} u^{m+1}_{j+1}\\
+u^m_j&=&-ru^{m+1}_{j-1}+(1+2r)u_j^{m+1} - r u_{j-1}^{m+1}
+\end{begin}$$
 
 $$\begin{pmatrix}
 1&+&2r & -r &0&\cdots&\cdots&0\\
@@ -1016,12 +1016,13 @@ $$\frac{u^{m+1}_j - u_j^m}{\Delta t}=\frac{u_{j+1}^m - 2u^m_j + u^m_{j-1}}{\Delt
 $$\frac{(a_k)^{m+1}e^{ik\pi x_{j}}-(a_k)^me^{ik\pi x_{j}}}{\Delta t} = \frac{(a_k)^m e^{ik\pi x_{j+1}} - 2(a_k)^m
 e^{ik\pi x_{j}}+(a_k)^me^{ik\pi x_{j-1}}}{\Delta x^2}$$
 
-$$e^{ik\pi x_{j+1}}=e^{ik\pi (x_{j}+\Delta x)}=\text{??? (voir photo 03/04/23 15:12)}$$
+$$e^{ik\pi x_{j+1}}=e^{ik\pi (x_{j}+\Delta x)}=e^{ik\pi x_{j}}e^{ik\pi \Delta x}$$
+$$e^{ik\pi x_{j-1}}=e^{ik\pi (x_{j}-\Delta x)}=e^{ik\pi x_{j}}e^{-ik\pi \Delta x}$$
 
 $$\begin{array}{rll}
 \frac{a_k-1}{\Delta t} &=& \frac{e^{ik\pi \Delta x}-2+e^{-ik\pi \Delta x}}{\Delta x^2}\\
-&=& \frac{e^{\frac{ik\pi \Delta x}{2}}-e^{\frac{-ik\pi \Delta x}{2}}}{\Delta x^2}\\
-&=& \frac{2i sin(\frac{k\pi \Delta x}{2})}{\Delta x^2}\\
+&=& \frac{\left(e^{\frac{ik\pi \Delta x}{2}}-e^{\frac{-ik\pi \Delta x}{2}}\right)^2}{\Delta x^2}\\
+&=& \frac{\left(2i sin(\frac{k\pi \Delta x}{2})\right)^2}{\Delta x^2}\\
 a_k &=& 1 - 4 \frac{\Delta t}{\Delta x^2} sin^2(\frac{k\pi \Delta x}2)
 \end{array}$$
 Pour que le schéma soit stable, il faut que $|a_k| \leq 1$
